@@ -1,0 +1,722 @@
+@prefix : <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#> .
+@prefix cw: <http://www.city.ac.uk/inm713-in3067/2025/CityWatch> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch> rdf:type owl:Ontology ;
+                                                      owl:versionIRI <urn:absolute:1.0.0> ;
+                                                      dc:creator "Xun Zhang_Abhinav Sharma" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAccidentType
+:hasAccidentType rdf:type owl:ObjectProperty ,
+                          owl:AsymmetricProperty ,
+                          owl:IrreflexiveProperty ;
+                 rdfs:domain :TrafficAccident ;
+                 rdfs:range :TrafficAccidentType ;
+                 rdfs:comment "indicates classification at the time of the accident." ;
+                 rdfs:label "hasAccidentType" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAlignment
+:hasAlignment rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdf:type owl:FunctionalProperty ,
+                       owl:AsymmetricProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+              rdfs:range :RoadAlignment ;
+              rdfs:comment "The alignment of the road where the accident occurred (e.g., straight, curved)." ;
+              rdfs:label "hasAlignment" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasDriverRelatedCause
+:hasDriverRelatedCause rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf :hasTrafficAccidentCause ;
+                       rdf:type owl:AsymmetricProperty ,
+                                owl:IrreflexiveProperty ;
+                       rdfs:domain :TrafficAccident ;
+                       rdfs:range :DriverRelatedCause ;
+                       rdfs:comment "Indicates the driver-related conditions at the time of an accident." .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasEnvironmentalCause
+:hasEnvironmentalCause rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf :hasTrafficAccidentCause ;
+                       rdf:type owl:AsymmetricProperty ,
+                                owl:IrreflexiveProperty ;
+                       rdfs:domain :TrafficAccident ;
+                       rdfs:range :EnvironmentalCause ;
+                       rdfs:comment "indicates the environmental conditions at the time of an accident" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasFirstCrashType
+:hasFirstCrashType rdf:type owl:ObjectProperty ,
+                            owl:FunctionalProperty ,
+                            owl:AsymmetricProperty ,
+                            owl:IrreflexiveProperty ;
+                   rdfs:domain :TrafficAccident ;
+                   rdfs:range :TrafficAccidentType ;
+                   rdfs:comment "The initial type of the crash (e.g., head-on, rear-end)." ;
+                   rdfs:label "hasFirstCrashType" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLightingCondition
+:hasLightingCondition rdf:type owl:ObjectProperty ,
+                               owl:FunctionalProperty ,
+                               owl:IrreflexiveProperty ;
+                      rdfs:domain :TrafficAccident ;
+                      rdfs:range :LightingCondition ;
+                      rdfs:comment "Indicates classification by lighting condition at the time of the accident." ;
+                      rdfs:label "hasLightingCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasMostSevereInjury
+:hasMostSevereInjury rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     rdf:type owl:FunctionalProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain :TrafficAccident ;
+                     rdfs:range :TrafficAccidentSeverity ;
+                     rdfs:comment "Indicates the most severe injury sustained in the accident" ;
+                     rdfs:label "hasMostSevereInjury" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadCondition
+:hasRoadCondition rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdf:type owl:FunctionalProperty ,
+                           owl:IrreflexiveProperty ;
+                  rdfs:domain :TrafficAccident ;
+                  rdfs:range :RoadCondition ;
+                  rdfs:comment "Indicates state of road condition at the time of the accident." ;
+                  rdfs:label "hasRoadCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadDefect
+:hasRoadDefect rdf:type owl:ObjectProperty ,
+                        owl:IrreflexiveProperty ;
+               rdfs:domain <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+               rdfs:range :RoadDefect ;
+               rdfs:comment "hasRoadDefect indicates that there is defect in road." ;
+               rdfs:label "hasRoadDefect" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause
+:hasTrafficAccidentCause rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf owl:topObjectProperty ;
+                         rdf:type owl:FunctionalProperty ,
+                                  owl:AsymmetricProperty ,
+                                  owl:IrreflexiveProperty ;
+                         rdfs:domain :TrafficAccident ;
+                         rdfs:range :TrafficAccidentCause ;
+                         rdfs:comment "indicates primary cause at the time of the accident." ;
+                         rdfs:label "hasTrafficAccidentCause" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficControlDevice
+:hasTrafficControlDevice rdf:type owl:ObjectProperty ,
+                                  owl:FunctionalProperty ,
+                                  owl:AsymmetricProperty ;
+                         rdfs:domain :TrafficAccident ;
+                         rdfs:range :TrafficControlDevice ;
+                         rdfs:comment "Indicates the type of traffic control device involved (e.g., traffic light, sign)." ;
+                         rdfs:label "hasTrafficControlDevice" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasVehicleRelatedCause
+:hasVehicleRelatedCause rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf :hasTrafficAccidentCause ;
+                        rdf:type owl:AsymmetricProperty ,
+                                 owl:IrreflexiveProperty ;
+                        rdfs:domain :TrafficAccident ;
+                        rdfs:range :VehicleRelatedCause ;
+                        rdfs:comment "Indicates the vehicle-related conditions at the time of an accident." .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasWeatherCondition
+:hasWeatherCondition rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     rdf:type owl:FunctionalProperty ,
+                              owl:IrreflexiveProperty ;
+                     rdfs:domain :TrafficAccident ;
+                     rdfs:range :WeatherCondition ;
+                     rdfs:comment "Indicates the weather conditions at the time of the accident." ;
+                     rdfs:label "hasWeatherCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesPerson
+:involvesPerson rdf:type owl:ObjectProperty ,
+                         owl:AsymmetricProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain :TrafficAccident ;
+                rdfs:range :Person ;
+                rdfs:comment "Indicates that a person (such as a driver, passenger, or pedestrian) is involved in the accident." ;
+                rdfs:label "involvesPerson" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesVehicle
+:involvesVehicle rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdf:type owl:AsymmetricProperty ,
+                          owl:IrreflexiveProperty ;
+                 rdfs:domain :TrafficAccident ;
+                 rdfs:range :Vehicle ;
+                 rdfs:comment "Indicates that a vehicle (such as a car, bus, truck, motorcycle, or bicycle) is involved in the accident." ;
+                 rdfs:label "involvesVehicle" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#occurAt
+:occurAt rdf:type owl:ObjectProperty ,
+                  owl:FunctionalProperty ,
+                  owl:AsymmetricProperty ;
+         rdfs:domain :TrafficAccident ;
+         rdfs:range <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+         rdfs:comment "Indicates the location involvement in the at the time of the accident." ;
+         rdfs:label "occurAt" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDate
+:crashDate rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :TrafficAccident ;
+           rdfs:range xsd:dateTime ;
+           rdfs:comment "Indicate the time the accident occurred." ;
+           rdfs:label "crashDate" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasDamageAmount
+:hasDamageAmount rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf owl:topDataProperty ;
+                 rdf:type owl:FunctionalProperty ;
+                 rdfs:domain :TrafficAccident ;
+                 rdfs:range xsd:string ;
+                 rdfs:comment "The financial impact of the damage caused by the accident." ;
+                 rdfs:label "hasDamageAmount" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasNumberOfPeople
+:hasNumberOfPeople rdf:type owl:DatatypeProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain :TrafficAccident ;
+                   rdfs:range xsd:int ;
+                   rdfs:comment "Indicates the total number of people involved in the traffic accident." ;
+                   rdfs:label "hasNumberOfPeople" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasNumberOfVehicles
+:hasNumberOfVehicles rdf:type owl:DatatypeProperty ;
+                     rdfs:subPropertyOf owl:topDataProperty ;
+                     rdf:type owl:FunctionalProperty ;
+                     rdfs:domain :TrafficAccident ;
+                     rdfs:range xsd:int ;
+                     rdfs:comment "Indicates the total number of vehicles involved in the traffic accident." ;
+                     rdfs:label "hasNumberOfVehicles" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesFatal
+:injuriesFatal rdf:type owl:DatatypeProperty ;
+               rdfs:domain :TrafficAccident ;
+               rdfs:range xsd:int ;
+               rdfs:comment "Indicates the number of fatal injuries resulting from the accident." ;
+               rdfs:label "injuriesFatal" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesIncapacitating
+:injuriesIncapacitating rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :TrafficAccident ;
+                        rdfs:range xsd:int ;
+                        rdfs:comment "Indicates the number of incapacitating injuries." ;
+                        rdfs:label "injuriesInCapacitating" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesNoIndication
+:injuriesNoIndication rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :TrafficAccident ;
+                      rdfs:range xsd:int ;
+                      rdfs:comment "The number of cases with no indication of injury." ;
+                      rdfs:label "injuriesNoIndication" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesNonIncapacitating
+:injuriesNonIncapacitating rdf:type owl:DatatypeProperty ;
+                           rdfs:domain :TrafficAccident ;
+                           rdfs:range xsd:int ;
+                           rdfs:comment "Indicates the number of non-incapacitating injuries" ;
+                           rdfs:label "injuriesNonIncapacitating" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesReportedNotEvident
+:injuriesReportedNotEvident rdf:type owl:DatatypeProperty ;
+                            rdfs:domain :TrafficAccident ;
+                            rdfs:range xsd:int ;
+                            rdfs:comment "indicates the number of reported injuries that are not visibly evident at the time of the accident." ;
+                            rdfs:label "injuriesReportedNotEvident" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesTotal
+:injuriesTotal rdf:type owl:DatatypeProperty ,
+                        owl:FunctionalProperty ;
+               rdfs:domain :TrafficAccident ;
+               rdfs:range xsd:int ;
+               rdfs:comment "The total number of injuries reported." ;
+               rdfs:label "injuriesTotal" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Bicycle
+:Bicycle rdf:type owl:Class ;
+         rdfs:subClassOf :Vehicle ;
+         rdfs:comment "Indicates bicycle involvement at the time of the accidents. such as bicycle overtake other vehicle, wrong road crossing." ;
+         rdfs:label "Bicycle" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Bus
+:Bus rdf:type owl:Class ;
+     rdfs:subClassOf :Vehicle ;
+     rdfs:comment "Indicates bus involvement at the time of the accidents. such as overtake bus, or over speeding bus." ;
+     rdfs:label "Bus" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Car
+:Car rdf:type owl:Class ;
+     rdfs:subClassOf :Vehicle ;
+     rdfs:comment "Indicates cars involved at the time of the accidents. Such as over speeding, collision with another vehicles." ;
+     rdfs:label "Car" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Clear
+:Clear rdf:type owl:Class ;
+       rdfs:subClassOf :WeatherCondition ;
+       rdfs:comment "The accident happened in clear weather." ;
+       rdfs:label "Clear" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Collision
+:Collision rdf:type owl:Class ;
+           rdfs:subClassOf :TrafficAccidentType ;
+           rdfs:comment "Indicates the accidents which had direct contact with c or any stationary objects. collision accidents such as side impact, sidewipe same direction, read end, pedestrian, turning." ;
+           rdfs:label "Collision" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Curved
+:Curved rdf:type owl:Class ;
+        rdfs:subClassOf :RoadAlignment ;
+        rdfs:comment "The alignment of the road where the accident occurred in straight road." ;
+        rdfs:label "Curved" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DarkLight
+:DarkLight rdf:type owl:Class ;
+           rdfs:subClassOf :LightingCondition ;
+           rdfs:comment "Crash incident occurred in Dark Light." ;
+           rdfs:label "DarkLight" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DawnLight
+:DawnLight rdf:type owl:Class ;
+           rdfs:subClassOf :LightingCondition ;
+           rdfs:comment "Crash incident occurred in Dawn Light." ;
+           rdfs:label "DawnLight" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DayLight
+:DayLight rdf:type owl:Class ;
+          rdfs:subClassOf :LightingCondition ;
+          rdfs:comment "Crash incident occurred in Day Light." ;
+          rdfs:label "DayLight" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Driver
+:Driver rdf:type owl:Class ;
+        rdfs:subClassOf :Person ;
+        rdfs:comment "Indicates the driver activities at the time of the accident." ;
+        rdfs:label "Driver" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DriverRelatedCause
+:DriverRelatedCause rdf:type owl:Class ;
+                    rdfs:subClassOf :TrafficAccidentCause ;
+                    rdfs:comment "Driver related cause captures the human error, irregular driving behaviors or distractions." ;
+                    rdfs:label "DriverRelatedCause" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Dry
+:Dry rdf:type owl:Class ;
+     rdfs:subClassOf :RoadCondition ;
+     rdfs:comment "Crash incident occurred in dry road condition." ;
+     rdfs:label "Dry" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DuskLight
+:DuskLight rdf:type owl:Class ;
+           rdfs:subClassOf :LightingCondition ;
+           rdfs:comment "Crash incident occurred in Dusk Light." ;
+           rdfs:label "DuskLight" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCause
+:EnvironmentalCause rdf:type owl:Class ;
+                    rdfs:subClassOf :TrafficAccidentCause ;
+                    rdfs:comment "Environmental cause captures the accidents caused by external factors such as bad weather, no visibility or bad road surface conditions." ;
+                    rdfs:label "EnvironmentalCause" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition
+:EnvironmentalCondition rdf:type owl:Class ;
+                        rdfs:comment "Captures lighting, road, weather conditions at the time of the accident." ;
+                        rdfs:label "EnvironmentalCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#FatalInjury
+:FatalInjury rdf:type owl:Class ;
+             rdfs:subClassOf :TrafficAccidentSeverity ;
+             rdfs:comment "An injury that results in death either at the scene or shortly after the accident." ;
+             rdfs:label "FatalInjury" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Fog
+:Fog rdf:type owl:Class ;
+     rdfs:subClassOf :WeatherCondition ;
+     rdfs:comment "Accident incident happened in the fog weather." ;
+     rdfs:label "Fog" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#HighwayRoad
+:HighwayRoad rdf:type owl:Class ;
+             rdfs:subClassOf :RoadType ;
+             rdfs:comment "The type of roadway accident involved in the highway road." ;
+             rdfs:label "HighwayRoad" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#HumanOrAnimalCollision
+:HumanOrAnimalCollision rdf:type owl:Class ;
+                        rdfs:subClassOf :Collision ;
+                        rdfs:comment "Crash incidents caused by the human or animal collisions." ;
+                        rdfs:label "HumanOrAnimalCollision" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Icy
+:Icy rdf:type owl:Class ;
+     rdfs:subClassOf :RoadCondition ;
+     rdfs:comment "Crash incident occurred in icy road condition." ;
+     rdfs:label "Icy" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRoad
+:IntersectionRoad rdf:type owl:Class ;
+                  rdfs:subClassOf :RoadType ;
+                  rdfs:comment "The type of roadway accident involved in the intersection road." ;
+                  rdfs:label "IntersectionRoad" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition
+:LightingCondition rdf:type owl:Class ;
+                   rdfs:subClassOf :EnvironmentalCondition ;
+                   rdfs:comment "Indicates the light conditions such as daylight, nightlight, darkness,dusk light, , which is important for assessment at the time of the accident." ;
+                   rdfs:label "LightingCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#MinorInjury
+:MinorInjury rdf:type owl:Class ;
+             rdfs:subClassOf :TrafficAccidentSeverity ;
+             rdfs:comment "An injury that is not life-threatening and does not incapacitate the person, such as minor cuts or bruises." ;
+             rdfs:label "MinorInjury" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Motorcycle
+:Motorcycle rdf:type owl:Class ;
+            rdfs:subClassOf :Vehicle ;
+            rdfs:comment "Indicates motorcycle involved at the time of the accidents. Such as over speeding, violation of rules." ;
+            rdfs:label "Motorcycle" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NoInjury
+:NoInjury rdf:type owl:Class ;
+          rdfs:subClassOf :TrafficAccidentSeverity ;
+          rdfs:comment "Indicates that no injury was sustained in the accident." ;
+          rdfs:label "NoInjury" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NoTrafficControl
+:NoTrafficControl rdf:type owl:Class ;
+                  rdfs:subClassOf :TrafficControlDevice ;
+                  rdfs:comment "Indicates that there were no traffic control devices present at the crash location." ;
+                  rdfs:label "NoTrafficControl" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NonCollision
+:NonCollision rdf:type owl:Class ;
+              rdfs:subClassOf :TrafficAccidentType ;
+              rdfs:comment "Indicates the accidents which had no direct contact with vehicles or any stationary objects. such as runoff road, skidding, loss of control by driver." ;
+              rdfs:label "NonCollision" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#ObjectCollision
+:ObjectCollision rdf:type owl:Class ;
+                 rdfs:subClassOf :Collision ;
+                 rdfs:comment "Crash caused by object collision such as metal rod in road or stone object in road or a physical object caused crash." ;
+                 rdfs:label "ObjectCollision" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Obstacles
+:Obstacles rdf:type owl:Class ;
+           rdfs:subClassOf :RoadDefect ;
+           rdfs:comment "Road have obstacles which cause accident in road." ;
+           rdfs:label "Obstacles" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Passenger
+:Passenger rdf:type owl:Class ;
+           rdfs:subClassOf :Person ;
+           rdfs:comment "Indicates the passenger activities at the time of the accident." ;
+           rdfs:label "Passenger" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Pedestrian
+:Pedestrian rdf:type owl:Class ;
+            rdfs:subClassOf :Person ;
+            rdfs:comment "Indicates pedestrian activity at the time of the accident." ;
+            rdfs:label "Pedestrian" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person
+:Person rdf:type owl:Class ;
+        rdfs:comment "Captures the persons details such as Driver, Passenger, Pedestrian at the time of the accident." ;
+        rdfs:label "Person" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Rain
+:Rain rdf:type owl:Class ;
+      rdfs:subClassOf :WeatherCondition ;
+      rdfs:comment "Accident happened in the rain weather." ;
+      rdfs:label "Rain" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadAlignment
+:RoadAlignment rdf:type owl:Class ;
+               rdfs:comment "The alignment of the road where the accident occurred (e.g., straight, curved)." ;
+               rdfs:label "RoadAlignment" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition
+:RoadCondition rdf:type owl:Class ;
+               rdfs:subClassOf :EnvironmentalCondition ;
+               rdfs:comment "Indicates the physical and damaged state of road surfaces (e.g., dry, wet, icy), also undertake the characteristics of maintenance status and conditons of road at the time of the accident." ;
+               rdfs:label "RoadCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect
+:RoadDefect rdf:type owl:Class ;
+            rdfs:comment "RoadDefect such as obstacles, structural issues, surface damage, unknown defect on the road" ;
+            rdfs:label "RoadDefect" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType
+:RoadType rdf:type owl:Class ;
+          rdfs:subClassOf <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+          rdfs:comment "Indicates the type of roadway involved in the accident" ;
+          rdfs:label "RoadType" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RuralRoad
+:RuralRoad rdf:type owl:Class ;
+           rdfs:subClassOf :RoadType ;
+           rdfs:comment "The type of roadway accident involved in the rural road." ;
+           rdfs:label "RuralRoad" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#SeriousInjury
+:SeriousInjury rdf:type owl:Class ;
+               rdfs:subClassOf :TrafficAccidentSeverity ;
+               rdfs:comment "A severe but non-fatal injury that incapacitates the person and requires medical attention." ;
+               rdfs:label "SeriousInjury" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Snow
+:Snow rdf:type owl:Class ;
+      rdfs:subClassOf :WeatherCondition ;
+      rdfs:comment "Accident incident happened in the snow weather." ;
+      rdfs:label "Snow" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Straight
+:Straight rdf:type owl:Class ;
+          rdfs:subClassOf :RoadAlignment ;
+          rdfs:comment "The alignment of the road where the accident occurred in curved road." ;
+          rdfs:label "Straight" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#StructuralIssues
+:StructuralIssues rdf:type owl:Class ;
+                  rdfs:subClassOf :RoadDefect ;
+                  rdfs:comment "structural defect issues which cause accident in road." ;
+                  rdfs:label "StructuralIssues" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#SurfaceDamage
+:SurfaceDamage rdf:type owl:Class ;
+               rdfs:subClassOf :RoadDefect ;
+               rdfs:comment "surface damage  which cause accident in road." ;
+               rdfs:label "SurfaceDamage" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident
+:TrafficAccident rdf:type owl:Class ;
+                 rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasLightingCondition ;
+                                   owl:allValuesFrom :LightingCondition
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasMostSevereInjury ;
+                                   owl:allValuesFrom :TrafficAccidentSeverity
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasRoadCondition ;
+                                   owl:allValuesFrom :RoadCondition
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasWeatherCondition ;
+                                   owl:allValuesFrom :WeatherCondition
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :crashDate ;
+                                   owl:someValuesFrom xsd:dateTime
+                                 ] ;
+                 rdfs:comment "Indicates an individual traffic accident that occurs on a roadway, involving one or more vehicles, pedestrians, or environmental factors." ;
+                 rdfs:label "TrafficAccident" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentCause
+:TrafficAccidentCause rdf:type owl:Class ;
+                      rdfs:comment "Traffic accidents caused by driver related cause, environmental cause, vehicle related cause." ;
+                      rdfs:label "TrafficAccidentCause" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity
+:TrafficAccidentSeverity rdf:type owl:Class ;
+                         rdfs:comment "Indicates the severity level of injuries sustained in a traffic accident." ;
+                         rdfs:label "TrafficAccidentSeverity" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType
+:TrafficAccidentType rdf:type owl:Class ;
+                     rdfs:comment "TrafficAccidentType is a classification of accident types such as CollisionAccident, HumanOrAnimalCollision, NonCollisionAccident, ObjectCollision." ;
+                     rdfs:label "TrafficAccidentType" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice
+:TrafficControlDevice rdf:type owl:Class ;
+                      rdfs:comment "The type of traffic control device involved (e.g., traffic light, sign)." ;
+                      rdfs:label "TrafficControlDevice" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficSign
+:TrafficSign rdf:type owl:Class ;
+             rdfs:subClassOf :TrafficControlDevice ;
+             rdfs:comment "Indicates regulatory and warning signs used to control traffic and inform drivers" ;
+             rdfs:label "TrafficSign" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficSignal
+:TrafficSignal rdf:type owl:Class ;
+               rdfs:subClassOf :TrafficControlDevice ;
+               rdfs:comment "A device that controls vehicle and pedestrian traffic using lights (e.g., red, yellow, green signals)." ;
+               rdfs:label "TrafficSignal" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Truck
+:Truck rdf:type owl:Class ;
+       rdfs:subClassOf :Vehicle ;
+       rdfs:comment "Indicates  truck involved at the time of the accidents. Such as speeding, collision with another vehicle or anomaly while driving." ;
+       rdfs:label "Truck" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#UnknownDefect
+:UnknownDefect rdf:type owl:Class ;
+               rdfs:subClassOf :RoadDefect ;
+               rdfs:comment "Unknown defect  which cause accident in road." ;
+               rdfs:label "UnknownDefect" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#UrbanRoad
+:UrbanRoad rdf:type owl:Class ;
+           rdfs:subClassOf :RoadType ;
+           rdfs:comment "The type of roadway accident involved in the urban road." ;
+           rdfs:label "UrbanRoad" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle
+:Vehicle rdf:type owl:Class ;
+         rdfs:comment "Captures accidents which at the time of the accidents involving bicycles, buses, cars, motorcycles, trucks." ;
+         rdfs:label "Vehicle" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#VehicleRelatedCause
+:VehicleRelatedCause rdf:type owl:Class ;
+                     rdfs:subClassOf :TrafficAccidentCause ;
+                     rdfs:comment "Vehicle related cause captures the machine or equipment failure of vehicle such break failure, tire issues." ;
+                     rdfs:label "VehicleRelatedCause" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition
+:WeatherCondition rdf:type owl:Class ;
+                  rdfs:subClassOf :EnvironmentalCondition ;
+                  rdfs:comment "Indicates meteorological conditions which impacted at the time of the accident." ;
+                  rdfs:label "WeatherCondition" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Wet
+:Wet rdf:type owl:Class ;
+     rdfs:subClassOf :RoadCondition ;
+     rdfs:comment "Crash incident occurred in wet road condition." ;
+     rdfs:label "Wet" .
+
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Wind
+:Wind rdf:type owl:Class ;
+      rdfs:subClassOf :WeatherCondition ;
+      rdfs:comment "Accident incident happened in the wind weather." ;
+      rdfs:label "Wind" .
+
+
+###  https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road
+<https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> rdf:type owl:Class ;
+                                                                 rdfs:comment "Captures road structural and geometric conditions at the time of the accident." ;
+                                                                 rdfs:label "Road" .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DrunkDriving
+:DrunkDriving rdf:type owl:NamedIndividual .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
