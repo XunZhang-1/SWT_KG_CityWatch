@@ -9,6 +9,8 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.reasoner.*;
 import org.apache.jena.reasoner.rulesys.*;
 
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDFS;
 public class RDFBuilder {
     String inputFile;
     String ontologyFile;
@@ -31,6 +33,7 @@ public class RDFBuilder {
         return value.trim().replaceAll("[\\s()\"/]", "_").toLowerCase();
     }
 
+    //Subtask RDF.1: URI Generation
     private String getOrCreateURI(String name, int rowIndex, String accident) {
         name = clean(name);
         String uriStr = namespace + "accident_" + rowIndex + "_" + name;
@@ -107,9 +110,9 @@ public class RDFBuilder {
             model.add(model.createResource(uri), RDF.type, model.createResource(namespace + "TrafficAccident"));
 
             addLiteral(model, uri, row, rowIndex, "crash_date", "crashDate", XSDDatatype.XSDstring);
-            addLiteral(model, uri, row, rowIndex, "crash_hour", "crashHour", XSDDatatype.XSDinteger);
-            addLiteral(model, uri, row, rowIndex, "crash_day_of_week", "crashDayOfWeek", XSDDatatype.XSDinteger);
-            addLiteral(model, uri, row, rowIndex, "crash_month", "crashMonth", XSDDatatype.XSDinteger);
+            addLiteral(model, uri, row, rowIndex, "crash_hour", "crashHour", XSDDatatype.XSDinteger);//Ontology does not exist, manual mapping is required
+            addLiteral(model, uri, row, rowIndex, "crash_day_of_week", "crashDayOfWeek", XSDDatatype.XSDinteger);//Ontology does not exist, manual mapping is required
+            addLiteral(model, uri, row, rowIndex, "crash_month", "crashMonth", XSDDatatype.XSDinteger);//Ontology does not exist, manual mapping is required
 
             addLiteral(model, uri, row, rowIndex, "injuries_total", "injuriesTotal", XSDDatatype.XSDinteger);
             addLiteral(model, uri, row, rowIndex, "injuries_fatal", "injuriesFatal", XSDDatatype.XSDinteger);
@@ -118,20 +121,22 @@ public class RDFBuilder {
             addLiteral(model, uri, row, rowIndex, "injuries_reported_not_evident", "injuriesReportedNotEvident", XSDDatatype.XSDinteger);
             addLiteral(model, uri, row, rowIndex, "injuries_no_indication", "injuriesNoIndication", XSDDatatype.XSDinteger);
             addLiteral(model, uri, row, rowIndex, "num_units", "hasNumberOfVehicles", XSDDatatype.XSDinteger);
+            addLiteral(model, uri, row, rowIndex, "damage", "hasDamageAmount",XSDDatatype.XSDstring );
 
-            addObjectProperty(model, uri, row, rowIndex, "first_crash_type", "hasCrashType", "CrashType");
-            addObjectProperty(model, uri, row, rowIndex, "crash_type", "hasCrashTypeCategory", "CrashTypeCategory");
+            // object properties
+            addObjectProperty(model, uri, row, rowIndex, "first_crash_type", "hasFirstCrashType", "TrafficAccidentType");
+            addObjectProperty(model, uri, row, rowIndex, "crash_type", "hasTrafficAccidentTypeCategory", "TrafficAccidentTypeCategory");//Ontology does not exist, manual mapping is required
             addObjectProperty(model, uri, row, rowIndex, "weather_condition", "hasWeatherCondition", "WeatherCondition");
             addObjectProperty(model, uri, row, rowIndex, "lighting_condition", "hasLightingCondition", "LightingCondition");
-            addObjectProperty(model, uri, row, rowIndex, "prim_contributory_cause", "hasPrimaryCause", "CrashCause");
+            addObjectProperty(model, uri, row, rowIndex, "prim_contributory_cause", "hasTrafficAccidentCause", "TrafficAccidentCause");
             addObjectProperty(model, uri, row, rowIndex, "traffic_control_device", "hasTrafficControlDevice", "TrafficControlDevice");
-            addObjectProperty(model, uri, row, rowIndex, "trafficway_type", "hasTrafficwayType", "TrafficwayType");
-            addObjectProperty(model, uri, row, rowIndex, "alignment", "hasAlignment", "AlignmentType");
-            addObjectProperty(model, uri, row, rowIndex, "roadway_surface_cond", "hasRoadSurfaceCondition", "SurfaceCondition");
+            addObjectProperty(model, uri, row, rowIndex, "trafficway_type", "occurAt", "Road");
+            addObjectProperty(model, uri, row, rowIndex, "alignment", "hasAlignment", "RoadAlignnment");
+            addObjectProperty(model, uri, row, rowIndex, "roadway_surface_cond", "hasRoadCondition", "RoadCondition");
             addObjectProperty(model, uri, row, rowIndex, "road_defect", "hasRoadDefect", "RoadDefect");
-            addObjectProperty(model, uri, row, rowIndex, "intersection_related_i", "isIntersectionRelated", "IntersectionRelation");
-            addObjectProperty(model, uri, row, rowIndex, "damage", "hasDamageAmount", "DamageAmount");
-            addObjectProperty(model, uri, row, rowIndex, "most_severe_injury", "hasMostSevereInjury", "InjurySeverity");
+            addObjectProperty(model, uri, row, rowIndex, "most_severe_injury", "hasMostSevereInjury", "TrafficAccidentSeverity");
+            addObjectProperty(model, uri, row, rowIndex, "intersection_related_i", "isIntersectionRelated", "IntersectionRelation");//Ontology does not exist, manual mapping is required
+
         }
 
         String outFile = "cw_part2/files/output/batch/batch_" + batchIndex + ".ttl";
@@ -173,6 +178,29 @@ public class RDFBuilder {
         }
     }
 
+
+    public static void quickCheckRDF(String filePath) {
+        Model model = RDFDataMgr.loadModel(filePath);
+        Property prop = model.createProperty("http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentTypeCategory");
+
+        System.out.println("\n=== Quick Check: hasTrafficAccidentTypeCategory triples ===");
+        StmtIterator iter = model.listStatements(null, prop, (RDFNode) null);
+        int count = 0;
+
+        while (iter.hasNext() && count < 10) {
+            Statement stmt = iter.next();
+            System.out.println("√ " + stmt.getSubject().getLocalName()
+                    + " --> " + stmt.getPredicate().getLocalName()
+                    + " --> " + stmt.getObject().asResource().getLocalName());
+            count++;
+        }
+
+        if (count == 0) {
+            System.err.println("No hasTrafficAccidentTypeCategory triple found, please check your mapping logic!");
+        }
+    }
+
+
     public static void main(String[] args) {
         try {
             String inputCSV = "cw_part2/files/CityWatch_Dataset.csv";
@@ -195,25 +223,52 @@ public class RDFBuilder {
             builderDefault.setKGSource(KGSource.NONE);
 
             int batchIndex = 0;
+// full-version
+//            reader = new CSVReader(new FileReader(inputCSV));
+//            reader.readNext();  // skip header
+//            batch.clear();
+//
+//
+//
+//            while ((line = reader.readNext()) != null) {
+//                batch.add(line);
+//                if (batch.size() >= batchSize) {
+//                    builderDefault.processBatch(batch, batchIndex++);
+//                    batch.clear();
+//                }
+//            }
+//            if (!batch.isEmpty()) {
+//                builderDefault.processBatch(batch, batchIndex);
+//            }
+//            reader.close();
+//
+//            String mergedDefault = "cw_part2/files/output/CityWatch_Default.ttl";
+//            builderDefault.mergeBatches(batchIndex + 1, mergedDefault);
+
+
+           // quick test:    Only the first 20 rows of data are mapped
+            int maxRows = 20;
+            int currentCount = 0;
+
             reader = new CSVReader(new FileReader(inputCSV));
             reader.readNext();  // skip header
             batch.clear();
 
-            while ((line = reader.readNext()) != null) {
+            while ((line = reader.readNext()) != null && currentCount < maxRows) {
                 batch.add(line);
-                if (batch.size() >= batchSize) {
-                    builderDefault.processBatch(batch, batchIndex++);
-                    batch.clear();
-                }
-            }
-            if (!batch.isEmpty()) {
-                builderDefault.processBatch(batch, batchIndex);
+                currentCount++;
             }
             reader.close();
 
-            String mergedDefault = "cw_part2/files/output/CityWatch_Default.ttl";
-            builderDefault.mergeBatches(batchIndex + 1, mergedDefault);
+            builderDefault.processBatch(batch, 0);
 
+            String mergedDefault = "cw_part2/files/output/CityWatch_Default_Test20.ttl";
+            builderDefault.mergeBatches(1, mergedDefault);
+
+            quickCheckRDF(mergedDefault);
+            builderDefault.performInMemoryReasoning("cw_part2/files/output/CityWatch_Default_Test20.ttl", "cw_part2/files/output/CityWatch_Reasoned.ttl", ontologyFile);
+
+            // quick test:    Only the first 20 rows of data are mapped
 
 //            String reasonedOutput = "cw_part2/files/output/CityWatch_Reasoned.ttl";
 //            builderDefault.performInMemoryReasoning(mergedDefault, reasonedOutput, ontologyFile);
