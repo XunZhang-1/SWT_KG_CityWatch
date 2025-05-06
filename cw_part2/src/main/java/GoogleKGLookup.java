@@ -56,40 +56,35 @@ public class GoogleKGLookup {
 		      System.out.println("Number of canddiate elements: " + elements.size());
 		      
 		      System.out.println(elements);
-		      
-		      
-		      for (Object element : elements) {
-		    	  
-		    	  
-		    	  score = Double.parseDouble(JsonPath.read(element, "$.resultScore").toString());
-		    	  
-		    	  if (score>minScore){ //filter by google score. 
-		    	  
-			    	  KGEntity entity = new KGEntity();
-				    	
-			    	  entity.setId(JsonPath.read(element, "$.result.@id").toString());
-			    	  entity.setName(JsonPath.read(element, "$.result.name").toString());
-			    	  entity.setDescription(JsonPath.read(element, "$.result.description").toString());
-				    	
-			    	  for (Object type : (JSONArray)JsonPath.read(element, "$.result.@type")) {
-			    		  if (!type.toString().equals("Thing"))
-			    			  entity.addType(type.toString());  
-			    	  }
-				    	
-			    	  entity.setScore(score);
-				    	  
-			    	  //System.out.println(JsonPath.read(element, "$.result.@id").toString());
-				      //System.out.println(JsonPath.read(element, "$.result.name").toString());
-				      //System.out.println(JsonPath.read(element, "$.result.description").toString());
-				        
-				      ///System.out.println(JsonPath.read(element, "$.result.@type").toString());
-			        
-			        
-			    	  entities.add(entity);
-		    	  }
-		        
-		      }
-		    } catch (Exception ex) {
+
+
+			for (Object element : elements) {
+				score = Double.parseDouble(JsonPath.read(element, "$.resultScore").toString());
+
+				if (score > minScore) {
+					KGEntity entity = new KGEntity();
+					entity.setId(JsonPath.read(element, "$.result.@id").toString());
+					entity.setName(JsonPath.read(element, "$.result.name").toString());
+
+					String description = "";
+					try {
+						description = JsonPath.read(element, "$.result.description").toString();
+					} catch (Exception e) {
+						description = ""; //
+					}
+					entity.setDescription(description);
+
+					for (Object type : (JSONArray)JsonPath.read(element, "$.result.@type")) {
+						if (!type.toString().equals("Thing"))
+							entity.addType(type.toString());
+					}
+
+					entity.setScore(score);
+					entities.add(entity);
+				}
+			}
+
+		} catch (Exception ex) {
 		      ex.printStackTrace();
 		    
 		    }
@@ -110,22 +105,22 @@ public class GoogleKGLookup {
 
 	
 	
-	  public static void main(String[] args) {
-
-		  Set<String> types = new HashSet<String>();
-		  //types.add("Person");
-		  //types.add("Event");
-		  
-		  String query;
-		  query ="Chicago Bulls";
-		  query = "Congo";
-
-		  GoogleKGLookup lk = new GoogleKGLookup();
-
-		  lk.getEntities(query, "10", types, Collections.<String>emptySet(), 0.0);
-
-		  
-	  }
+//	  public static void main(String[] args) {
+//
+//		  Set<String> types = new HashSet<String>();
+//		  //types.add("Person");
+//		  //types.add("Event");
+//
+//		  String query;
+//		  query ="Chicago Bulls";
+//		  query = "Congo";
+//
+//		  GoogleKGLookup lk = new GoogleKGLookup();
+//
+//		  lk.getEntities(query, "10", types, Collections.<String>emptySet(), 0.0);
+//
+//
+//	  }
 	  
 
 	

@@ -8,9 +8,10 @@ import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.reasoner.*;
 import org.apache.jena.reasoner.rulesys.*;
-
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
+
+
 public class RDFBuilder {
     String inputFile;
     String ontologyFile;
@@ -74,21 +75,83 @@ public class RDFBuilder {
         if (kgSource == KGSource.WIKIDATA) {
             objectURI = getKGURIFromWikidata(rawValue);
         } else if (kgSource == KGSource.GOOGLE) {
-            objectURI = getKGURIFromGoogle(rawValue);
+            objectURI = getKGURIFromGoogle(rawValue, colName);
         }
 
         if (objectURI == null) {
             objectURI = namespace + className.toLowerCase() + "_" + cleanedValue;
         }
 
+        Resource subjectRes = model.createResource(subjectURI);
         Resource objectRes = model.createResource(objectURI);
         Property property = model.createProperty(namespace + propertyName);
-        model.add(model.createResource(subjectURI), property, objectRes);
+
+        model.add(subjectRes, property, objectRes);
+
+
+        if (!objectURI.startsWith("http://g.co/kg/") && !objectURI.startsWith("http://www.wikidata.org/entity/")) {
+            model.add(objectRes, RDF.type, model.createResource(namespace + className));
+        }
     }
 
-    private String getKGURIFromGoogle(String query) {
+
+    /*
+     * Updated RDFBuilder.java with Google KG keyword-based entity matching
+     * based on previous reference to Lab4_Solution for modularity and better KG reuse.
+     *
+
+     */
+    private String getKGURIFromGoogle(String query, String columnName) {
+        if (kgCache.containsKey(query)) return kgCache.get(query);
+
+        try {
+            GoogleKGLookup lookup = new GoogleKGLookup();
+            Set<String> types = new HashSet<>();
+            Set<String> languages = new HashSet<>();
+            languages.add("en");
+
+            TreeSet<KGEntity> results = lookup.getEntities(query, "5", types, languages, 0.0);
+
+            I_Sub isub = new I_Sub();
+            double bestSim = -1.0;
+            String bestURI = null;
+
+            for (KGEntity entity : results) {
+                double sim = isub.score(query, entity.getName());
+                System.out.println("-Compare: " + query + " <-> " + entity.getName() + " | sim = " + sim);
+
+                if (sim > bestSim) {
+                    bestSim = sim;
+                    String id = entity.getId().trim();
+                    if (id.contains("/m/") || id.contains("/g/")) {
+                        int start = id.indexOf("/m/") != -1 ? id.indexOf("/m/") : id.indexOf("/g/");
+                        id = id.substring(start);
+                    } else {
+                        return null;
+                    }
+                    bestURI = "http://g.co/kg" + id;
+                }
+            }
+
+            if (bestURI != null) {
+                kgCache.put(query, bestURI);
+                System.out.println(">>> MAPPED KG URI for [" + query + "] = " + bestURI);
+                return bestURI;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Google KG lookup failed for: " + query);
+            e.printStackTrace();
+        }
+
         return null;
     }
+
+    // Optional: generalized lexical URI cleaning (moved to method for reuse)
+    private String processLexicalName(String name) {
+        return name.trim().replaceAll("[\s()\"/,:]", "_").toLowerCase();
+    }
+
 
     private String getKGURIFromWikidata(String query) {
         return query;
@@ -144,30 +207,93 @@ public class RDFBuilder {
     }
 
     public void mergeBatches(int totalBatches, String outputPath) throws IOException {
-        Model mergedModel = ModelFactory.createDefaultModel();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
+        boolean prefixWritten = false;
+
         for (int i = 0; i < totalBatches; i++) {
             String filePath = "cw_part2/files/output/batch/batch_" + i + ".ttl";
-            Model batchModel = RDFDataMgr.loadModel(filePath);
-            mergedModel.add(batchModel);
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (!prefixWritten) {
+                    writer.write(line);
+                    writer.newLine();
+                    if (!line.startsWith("@prefix") && !line.trim().isEmpty()) {
+                        prefixWritten = true;
+                    }
+                } else {
+                    if (!line.startsWith("@prefix") && !line.trim().isEmpty()) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
+                }
+            }
+
+            reader.close();
         }
-        RDFDataMgr.write(new FileOutputStream(outputPath), mergedModel, RDFFormat.TURTLE);
-        System.out.println("merge all files：" + outputPath);
+
+        writer.close();
+        System.out.println("Merged all TTL batches to: " + outputPath);
     }
 
-    public void performInMemoryReasoning(String mergedPath, String outputPath, String ontologyPath) {
-        try {
-            Model dataModel = RDFDataMgr.loadModel(mergedPath);
-            Model ontologyModel = RDFDataMgr.loadModel(ontologyPath);
-            Model base = ModelFactory.createUnion(dataModel, ontologyModel);
-            Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
-            reasoner = reasoner.bindSchema(ontologyModel);
-            InfModel infModel = ModelFactory.createInfModel(reasoner, base);
-            RDFDataMgr.write(new FileOutputStream(outputPath), infModel, RDFFormat.TURTLE);
-            System.out.println("reasoning output :" + outputPath);
-        } catch (Exception e) {
+
+
+    /**
+     * Perform OWL 2 RL-style reasoning on a set of TTL batch files using the given ontology.
+     * Merges all inferred data into a single output TTL file.
+     *
+     * @param batchesDirPath     the directory containing the batch TTL files
+     * @param ontologyPath       the path to the ontology file (onto_cw2)
+     * @param outputMergedPath   the path to save the merged inferred TTL file
+     */
+    public void performInMemoryReasoningInBatches(String batchesDirPath, String ontologyPath, String outputMergedPath) {
+        File batchesDir = new File(batchesDirPath);
+        File[] batchFiles = batchesDir.listFiles((dir, name) -> name.endsWith(".ttl"));
+        Arrays.sort(batchFiles, Comparator.comparingInt(f ->
+                Integer.parseInt(f.getName().replaceAll("[^0-9]", ""))
+        ));
+        if (batchFiles == null) return;
+
+        // Create a model to hold all inferred triples
+        Model finalModel = ModelFactory.createDefaultModel();
+
+        // Load the ontology model
+        Model ontologyModel = RDFDataMgr.loadModel(ontologyPath);
+
+        // Use an OWL mini reasoner (suitable for OWL 2 RL style reasoning)
+        Reasoner reasoner = ReasonerRegistry.getOWLMiniReasoner().bindSchema(ontologyModel);
+
+        long totalStart = System.currentTimeMillis();
+        for (File file : batchFiles) {
+            System.out.println("Reasoning on batch: " + file.getName());
+            long start = System.currentTimeMillis();
+            // Load the current batch model
+            Model dataModel = RDFDataMgr.loadModel(file.getAbsolutePath());
+
+            // Create an inference model with the reasoner and data
+            InfModel infModel = ModelFactory.createInfModel(reasoner, dataModel);
+
+            // Merge the inferred triples into the final model
+            finalModel.add(infModel);
+
+            // Clean up
+            infModel.close();
+            dataModel.close();
+            long end = System.currentTimeMillis();
+            System.out.println("Finished " + file.getName() + " in " + (end - start) + " ms");
+        }
+        long totalEnd = System.currentTimeMillis();
+        // Write the merged inferred model to a TTL file
+        try (FileOutputStream out = new FileOutputStream(outputMergedPath)) {
+            RDFDataMgr.write(out, finalModel, RDFFormat.TURTLE_PRETTY);
+            System.out.println("Reasoning complete. Output saved to: " + outputMergedPath);
+            System.out.println("Total reasoning time: " + (totalEnd - totalStart) + " ms");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public static void clearOutputDirectory(String folderPath) {
         File dir = new File(folderPath);
@@ -200,9 +326,30 @@ public class RDFBuilder {
         }
     }
 
+    public static void ensureOutputDirectoriesExist() {
+        String[] paths = {
+                "cw_part2/files/output",
+                "cw_part2/files/output/batch"
+        };
+
+        for (String path : paths) {
+            File dir = new File(path);
+            if (!dir.exists()) {
+                boolean created = dir.mkdirs();
+                if (created) {
+                    System.out.println("Created missing directory: " + path);
+                } else {
+                    System.err.println("Failed to create directory: " + path);
+                }
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         try {
+
+            ensureOutputDirectoriesExist();
             String inputCSV = "cw_part2/files/CityWatch_Dataset.csv";
             String ontologyFile = "cw_part2/files/CityWatch_Ontology.ttl";
             String outputFolder = "cw_part2/files/output";
@@ -246,7 +393,7 @@ public class RDFBuilder {
 //            builderDefault.mergeBatches(batchIndex + 1, mergedDefault);
 
 
-           // quick test:    Only the first 20 rows of data are mapped
+            // quick test:    Only the first 20 rows of data are mapped
             int maxRows = 20;
             int currentCount = 0;
 
@@ -266,57 +413,34 @@ public class RDFBuilder {
             builderDefault.mergeBatches(1, mergedDefault);
 
             quickCheckRDF(mergedDefault);
-            builderDefault.performInMemoryReasoning("cw_part2/files/output/CityWatch_Default_Test20.ttl", "cw_part2/files/output/CityWatch_Reasoned.ttl", ontologyFile);
 
             // quick test:    Only the first 20 rows of data are mapped
+            System.out.println("=== Starting KG mode: Google Knowledge Graph ===");
+            RDFBuilder builderGKG = new RDFBuilder(inputCSV, ontologyFile, colIndex);
+            builderGKG.setKGSource(KGSource.GOOGLE);
 
-//            String reasonedOutput = "cw_part2/files/output/CityWatch_Reasoned.ttl";
-//            builderDefault.performInMemoryReasoning(mergedDefault, reasonedOutput, ontologyFile);
+            // quick test:    Only the first 20 rows of data are mapped
+            int maxRows2 = 20;
+            int currentCount2 = 0;
+            reader = new CSVReader(new FileReader(inputCSV));
+            reader.readNext();
+            batch.clear();
 
-//            System.out.println("=== Starting KG mode: Google Knowledge Graph ===");
-//            RDFBuilder builderGKG = new RDFBuilder(inputCSV, ontologyFile, colIndex);
-//            builderGKG.setKGSource(KGSource.GOOGLE);
-//
-//            int batchIndex = 0;
-//            reader = new CSVReader(new FileReader(inputCSV));
-//            reader.readNext();
-//            while ((line = reader.readNext()) != null) {
-//                batch.add(line);
-//                if (batch.size() >= batchSize) {
-//                    builderGKG.processBatch(batch, batchIndex++);
-//                    batch.clear();
-//                }
-//            }
-//            if (!batch.isEmpty()) {
-//                builderGKG.processBatch(batch, batchIndex);
-//            }
-//            reader.close();
-//
-//            String mergedGKG = "cw_part2/files/output/CityWatch_GKG.ttl";
-//            builderGKG.mergeBatches(batchIndex + 1, mergedGKG);
+            while ((line = reader.readNext()) != null && currentCount2 < maxRows2) {
+                batch.add(line);
+                currentCount2++;
+            }
+            reader.close();
 
-//            System.out.println("=== Starting KG mode: Wikidata ===");
-//            RDFBuilder builderWD = new RDFBuilder(inputCSV, ontologyFile, colIndex);
-//            builderWD.setKGSource(KGSource.WIKIDATA);
-//
-//            reader = new CSVReader(new FileReader(inputCSV));
-//            reader.readNext();
-//            batchIndex = 0;
-//            batch.clear();
-//            while ((line = reader.readNext()) != null) {
-//                batch.add(line);
-//                if (batch.size() >= batchSize) {
-//                    builderWD.processBatch(batch, batchIndex++);
-//                    batch.clear();
-//                }
-//            }
-//            if (!batch.isEmpty()) {
-//                builderWD.processBatch(batch, batchIndex);
-//            }
-//            reader.close();
-//
-//            String mergedWD = "cw_part2/files/output/CityWatch_Wikidata.ttl";
-//            builderWD.mergeBatches(batchIndex + 1, mergedWD);
+            builderGKG.processBatch(batch, 0);
+            String mergedGKG = "cw_part2/files/output/CityWatch_GKG_Test20.ttl";
+            builderGKG.mergeBatches(1, mergedGKG);
+
+
+
+//        // Subtask RDF.4
+//        String reasonedOutput = "cw_part2/files/output/CityWatch_Reasoned.ttl";
+//        builderDefault.performInMemoryReasoningInBatches("cw_part2/files/output/batch", ontologyFile, reasonedOutput);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -7,6 +7,7 @@ public class KGEntity implements Comparable<KGEntity> {
     private String name;
     private String description;
     private Set<String> types = new HashSet<>();
+    private String detailedDescription;
     private double score;
 
     public KGEntity() {}
@@ -51,6 +52,7 @@ public class KGEntity implements Comparable<KGEntity> {
         this.score = score;
     }
 
+
     @Override
     public int compareTo(KGEntity other) {
         return Double.compare(other.getScore(), this.getScore()); // higher score = higher rank
@@ -73,4 +75,5 @@ public class KGEntity implements Comparable<KGEntity> {
     public String toString() {
         return "[KGEntity] id: " + id + ", name: " + name + ", score: " + score + ", desc: " + description;
     }
+    public String getDetailedDescriptionText() { return detailedDescription; }
 }
