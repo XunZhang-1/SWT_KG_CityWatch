@@ -42,7 +42,8 @@ dc:creator rdf:type owl:AnnotationProperty .
               rdf:type owl:FunctionalProperty ,
                        owl:AsymmetricProperty ,
                        owl:IrreflexiveProperty ;
-              rdfs:domain <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+              rdfs:domain<https://dbpedia.org/ontology/Road>
+ ;
               rdfs:range :RoadAlignment ;
               rdfs:comment "The alignment of the road where the accident occurred (e.g., straight, curved)." ;
               rdfs:label "hasAlignment" .
@@ -114,7 +115,8 @@ dc:creator rdf:type owl:AnnotationProperty .
 ###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadDefect
 :hasRoadDefect rdf:type owl:ObjectProperty ,
                         owl:IrreflexiveProperty ;
-               rdfs:domain <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+               rdfs:domain<https://dbpedia.org/ontology/Road>
+ ;
                rdfs:range :RoadDefect ;
                rdfs:comment "hasRoadDefect indicates that there is defect in road." ;
                rdfs:label "hasRoadDefect" .
@@ -189,7 +191,8 @@ dc:creator rdf:type owl:AnnotationProperty .
                   owl:FunctionalProperty ,
                   owl:AsymmetricProperty ;
          rdfs:domain :TrafficAccident ;
-         rdfs:range <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+         rdfs:range<https://dbpedia.org/ontology/Road>
+ ;
          rdfs:comment "Indicates the location involvement in the at the time of the accident." ;
          rdfs:label "occurAt" .
 
@@ -539,7 +542,8 @@ dc:creator rdf:type owl:AnnotationProperty .
 
 ###  http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType
 :RoadType rdf:type owl:Class ;
-          rdfs:subClassOf <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+          rdfs:subClassOf<https://dbpedia.org/ontology/Road>
+ ;
           rdfs:comment "Indicates the type of roadway involved in the accident" ;
           rdfs:label "RoadType" .
 

@@ -53,9 +53,9 @@ public class GoogleKGLookup {
 		      double score;
 		      
 		      
-		      System.out.println("Number of canddiate elements: " + elements.size());
+//		      System.out.println("Number of canddiate elements: " + elements.size());
 		      
-		      System.out.println(elements);
+//		      System.out.println(elements);
 
 
 			for (Object element : elements) {
@@ -83,50 +83,16 @@ public class GoogleKGLookup {
 					entities.add(entity);
 				}
 			}
-
 		} catch (Exception ex) {
 		      ex.printStackTrace();
 		    
 		    }
-		
-		
-		
 		for (KGEntity entity : entities){
 			
 			System.out.println(entity.toString());
 			
 		}
-		
-		
-		
 		return entities;
-		
 	}
-
-	
-	
-//	  public static void main(String[] args) {
-//
-//		  Set<String> types = new HashSet<String>();
-//		  //types.add("Person");
-//		  //types.add("Event");
-//
-//		  String query;
-//		  query ="Chicago Bulls";
-//		  query = "Congo";
-//
-//		  GoogleKGLookup lk = new GoogleKGLookup();
-//
-//		  lk.getEntities(query, "10", types, Collections.<String>emptySet(), 0.0);
-//
-//
-//	  }
-	  
-
-	
-	
-	
-	
-	
 
 }

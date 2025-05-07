@@ -10,7 +10,12 @@ import org.apache.jena.reasoner.*;
 import org.apache.jena.reasoner.rulesys.*;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class RDFBuilder {
     String inputFile;
@@ -64,36 +69,50 @@ public class RDFBuilder {
         }
     }
 
-    private void addObjectProperty(Model model, String subjectURI, String[] row, int rowIndex, String colName, String propertyName, String className) {
+
+
+    /**
+     * Adds an object property triple to the RDF model.
+     * Depending on the field name and current KG source setting, it may reuse an external KG URI
+     * (from Google or Wikidata) or fall back to a local URI.
+     */
+    private void addObjectProperty(Model model, String subjectURI, String[] row, int rowIndex,
+                                   String colName, String propertyName, String className) {
+        // Get the column index; skip if invalid or missing value
         Integer col = columnIndex.get(colName);
         if (col == null || col >= row.length || row[col].isEmpty()) return;
 
+        // Clean and extract the raw value from the current CSV row
         String rawValue = row[col].trim();
         String cleanedValue = clean(rawValue);
         String objectURI = null;
 
-        if (kgSource == KGSource.WIKIDATA) {
-            objectURI = getKGURIFromWikidata(rawValue);
-        } else if (kgSource == KGSource.GOOGLE) {
-            objectURI = getKGURIFromGoogle(rawValue, colName);
+        // Try to reuse external KG URI based on field and source settings
+        if ((kgSource == KGSource.GOOGLE && colName.equals("weather_condition")) ||
+                (kgSource == KGSource.WIKIDATA && colName.equals("lighting_condition"))) {
+            objectURI = kgCache.getOrDefault(rawValue, null);
         }
 
+
+        // Fallback: construct a local URI if no KG URI was found
         if (objectURI == null) {
             objectURI = namespace + className.toLowerCase() + "_" + cleanedValue;
         }
 
+        // Create RDF resources and property
         Resource subjectRes = model.createResource(subjectURI);
         Resource objectRes = model.createResource(objectURI);
         Property property = model.createProperty(namespace + propertyName);
 
+        // Add the object property triple
         model.add(subjectRes, property, objectRes);
 
-
-        if (!objectURI.startsWith("http://g.co/kg/") && !objectURI.startsWith("http://www.wikidata.org/entity/")) {
+        // If the URI is local (not from external KG), add rdf:type triple
+        if (!objectURI.startsWith("http://g.co/kg/") &&
+                !objectURI.startsWith("http://www.wikidata.org/entity/")) {
             model.add(objectRes, RDF.type, model.createResource(namespace + className));
         }
     }
-
 
     /*
      * Updated RDFBuilder.java with Google KG keyword-based entity matching
@@ -118,7 +137,7 @@ public class RDFBuilder {
 
             for (KGEntity entity : results) {
                 double sim = isub.score(query, entity.getName());
-                System.out.println("-Compare: " + query + " <-> " + entity.getName() + " | sim = " + sim);
+//                System.out.println("-Compare: " + query + " <-> " + entity.getName() + " | sim = " + sim);
 
                 if (sim > bestSim) {
                     bestSim = sim;
@@ -147,17 +166,8 @@ public class RDFBuilder {
         return null;
     }
 
-    // Optional: generalized lexical URI cleaning (moved to method for reuse)
-    private String processLexicalName(String name) {
-        return name.trim().replaceAll("[\s()\"/,:]", "_").toLowerCase();
-    }
+    public void processBatch(List<String[]> rows, int batchIndex, String batchFolderPath) throws IOException {
 
-
-    private String getKGURIFromWikidata(String query) {
-        return query;
-    }
-
-    public void processBatch(List<String[]> rows, int batchIndex) throws IOException {
         Model model = ModelFactory.createDefaultModel();
         model.setNsPrefix("cw", namespace);
         model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema");
@@ -173,9 +183,9 @@ public class RDFBuilder {
             model.add(model.createResource(uri), RDF.type, model.createResource(namespace + "TrafficAccident"));
 
             addLiteral(model, uri, row, rowIndex, "crash_date", "crashDate", XSDDatatype.XSDstring);
-            addLiteral(model, uri, row, rowIndex, "crash_hour", "crashHour", XSDDatatype.XSDinteger);//Ontology does not exist, manual mapping is required
-            addLiteral(model, uri, row, rowIndex, "crash_day_of_week", "crashDayOfWeek", XSDDatatype.XSDinteger);//Ontology does not exist, manual mapping is required
-            addLiteral(model, uri, row, rowIndex, "crash_month", "crashMonth", XSDDatatype.XSDinteger);//Ontology does not exist, manual mapping is required
+            addLiteral(model, uri, row, rowIndex, "crash_hour", "crashHour", XSDDatatype.XSDinteger);//not in ontology originally, added manually
+            addLiteral(model, uri, row, rowIndex, "crash_day_of_week", "crashDayOfWeek", XSDDatatype.XSDinteger);//not in ontology originally, added manually
+            addLiteral(model, uri, row, rowIndex, "crash_month", "crashMonth", XSDDatatype.XSDinteger);//not in ontology originally, added manually
 
             addLiteral(model, uri, row, rowIndex, "injuries_total", "injuriesTotal", XSDDatatype.XSDinteger);
             addLiteral(model, uri, row, rowIndex, "injuries_fatal", "injuriesFatal", XSDDatatype.XSDinteger);
@@ -188,7 +198,7 @@ public class RDFBuilder {
 
             // object properties
             addObjectProperty(model, uri, row, rowIndex, "first_crash_type", "hasFirstCrashType", "TrafficAccidentType");
-            addObjectProperty(model, uri, row, rowIndex, "crash_type", "hasTrafficAccidentTypeCategory", "TrafficAccidentTypeCategory");//Ontology does not exist, manual mapping is required
+            addObjectProperty(model, uri, row, rowIndex, "crash_type", "hasTrafficAccidentTypeCategory", "TrafficAccidentTypeCategory");//not in ontology originally, added manually
             addObjectProperty(model, uri, row, rowIndex, "weather_condition", "hasWeatherCondition", "WeatherCondition");
             addObjectProperty(model, uri, row, rowIndex, "lighting_condition", "hasLightingCondition", "LightingCondition");
             addObjectProperty(model, uri, row, rowIndex, "prim_contributory_cause", "hasTrafficAccidentCause", "TrafficAccidentCause");
@@ -198,20 +208,20 @@ public class RDFBuilder {
             addObjectProperty(model, uri, row, rowIndex, "roadway_surface_cond", "hasRoadCondition", "RoadCondition");
             addObjectProperty(model, uri, row, rowIndex, "road_defect", "hasRoadDefect", "RoadDefect");
             addObjectProperty(model, uri, row, rowIndex, "most_severe_injury", "hasMostSevereInjury", "TrafficAccidentSeverity");
-            addObjectProperty(model, uri, row, rowIndex, "intersection_related_i", "isIntersectionRelated", "IntersectionRelation");//Ontology does not exist, manual mapping is required
+            addObjectProperty(model, uri, row, rowIndex, "intersection_related_i", "isIntersectionRelated", "IntersectionRelation");//not in ontology originally, added manually
 
         }
 
-        String outFile = "cw_part2/files/output/batch/batch_" + batchIndex + ".ttl";
+        String outFile = batchFolderPath + "/batch_" + batchIndex + ".ttl";
         RDFDataMgr.write(new FileOutputStream(outFile), model, RDFFormat.TURTLE);
     }
 
-    public void mergeBatches(int totalBatches, String outputPath) throws IOException {
+    public void mergeBatches(int totalBatches,String batchFolder, String outputPath) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
         boolean prefixWritten = false;
 
         for (int i = 0; i < totalBatches; i++) {
-            String filePath = "cw_part2/files/output/batch/batch_" + i + ".ttl";
+            String filePath = batchFolder + "/batch_" + i + ".ttl";
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
 
@@ -237,64 +247,6 @@ public class RDFBuilder {
         System.out.println("Merged all TTL batches to: " + outputPath);
     }
 
-
-
-    /**
-     * Perform OWL 2 RL-style reasoning on a set of TTL batch files using the given ontology.
-     * Merges all inferred data into a single output TTL file.
-     *
-     * @param batchesDirPath     the directory containing the batch TTL files
-     * @param ontologyPath       the path to the ontology file (onto_cw2)
-     * @param outputMergedPath   the path to save the merged inferred TTL file
-     */
-    public void performInMemoryReasoningInBatches(String batchesDirPath, String ontologyPath, String outputMergedPath) {
-        File batchesDir = new File(batchesDirPath);
-        File[] batchFiles = batchesDir.listFiles((dir, name) -> name.endsWith(".ttl"));
-        Arrays.sort(batchFiles, Comparator.comparingInt(f ->
-                Integer.parseInt(f.getName().replaceAll("[^0-9]", ""))
-        ));
-        if (batchFiles == null) return;
-
-        // Create a model to hold all inferred triples
-        Model finalModel = ModelFactory.createDefaultModel();
-
-        // Load the ontology model
-        Model ontologyModel = RDFDataMgr.loadModel(ontologyPath);
-
-        // Use an OWL mini reasoner (suitable for OWL 2 RL style reasoning)
-        Reasoner reasoner = ReasonerRegistry.getOWLMiniReasoner().bindSchema(ontologyModel);
-
-        long totalStart = System.currentTimeMillis();
-        for (File file : batchFiles) {
-            System.out.println("Reasoning on batch: " + file.getName());
-            long start = System.currentTimeMillis();
-            // Load the current batch model
-            Model dataModel = RDFDataMgr.loadModel(file.getAbsolutePath());
-
-            // Create an inference model with the reasoner and data
-            InfModel infModel = ModelFactory.createInfModel(reasoner, dataModel);
-
-            // Merge the inferred triples into the final model
-            finalModel.add(infModel);
-
-            // Clean up
-            infModel.close();
-            dataModel.close();
-            long end = System.currentTimeMillis();
-            System.out.println("Finished " + file.getName() + " in " + (end - start) + " ms");
-        }
-        long totalEnd = System.currentTimeMillis();
-        // Write the merged inferred model to a TTL file
-        try (FileOutputStream out = new FileOutputStream(outputMergedPath)) {
-            RDFDataMgr.write(out, finalModel, RDFFormat.TURTLE_PRETTY);
-            System.out.println("Reasoning complete. Output saved to: " + outputMergedPath);
-            System.out.println("Total reasoning time: " + (totalEnd - totalStart) + " ms");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public static void clearOutputDirectory(String folderPath) {
         File dir = new File(folderPath);
         if (dir.exists() && dir.isDirectory()) {
@@ -304,32 +256,10 @@ public class RDFBuilder {
         }
     }
 
-
-    public static void quickCheckRDF(String filePath) {
-        Model model = RDFDataMgr.loadModel(filePath);
-        Property prop = model.createProperty("http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentTypeCategory");
-
-        System.out.println("\n=== Quick Check: hasTrafficAccidentTypeCategory triples ===");
-        StmtIterator iter = model.listStatements(null, prop, (RDFNode) null);
-        int count = 0;
-
-        while (iter.hasNext() && count < 10) {
-            Statement stmt = iter.next();
-            System.out.println("√ " + stmt.getSubject().getLocalName()
-                    + " --> " + stmt.getPredicate().getLocalName()
-                    + " --> " + stmt.getObject().asResource().getLocalName());
-            count++;
-        }
-
-        if (count == 0) {
-            System.err.println("No hasTrafficAccidentTypeCategory triple found, please check your mapping logic!");
-        }
-    }
-
-    public static void ensureOutputDirectoriesExist() {
+    public static void ensureOutputDirectoriesExist(String folderPath) {
         String[] paths = {
-                "cw_part2/files/output",
-                "cw_part2/files/output/batch"
+                folderPath,
+                folderPath + "/batch"
         };
 
         for (String path : paths) {
@@ -345,102 +275,387 @@ public class RDFBuilder {
         }
     }
 
+    public void saveKGCacheToJSON(String path) throws IOException {
+        Gson gson = new Gson();
+        String json = gson.toJson(kgCache);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            writer.write(json);
+        }
+        System.out.println("Saved KG cache to: " + path);
+    }
+
+    public void loadKGCacheFromJSON(String path) throws IOException {
+        File file = new File(path);
+        if (!file.exists()) return;
+
+        Gson gson = new Gson();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            Type type = new TypeToken<Map<String, String>>() {}.getType();
+            Map<String, String> loaded = gson.fromJson(reader, type);
+            if (loaded != null) {
+                kgCache.putAll(loaded);
+                System.out.println("Loaded KG cache from: " + path);
+            }
+        }
+    }
+
+    private String getKGURIFromWikidata(String query) {
+        if (kgCache.containsKey(query)) return kgCache.get(query);
+
+        try {
+            WikidataLookup lookup = new WikidataLookup();
+            Set<KGEntity> results = lookup.getKGEntities(query, 5, "en");
+
+            I_Sub isub = new I_Sub();
+            double bestSim = -1.0;
+            String bestURI = null;
+
+            for (KGEntity entity : results) {
+                double sim = isub.score(query, entity.getName());
+                if (sim > bestSim) {
+                    bestSim = sim;
+                    bestURI = entity.getId();  // e.g. https://www.wikidata.org/entity/Q180524
+                }
+            }
+
+            if (bestURI != null) {
+                kgCache.put(query, bestURI);
+                System.out.println(">>> MAPPED Wikidata URI for [" + query + "] = " + bestURI);
+                return bestURI;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Wikidata lookup failed for: " + query);
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // quick test -- eg. maxrows=20  full test: maxrows = 0
+    public static void GoogleKGReuse(String inputCSV, String ontologyFile, int... optionalRowLimit) throws IOException {
+        int rowLimit = (optionalRowLimit.length > 0) ? optionalRowLimit[0] : 0;
+        int batchSize = 1000;
+
+        // Define output paths and filenames
+        String outputFolder = "cw_part2/files/output/output_gkg_r3_1";
+        String batchFolder = outputFolder + "/batch";
+        String cacheFile = "cw_part2/files/cache/kg_cache.json";
+        String outputFile = (rowLimit > 0)
+                ? outputFolder + "/CityWatch_GKG_R3_1_QuickTest" + rowLimit + ".ttl"
+                : outputFolder + "/CityWatch_GKG.ttl";
+
+        // Prepare output directories
+        ensureOutputDirectoriesExist(outputFolder);
+        clearOutputDirectory(batchFolder);
+
+        // Read CSV headers and store column index
+        Map<String, Integer> colIndex = new HashMap<>();
+        CSVReader reader = new CSVReader(new FileReader(inputCSV));
+        String[] headers = reader.readNext();
+        for (int i = 0; i < headers.length; i++) {
+            colIndex.put(headers[i], i);
+        }
+
+        // Initialize RDFBuilder with ontology and column mapping
+        RDFBuilder builder = new RDFBuilder(inputCSV, ontologyFile, colIndex);
+        builder.setKGSource(RDFBuilder.KGSource.GOOGLE);
+        builder.loadKGCacheFromJSON(cacheFile);
+
+        // === Collect all CSV rows and extract unique values for KG lookup ===
+        List<String[]> allRows = new ArrayList<>();
+        Set<String> uniqueWeather = new HashSet<>();
+        Set<String> uniqueLighting = new HashSet<>();
+
+        String[] line;
+        int count = 0;
+        while ((line = reader.readNext()) != null) {
+            allRows.add(line);
+            count++;
+
+            // Collect unique values for weather_condition and lighting_condition
+            if (colIndex.containsKey("weather_condition")) {
+                String val = line[colIndex.get("weather_condition")].trim();
+                if (!val.isEmpty()) uniqueWeather.add(val);
+            }
+
+            if (colIndex.containsKey("lighting_condition")) {
+                String val = line[colIndex.get("lighting_condition")].trim();
+                if (!val.isEmpty()) uniqueLighting.add(val);
+            }
+
+            // If a row limit is set, stop when reached
+            if (rowLimit > 0 && count >= rowLimit) break;
+        }
+        reader.close();
+
+        // === Perform KG URI mapping only once ===
+        builder.buildKGURIMap(uniqueWeather, uniqueLighting);
+
+        // === Process rows in batches for RDF triple generation ===
+        int batchIndex = 0;
+        for (int i = 0; i < allRows.size(); i += batchSize) {
+            int end = Math.min(i + batchSize, allRows.size());
+            List<String[]> batch = allRows.subList(i, end);
+            builder.processBatch(batch, batchIndex++, batchFolder);
+        }
+
+        // Merge batch files and save final output and cache
+        builder.mergeBatches(batchIndex, batchFolder, outputFile);
+        builder.saveKGCacheToJSON(cacheFile);
+
+        System.out.println("Google KG RDF generation complete: " + outputFile);
+    }
+
+
+
+    // quick test -- e.g. maxrows=20  full test: maxrows = 0
+    public static void WikidataKGReuse(String inputCSV, String ontologyFile, int... optionalRowLimit) throws IOException {
+        int rowLimit = (optionalRowLimit.length > 0) ? optionalRowLimit[0] : 0;
+        int batchSize = 1000;
+
+        // Define output paths and filenames
+        String outputFolder = "cw_part2/files/output/output_wikidata_r3_2";
+        String batchFolder = outputFolder + "/batch";
+        String cacheFile = "cw_part2/files/cache/kg_cache_wikidata.json";
+        String outputFile = (rowLimit > 0)
+                ? outputFolder + "/CityWatch_Wikidata_R3_2_QuickTest" + rowLimit + ".ttl"
+                : outputFolder + "/CityWatch_Wikidata.ttl";
+
+        // Prepare output directories
+        ensureOutputDirectoriesExist(outputFolder);
+        clearOutputDirectory(batchFolder);
+
+        // Read CSV headers and store column index
+        Map<String, Integer> colIndex = new HashMap<>();
+        CSVReader reader = new CSVReader(new FileReader(inputCSV));
+        String[] headers = reader.readNext();
+        for (int i = 0; i < headers.length; i++) {
+            colIndex.put(headers[i], i);
+        }
+
+        // Initialize RDFBuilder
+        RDFBuilder builder = new RDFBuilder(inputCSV, ontologyFile, colIndex);
+        builder.setKGSource(RDFBuilder.KGSource.WIKIDATA);
+        builder.loadKGCacheFromJSON(cacheFile);
+
+        // === Load CSV once and collect unique values ===
+        List<String[]> allRows = new ArrayList<>();
+        Set<String> uniqueWeather = new HashSet<>();
+        Set<String> uniqueLighting = new HashSet<>();
+
+        String[] line;
+        int count = 0;
+        while ((line = reader.readNext()) != null) {
+            allRows.add(line);
+            count++;
+
+            if (colIndex.containsKey("weather_condition")) {
+                String val = line[colIndex.get("weather_condition")].trim();
+                if (!val.isEmpty()) uniqueWeather.add(val);
+            }
+
+            if (colIndex.containsKey("lighting_condition")) {
+                String val = line[colIndex.get("lighting_condition")].trim();
+                if (!val.isEmpty()) uniqueLighting.add(val);
+            }
+
+            if (rowLimit > 0 && count >= rowLimit) break;
+        }
+        reader.close();
+
+        // === Perform KG URI mapping once ===
+        builder.buildKGURIMap(uniqueWeather, uniqueLighting);
+
+        // === Process RDF triples in batches ===
+        int batchIndex = 0;
+        for (int i = 0; i < allRows.size(); i += batchSize) {
+            int end = Math.min(i + batchSize, allRows.size());
+            List<String[]> batch = allRows.subList(i, end);
+            builder.processBatch(batch, batchIndex++, batchFolder);
+        }
+
+        // Merge TTL files and save the cache
+        builder.mergeBatches(batchIndex, batchFolder, outputFile);
+        builder.saveKGCacheToJSON(cacheFile);
+
+        System.out.println("Wikidata KG RDF generation complete: " + outputFile);
+    }
+
+
+
+
+    public static void DefaultRDFGeneration(String inputCSV, String ontologyFile, int... optionalRowLimit) throws IOException {
+        int rowLimit = (optionalRowLimit.length > 0) ? optionalRowLimit[0] : 0;
+        int batchSize = 1000;
+
+        String outputFolder = "cw_part2/files/output/output_default";
+        String batchFolder = outputFolder + "/batch";
+        String outputFile = (rowLimit > 0)
+                ? outputFolder + "/CityWatch_Default_QuickTest" + rowLimit + ".ttl"
+                : outputFolder + "/CityWatch_Default.ttl";
+
+        ensureOutputDirectoriesExist(outputFolder);
+        clearOutputDirectory(batchFolder);
+
+        Map<String, Integer> colIndex = new HashMap<>();
+        CSVReader reader = new CSVReader(new FileReader(inputCSV));
+        String[] headers = reader.readNext();
+        for (int i = 0; i < headers.length; i++) {
+            colIndex.put(headers[i], i);
+        }
+
+        RDFBuilder builder = new RDFBuilder(inputCSV, ontologyFile, colIndex);
+        builder.setKGSource(RDFBuilder.KGSource.NONE);
+
+        List<String[]> batch = new ArrayList<>();
+        String[] line;
+        int count = 0;
+        int batchIndex = 0;
+
+        while ((line = reader.readNext()) != null) {
+            batch.add(line);
+            count++;
+
+            if (rowLimit > 0 && count >= rowLimit) break;
+
+            if (batch.size() == batchSize) {
+                builder.processBatch(batch, batchIndex++, batchFolder);
+                batch.clear();
+            }
+        }
+
+        if (!batch.isEmpty()) {
+            builder.processBatch(batch, batchIndex++, batchFolder);
+        }
+
+        reader.close();
+        builder.mergeBatches(batchIndex, batchFolder, outputFile);
+
+        System.out.println("Default RDF generation complete: " + outputFile);
+    }
+
+
+
+    /**
+     * Performs ontology reasoning using an existing RDF data file and an ontology file.
+     * The reasoning is based on RDFS semantics (OWL 2 RL compatible).
+     * The inferred triples are written to an output TTL file.
+     *
+     * @param inputTTL    Path to the input RDF data file (e.g., CityWatch_Default.ttl)
+     * @param ontologyTTL Path to the ontology file (e.g., CityWatch_Ontology.ttl)
+     * @param outputTTL   Path to the output TTL file that will contain the inferred triples
+     */
+    public static void performReasoning(String inputTTL, String ontologyTTL, String outputTTL) {
+        try {
+            long start = System.currentTimeMillis();
+
+            // 1. Load the complete RDF data model from the input TTL file
+            Model dataModel = RDFDataMgr.loadModel(inputTTL);
+
+            // 2. Load the ontology model and bind it to an RDFS reasoner
+            Model ontologyModel = RDFDataMgr.loadModel(ontologyTTL);
+            Reasoner reasoner = ReasonerRegistry.getRDFSReasoner().bindSchema(ontologyModel);
+
+            // 3. Create an inference model using the data and the reasoner
+            InfModel infModel = ModelFactory.createInfModel(reasoner, dataModel);
+
+            // 4. Write the inferred model to the output TTL file
+            RDFDataMgr.write(new FileOutputStream(outputTTL), infModel, RDFFormat.TURTLE_PRETTY);
+
+            long end = System.currentTimeMillis();
+            System.out.println("Reasoning completed in " + (end - start) + " ms");
+            System.out.println("Output written to: " + outputTTL);
+
+            infModel.close();
+            dataModel.close();
+        } catch (Exception e) {
+            System.err.println("Reasoning failed:");
+            e.printStackTrace();
+        }
+    }
+
+//    public void buildKGURIMap(List<String[]> rows) {
+//        Set<String> uniqueWeather = new HashSet<>();
+//        Set<String> uniqueLighting = new HashSet<>();
+//
+//        for (String[] row : rows) {
+//            if (columnIndex.containsKey("weather_condition")) {
+//                String val = row[columnIndex.get("weather_condition")].trim();
+//                if (!val.isEmpty()) uniqueWeather.add(val);
+//            }
+//            if (columnIndex.containsKey("lighting_condition")) {
+//                String val = row[columnIndex.get("lighting_condition")].trim();
+//                if (!val.isEmpty()) uniqueLighting.add(val);
+//            }
+//        }
+//
+//        System.out.println("Unique weather: " + uniqueWeather.size() + ", lighting: " + uniqueLighting.size());
+//
+//        for (String value : uniqueWeather) {
+//            if (!kgCache.containsKey(value)) {
+//                String uri = getKGURIFromGoogle(value, "weather_condition");
+//                if (uri != null) kgCache.put(value, uri);
+//            }
+//        }
+//
+//        for (String value : uniqueLighting) {
+//            if (!kgCache.containsKey(value)) {
+//                String uri = getKGURIFromWikidata(value);
+//                if (uri != null) kgCache.put(value, uri);
+//            }
+//        }
+//    }
+
+    public void buildKGURIMap(Set<String> weatherValues, Set<String> lightingValues) {
+        for (String value : weatherValues) {
+            if (!kgCache.containsKey(value)) {
+                String uri = getKGURIFromGoogle(value, "weather_condition");
+                if (uri != null) kgCache.put(value, uri);
+            }
+        }
+
+        for (String value : lightingValues) {
+            if (!kgCache.containsKey(value)) {
+                String uri = getKGURIFromWikidata(value);
+                if (uri != null) kgCache.put(value, uri);
+            }
+        }
+    }
 
     public static void main(String[] args) {
         try {
 
-            ensureOutputDirectoriesExist();
+//            ensureOutputDirectoriesExist(outputFolder);
             String inputCSV = "cw_part2/files/CityWatch_Dataset.csv";
             String ontologyFile = "cw_part2/files/CityWatch_Ontology.ttl";
             String outputFolder = "cw_part2/files/output";
             clearOutputDirectory(outputFolder);
 
-            Map<String, Integer> colIndex = new HashMap<>();
-            CSVReader reader = new CSVReader(new FileReader(inputCSV));
-            String[] headers = reader.readNext();
-            for (int i = 0; i < headers.length; i++) {
-                colIndex.put(headers[i], i);
-            }
+//    //             RDF 1& RDF2
+//            long startDefault = System.currentTimeMillis();
+//            DefaultRDFGeneration(inputCSV, ontologyFile);
+//            long endDefault = System.currentTimeMillis();
+//            System.out.println("DefaultRDFGeneration finished in " + (endDefault - startDefault) + " ms\n");
 
-            int batchSize = 1000;
-            List<String[]> batch = new ArrayList<>();
-            String[] line;
-            System.out.println("=== Generating DEFAULT RDF (no KG reuse) ===");
-            RDFBuilder builderDefault = new RDFBuilder(inputCSV, ontologyFile, colIndex);
-            builderDefault.setKGSource(KGSource.NONE);
-
-            int batchIndex = 0;
-// full-version
-//            reader = new CSVReader(new FileReader(inputCSV));
-//            reader.readNext();  // skip header
-//            batch.clear();
+////             RDF 3.1
+//            long startGoogle = System.currentTimeMillis();
+////            GoogleKGReuse(inputCSV, ontologyFile, 20);
+//           GoogleKGReuse(inputCSV, ontologyFile);
+//            long endGoogle = System.currentTimeMillis();
+//            System.out.println("GoogleKGReuse finished in " + (endGoogle - startGoogle) + " ms\n");
 //
+////             RDF3.2
+//            long startWikidata = System.currentTimeMillis();
+//            WikidataKGReuse(inputCSV, ontologyFile);
+////           WikidataKGReuse(inputCSV, ontologyFile,20);
+//            long endWikidata = System.currentTimeMillis();
+//            System.out.println("WikidataKGReuse finished in " + (endWikidata - startWikidata) + " ms\n");
 //
-//
-//            while ((line = reader.readNext()) != null) {
-//                batch.add(line);
-//                if (batch.size() >= batchSize) {
-//                    builderDefault.processBatch(batch, batchIndex++);
-//                    batch.clear();
-//                }
-//            }
-//            if (!batch.isEmpty()) {
-//                builderDefault.processBatch(batch, batchIndex);
-//            }
-//            reader.close();
-//
-//            String mergedDefault = "cw_part2/files/output/CityWatch_Default.ttl";
-//            builderDefault.mergeBatches(batchIndex + 1, mergedDefault);
-
-
-            // quick test:    Only the first 20 rows of data are mapped
-            int maxRows = 20;
-            int currentCount = 0;
-
-            reader = new CSVReader(new FileReader(inputCSV));
-            reader.readNext();  // skip header
-            batch.clear();
-
-            while ((line = reader.readNext()) != null && currentCount < maxRows) {
-                batch.add(line);
-                currentCount++;
-            }
-            reader.close();
-
-            builderDefault.processBatch(batch, 0);
-
-            String mergedDefault = "cw_part2/files/output/CityWatch_Default_Test20.ttl";
-            builderDefault.mergeBatches(1, mergedDefault);
-
-            quickCheckRDF(mergedDefault);
-
-            // quick test:    Only the first 20 rows of data are mapped
-            System.out.println("=== Starting KG mode: Google Knowledge Graph ===");
-            RDFBuilder builderGKG = new RDFBuilder(inputCSV, ontologyFile, colIndex);
-            builderGKG.setKGSource(KGSource.GOOGLE);
-
-            // quick test:    Only the first 20 rows of data are mapped
-            int maxRows2 = 20;
-            int currentCount2 = 0;
-            reader = new CSVReader(new FileReader(inputCSV));
-            reader.readNext();
-            batch.clear();
-
-            while ((line = reader.readNext()) != null && currentCount2 < maxRows2) {
-                batch.add(line);
-                currentCount2++;
-            }
-            reader.close();
-
-            builderGKG.processBatch(batch, 0);
-            String mergedGKG = "cw_part2/files/output/CityWatch_GKG_Test20.ttl";
-            builderGKG.mergeBatches(1, mergedGKG);
-
-
-
-//        // Subtask RDF.4
-//        String reasonedOutput = "cw_part2/files/output/CityWatch_Reasoned.ttl";
-//        builderDefault.performInMemoryReasoningInBatches("cw_part2/files/output/batch", ontologyFile, reasonedOutput);
+//            // RDF.4
+            String inputTTL = "cw_part2/files/output/output_default/CityWatch_Default.ttl";
+            String outputTTL = "cw_part2/files/output/CityWatch_Reasoned.ttl";
+            performReasoning(inputTTL, ontologyFile, outputTTL);
 
         } catch (Exception e) {
             e.printStackTrace();
