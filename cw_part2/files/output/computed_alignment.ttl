@@ -9,7 +9,7 @@
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
 @prefix dc:    <http://purl.org/dc/elements/1.1/> .
 
-:RA-DEL-888  a                   :RoadAccident , owl:NamedIndividual ;
+:RA-DEL-888  a                   owl:NamedIndividual , :RoadAccident ;
         :hasAccidentDescription  "Former Tata Sons chairman Cyrus Mistry (54) and his co-passenger killed in a tragic car accident on Sunday were not wearing seat belts as per the preliminary probe, said a police officer. The vehicle was overspeeding and the driver lost control of the car while trying to overtake from the left side. \n\nAs per the primary investigation, the group of 4 â€“ Cyrus Mistry, his friend and co-passenger Jahangir Pandole, Jehangirâ€™s brother Darius and his wife Anahita, were travelling in their Mercedes-Benz GLC when their car, driven by Anahita, hit the railing of a bridge over the Surya river at Charoti in Palgar district around 3:15 pm." ;
         :involves                :CyrusMistry ;
         :occuredAtAddress        "Mumbai-Ahmedabad highway, is 43 km from Palghar in Maharashtra and about 150 km from Mumbai." ;
@@ -34,7 +34,7 @@
         rdfs:subClassOf  :MotorisedVehicle .
 
 <http://www.gosemantic.com/ontologies/roadaccident.owl#'Mercedes_GLC'>
-        a       :4WheelVehicle , owl:NamedIndividual .
+        a       owl:NamedIndividual , :4WheelVehicle .
 
 :DamageReporterWorkshop
         a                 owl:Class ;
@@ -45,7 +45,7 @@
         rdfs:subClassOf  :Victim .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasDamageAmount>
-        a                   owl:FunctionalProperty , owl:DatatypeProperty ;
+        a                   owl:DatatypeProperty , owl:FunctionalProperty ;
         rdfs:comment        "The financial impact of the damage caused by the accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "hasDamageAmount" ;
@@ -80,17 +80,17 @@
                      ] .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasWeatherCondition>
-        a                   owl:IrreflexiveProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:FunctionalProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates the weather conditions at the time of the accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "hasWeatherCondition" ;
         rdfs:range          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> ;
         rdfs:subPropertyOf  owl:topObjectProperty .
 
-:AIIMS-Delhi  a  :GovernmentHospital , owl:NamedIndividual .
+:AIIMS-Delhi  a  owl:NamedIndividual , :GovernmentHospital .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadDefect>
-        a             owl:IrreflexiveProperty , owl:ObjectProperty ;
+        a             owl:ObjectProperty , owl:IrreflexiveProperty ;
         rdfs:comment  "hasRoadDefect indicates that there is defect in road." ;
         rdfs:domain   <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
         rdfs:label    "hasRoadDefect" ;
@@ -100,7 +100,7 @@
         :About  "a fatal injury is one which causes death less than 30 days after the accident;\na fatal accident is an accident in which at least one person is fatally injured;\na serious injury is one which does not cause death less than 30 days after the accident, and which is in one (or more) of the following categories:" .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesPerson>
-        a             owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:ObjectProperty ;
+        a             owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment  "Indicates that a person (such as a driver, passenger, or pedestrian) is involved in the accident." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "involvesPerson" ;
@@ -118,7 +118,7 @@
         rdfs:subClassOf  :4WheelVehicle .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadCondition>
-        a                   owl:IrreflexiveProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:FunctionalProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates state of road condition at the time of the accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "hasRoadCondition" ;
@@ -133,33 +133,14 @@
 xsd:dateTime  a  rdfs:Datatype .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#occurAt>
-        a             owl:AsymmetricProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a             owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
         rdfs:comment  "Indicates the location involvement in the at the time of the accident." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "occurAt" ;
         rdfs:range    <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> .
 
-:Jhonson  a     :DamageReporterWorkshop , owl:NamedIndividual .
-
 :hasAccidentLongitude
         a            owl:DatatypeProperty ;
-        rdfs:domain  :RoadAccident ;
-        rdfs:range   xsd:string .
-
-:FirstAid  a    :Treatment , owl:NamedIndividual .
-
-:hasAge  a           owl:DatatypeProperty ;
-        rdfs:domain  :Person ;
-        rdfs:range   xsd:string .
-
-<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAccidentType>
-        a             owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:ObjectProperty ;
-        rdfs:comment  "indicates classification at the time of the accident." ;
-        rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
-        rdfs:label    "hasAccidentType" ;
-        rdfs:range    <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
-
-:hasCauseOfAccident  a  owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
 
@@ -168,6 +149,25 @@ xsd:dateTime  a  rdfs:Datatype .
         rdfs:comment     "A device that controls vehicle and pedestrian traffic using lights (e.g., red, yellow, green signals)." ;
         rdfs:label       "TrafficSignal" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
+
+:hasAge  a           owl:DatatypeProperty ;
+        rdfs:domain  :Person ;
+        rdfs:range   xsd:string .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAccidentType>
+        a             owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+        rdfs:comment  "indicates classification at the time of the accident." ;
+        rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        rdfs:label    "hasAccidentType" ;
+        rdfs:range    <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
+
+:FirstAid  a    owl:NamedIndividual , :Treatment .
+
+:hasCauseOfAccident  a  owl:DatatypeProperty ;
+        rdfs:domain  :RoadAccident ;
+        rdfs:range   xsd:string .
+
+:Jhonson  a     owl:NamedIndividual , :DamageReporterWorkshop .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Driver>
         a                owl:Class ;
@@ -195,9 +195,9 @@ xsd:dateTime  a  rdfs:Datatype .
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Collision> .
 
 <http://www.gosemantic.com/ontologies/roadaccident.owl#'Euro_NCAP'>
-        a       :VehicleManufacturer , owl:NamedIndividual .
+        a       owl:NamedIndividual , :VehicleManufacturer .
 
-:INCID-2029202  a    :InsuranceId , owl:NamedIndividual ;
+:INCID-2029202  a    owl:NamedIndividual , :InsuranceId ;
         :providedBy  :TATA-AIG .
 
 :InformedToPolice  a     owl:Class ;
@@ -216,14 +216,14 @@ xsd:dateTime  a  rdfs:Datatype .
         rdfs:label       "TrafficSign" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
 
-:NoInjury  a    :Casualities , owl:NamedIndividual .
-
-:VehicleManufacturer  a  owl:Class ;
-        rdfs:subClassOf  :Non-Government .
+:NoInjury  a    owl:NamedIndividual , :Casualities .
 
 :occuredAtPlace  a   owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
+
+:VehicleManufacturer  a  owl:Class ;
+        rdfs:subClassOf  :Non-Government .
 
 :PrivateHospital  a      owl:Class ;
         rdfs:subClassOf  :Non-Government .
@@ -269,12 +269,12 @@ xsd:dateTime  a  rdfs:Datatype .
 :Tractor  a              owl:Class ;
         rdfs:subClassOf  :4WheelVehicle .
 
-:reportedToPolice  a  owl:DatatypeProperty ;
-        rdfs:domain  :RoadAccident ;
-        rdfs:range   xsd:string .
-
 :hasRoadDivider  a   owl:DatatypeProperty ;
         rdfs:domain  :Road ;
+        rdfs:range   xsd:string .
+
+:reportedToPolice  a  owl:DatatypeProperty ;
+        rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
 
 :About  a                   owl:AnnotationProperty ;
@@ -285,14 +285,14 @@ xsd:dateTime  a  rdfs:Datatype .
         rdfs:range   xsd:string .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasFirstCrashType>
-        a             owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a             owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment  "The initial type of the crash (e.g., head-on, rear-end)." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "hasFirstCrashType" ;
         rdfs:range    <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasEnvironmentalCause>
-        a                   owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "indicates the environmental conditions at the time of an accident" ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:range          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCause> ;
@@ -313,26 +313,26 @@ xsd:dateTime  a  rdfs:Datatype .
         rdfs:domain  :Event ;
         rdfs:range   xsd:dateTime .
 
+:hasVehicleManufacturerName
+        a            owl:DatatypeProperty ;
+        rdfs:domain  :Vehicle ;
+        rdfs:range   xsd:string .
+
 xsd:string  a   rdfs:Datatype .
 
-:InsuranceId  a          owl:Class ;
-        rdfs:subClassOf  :OfficialDocument ;
-        :About           "Insurance is a means of protection from financial loss. It is a form of risk management, primarily used to hedge against the risk of a contingent or uncertain loss. An entity which provides insurance is known as an insurer, an insurance company, an insurance carrier or an underwriter. A person or entity who buys insurance is known as a policyholder, while a person or entity covered under the policy is called an insured. Policyholder and insured are often used as but are not necessarily synonyms, as coverage can sometimes extend to additional insureds who did not buy the insurance. The insurance transaction involves the policyholder assuming a guaranteed, known, and relatively small loss in the form of payment (premium, deductible) to the insurer in exchange for the insurer's promise to compensate the insured in the event of a covered loss. The loss may or may not be financial, but it must be reducible to financial terms. Furthermore, it usually involves something in which the insured has an insurable interest established by ownership, possession, or pre-existing relationship. The insured receives a contract, called the insurance policy, which details the conditions and circumstances under which the insurer will compensate the insured, or their designated beneficiary or assignee. The amount of money charged by the insurer to the policyholder for the coverage set forth in the insurance policy is called the premium. If the insured experiences a loss which is potentially covered by the insurance policy, the insured submits a claim to the insurer for processing by a claims adjuster. A mandatory out-of-pocket expense required by an insurance policy before an insurer will pay a claim is called a deductible (or if required by a health insurance policy, a copayment). The insurer may hedge its own risk by taking out reinsurance, whereby another insurance company agrees to carry some of the risks, especially if the primary insurer deems the risk too large for it to carry. (en)" .
-
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesVehicle>
-        a                   owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates that a vehicle (such as a car, bus, truck, motorcycle, or bicycle) is involved in the accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "involvesVehicle" ;
         rdfs:range          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> ;
         rdfs:subPropertyOf  owl:topObjectProperty .
 
-:hasVehicleManufacturerName
-        a            owl:DatatypeProperty ;
-        rdfs:domain  :Vehicle ;
-        rdfs:range   xsd:string .
+:InsuranceId  a          owl:Class ;
+        rdfs:subClassOf  :OfficialDocument ;
+        :About           "Insurance is a means of protection from financial loss. It is a form of risk management, primarily used to hedge against the risk of a contingent or uncertain loss. An entity which provides insurance is known as an insurer, an insurance company, an insurance carrier or an underwriter. A person or entity who buys insurance is known as a policyholder, while a person or entity covered under the policy is called an insured. Policyholder and insured are often used as but are not necessarily synonyms, as coverage can sometimes extend to additional insureds who did not buy the insurance. The insurance transaction involves the policyholder assuming a guaranteed, known, and relatively small loss in the form of payment (premium, deductible) to the insurer in exchange for the insurer's promise to compensate the insured in the event of a covered loss. The loss may or may not be financial, but it must be reducible to financial terms. Furthermore, it usually involves something in which the insured has an insurable interest established by ownership, possession, or pre-existing relationship. The insured receives a contract, called the insurance policy, which details the conditions and circumstances under which the insurer will compensate the insured, or their designated beneficiary or assignee. The amount of money charged by the insurer to the policyholder for the coverage set forth in the insurance policy is called the premium. If the insured experiences a loss which is potentially covered by the insurance policy, the insured submits a claim to the insurer for processing by a claims adjuster. A mandatory out-of-pocket expense required by an insurance policy before an insurer will pay a claim is called a deductible (or if required by a health insurance policy, a copayment). The insurer may hedge its own risk by taking out reinsurance, whereby another insurance company agrees to carry some of the risks, especially if the primary insurer deems the risk too large for it to carry. (en)" .
 
-:ABC-90920293  a  :Aadhar , owl:NamedIndividual .
+:ABC-90920293  a  owl:NamedIndividual , :Aadhar .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#SurfaceDamage>
         a                owl:Class ;
@@ -369,11 +369,11 @@ xsd:string  a   rdfs:Datatype .
         rdfs:domain  :PoliceStation ;
         rdfs:range   :RoadAccident .
 
-:TAR-Road  a    :Road , owl:NamedIndividual .
-
 :hasVehicleType  a   owl:ObjectProperty ;
         rdfs:domain  :Victim ;
         rdfs:range   :Vehicle .
+
+:TAR-Road  a    owl:NamedIndividual , :Road .
 
 :2wheelVehicle  a        owl:Class ;
         rdfs:subClassOf  :MotorisedVehicle .
@@ -381,34 +381,38 @@ xsd:string  a   rdfs:Datatype .
 :InsuranceProvider  a    owl:Class ;
         rdfs:subClassOf  :Non-Government .
 
+:Organisation  a  owl:Class .
+
 :4Wheeler  a             owl:Class ;
         rdfs:subClassOf  :NonMotorisedVehicle .
 
-:Organisation  a  owl:Class .
+:hasInusrance  a     owl:DatatypeProperty ;
+        rdfs:domain  :MotorisedVehicle ;
+        rdfs:range   xsd:boolean .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident>
         a                owl:Class ;
         rdfs:comment     "Indicates an individual traffic accident that occurs on a roadway, involving one or more vehicles, pedestrians, or environmental factors." ;
         rdfs:label       "TrafficAccident" ;
-        rdfs:subClassOf  [ a                   owl:Restriction ;
-                           owl:onProperty      <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDate> ;
-                           owl:someValuesFrom  xsd:dateTime
-                         ] ;
         rdfs:subClassOf  [ a                  owl:Restriction ;
-                           owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> ;
-                           owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasWeatherCondition>
-                         ] ;
-        rdfs:subClassOf  [ a                  owl:Restriction ;
-                           owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> ;
-                           owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadCondition>
+                           owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> ;
+                           owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLightingCondition>
                          ] ;
         rdfs:subClassOf  [ a                  owl:Restriction ;
                            owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> ;
                            owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasMostSevereInjury>
                          ] ;
         rdfs:subClassOf  [ a                  owl:Restriction ;
-                           owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> ;
-                           owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLightingCondition>
+                           owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> ;
+                           owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadCondition>
+                         ] ;
+        rdfs:subClassOf  [ a                  owl:Restriction ;
+                           owl:allValuesFrom  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> ;
+                           owl:onProperty     <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasWeatherCondition>
+                         ] ;
+        rdfs:subClassOf  [ a                   owl:Restriction ;
+                           owl:onProperty      <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDate> ;
+                           owl:someValuesFrom  xsd:dateTime
                          ] .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Car>
@@ -416,10 +420,6 @@ xsd:string  a   rdfs:Datatype .
         rdfs:comment     "Indicates cars involved at the time of the accidents. Such as over speeding, collision with another vehicles." ;
         rdfs:label       "Car" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
-
-:hasInusrance  a     owl:DatatypeProperty ;
-        rdfs:domain  :MotorisedVehicle ;
-        rdfs:range   xsd:boolean .
 
 :SUV    a                owl:Class ;
         rdfs:subClassOf  :4WheelVehicle .
@@ -437,7 +437,7 @@ xsd:string  a   rdfs:Datatype .
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
 
 :Anand_Parbat_Police_Station
-        a       :PoliceStation , owl:NamedIndividual .
+        a       owl:NamedIndividual , :PoliceStation .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Collision>
         a                owl:Class ;
@@ -446,14 +446,14 @@ xsd:string  a   rdfs:Datatype .
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficControlDevice>
-        a             owl:AsymmetricProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a             owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty ;
         rdfs:comment  "Indicates the type of traffic control device involved (e.g., traffic light, sign)." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "hasTrafficControlDevice" ;
         rdfs:range    <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasMostSevereInjury>
-        a                   owl:IrreflexiveProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:FunctionalProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates the most severe injury sustained in the accident" ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "hasMostSevereInjury" ;
@@ -479,6 +479,9 @@ xsd:string  a   rdfs:Datatype .
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
 
+:Tanker  a               owl:Class ;
+        rdfs:subClassOf  :MotorisedVehicle .
+
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation>
         a           owl:Class ;
         rdfs:label  "Intersection Relation" .
@@ -487,15 +490,12 @@ xsd:string  a   rdfs:Datatype .
         a           <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory> ;
         rdfs:label  "INJURY AND / OR TOW DUE TO CRASH" .
 
-:Tanker  a               owl:Class ;
-        rdfs:subClassOf  :MotorisedVehicle .
-
 :occuredAtAddress  a  owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasDriverRelatedCause>
-        a                   owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates the driver-related conditions at the time of an accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:range          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DriverRelatedCause> ;
@@ -517,7 +517,7 @@ cw:     a               owl:Ontology ;
 dc:creator  a   owl:AnnotationProperty .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLightingCondition>
-        a             owl:IrreflexiveProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a             owl:ObjectProperty , owl:FunctionalProperty , owl:IrreflexiveProperty ;
         rdfs:comment  "Indicates classification by lighting condition at the time of the accident." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "hasLightingCondition" ;
@@ -527,7 +527,7 @@ dc:creator  a   owl:AnnotationProperty .
         rdfs:subClassOf  :Government .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasNumberOfPeople>
-        a             owl:FunctionalProperty , owl:DatatypeProperty ;
+        a             owl:DatatypeProperty , owl:FunctionalProperty ;
         rdfs:comment  "Indicates the total number of people involved in the traffic accident." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "hasNumberOfPeople" ;
@@ -545,7 +545,7 @@ dc:creator  a   owl:AnnotationProperty .
         rdfs:label       "Truck" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
 
-:Yes    a       :ReportedToHospital , :ReportedTheDamage , :ReportedTheAccident , :InformedToPolice , owl:NamedIndividual .
+:Yes    a       owl:NamedIndividual , :InformedToPolice , :ReportedTheAccident , :ReportedTheDamage , :ReportedToHospital .
 
 :ReportedTheDamage  a    owl:Class ;
         rdfs:subClassOf  :Event .
@@ -563,10 +563,10 @@ dc:creator  a   owl:AnnotationProperty .
         rdfs:label   "has traffic accident type category" ;
         rdfs:range   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory> .
 
-:TATA   a       :VehicleManufacturer , owl:NamedIndividual .
-
 :Aadhar  a               owl:Class ;
         rdfs:subClassOf  :OfficialDocument .
+
+:TATA   a       owl:NamedIndividual , :VehicleManufacturer .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident_NoInjuryDriveAway>
         a           <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory> ;
@@ -578,7 +578,7 @@ dc:creator  a   owl:AnnotationProperty .
         rdfs:label       "Snow" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> .
 
-:PoliceOfficer-1  a  :AccidentExaminer , owl:NamedIndividual .
+:PoliceOfficer-1  a  owl:NamedIndividual , :AccidentExaminer .
 
 :District  a             owl:Class ;
         rdfs:subClassOf  :State .
@@ -599,11 +599,11 @@ dc:creator  a   owl:AnnotationProperty .
                      ] ;
         rdfs:range   :Treatment .
 
-:ReportedTheAccident  a  owl:Class ;
-        rdfs:subClassOf  :Event .
-
 :Pedestrian  a           owl:Class ;
         rdfs:subClassOf  :Victim .
+
+:ReportedTheAccident  a  owl:Class ;
+        rdfs:subClassOf  :Event .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Fog>
         a                owl:Class ;
@@ -625,7 +625,7 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label    "injuriesInCapacitating" ;
         rdfs:range    xsd:int .
 
-:Killed  a      :Casualities , owl:NamedIndividual .
+:Killed  a      owl:NamedIndividual , :Casualities .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect>
         a             owl:Class ;
@@ -638,20 +638,20 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label   "is intersection related" ;
         rdfs:range   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation> .
 
-:MajorInjury  a  :Casualities , owl:NamedIndividual .
+:MajorInjury  a  owl:NamedIndividual , :Casualities .
 
 :3Wheeler  a             owl:Class ;
         rdfs:subClassOf  :NonMotorisedVehicle .
 
-:Jama_Masjid_Police_Station
-        a       :PoliceStation , owl:NamedIndividual .
+:occuredOnRoad  a    owl:ObjectProperty ;
+        rdfs:domain  :RoadAccident ;
+        rdfs:range   :Road .
 
 :ThreeWheelVehicle  a    owl:Class ;
         rdfs:subClassOf  :MotorisedVehicle .
 
-:occuredOnRoad  a    owl:ObjectProperty ;
-        rdfs:domain  :RoadAccident ;
-        rdfs:range   :Road .
+:Jama_Masjid_Police_Station
+        a       owl:NamedIndividual , :PoliceStation .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DawnLight>
         a                owl:Class ;
@@ -659,20 +659,20 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label       "DawnLight" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> .
 
-:MinorInjury  a  :Casualities , owl:NamedIndividual .
+:DL-983833838  a  owl:NamedIndividual , <http://www.gosemantic.com/ontologies/roadaccident.owl#Driver'sLicense> .
 
-:DL-983833838  a  <http://www.gosemantic.com/ontologies/roadaccident.owl#Driver'sLicense> , owl:NamedIndividual .
-
-:Chandani_Mahal_Police_Station
-        a             :PoliceStation , owl:NamedIndividual ;
-        :Investigate  :RA-EXAMPLE-1 .
-
-:State  a                owl:Class ;
-        rdfs:subClassOf  :Country .
+:MinorInjury  a  owl:NamedIndividual , :Casualities .
 
 :occuredOnHoliday  a  owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:boolean .
+
+:Chandani_Mahal_Police_Station
+        a             owl:NamedIndividual , :PoliceStation ;
+        :Investigate  :RA-EXAMPLE-1 .
+
+:State  a                owl:Class ;
+        rdfs:subClassOf  :Country .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NoInjury>
         a                owl:Class ;
@@ -691,7 +691,7 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label    "TrafficAccidentSeverity" .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAlignment>
-        a                   owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "The alignment of the road where the accident occurred (e.g., straight, curved)." ;
         rdfs:domain         <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
         rdfs:label          "hasAlignment" ;
@@ -699,7 +699,7 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:subPropertyOf  owl:topObjectProperty .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause>
-        a                   owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:FunctionalProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "indicates primary cause at the time of the accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "hasTrafficAccidentCause" ;
@@ -712,7 +712,7 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:range   xsd:string .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasNumberOfVehicles>
-        a                   owl:FunctionalProperty , owl:DatatypeProperty ;
+        a                   owl:DatatypeProperty , owl:FunctionalProperty ;
         rdfs:comment        "Indicates the total number of vehicles involved in the traffic accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label          "hasNumberOfVehicles" ;
@@ -729,23 +729,28 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:domain  :Person ;
         rdfs:range   xsd:string .
 
-:TATA-AIG  a    :InsuranceProvider , owl:NamedIndividual .
+:TATA-AIG  a    owl:NamedIndividual , :InsuranceProvider .
 
-:Mahindra_XUV700  a                  :SUV , owl:NamedIndividual ;
+:atTime  a           owl:DatatypeProperty ;
+        rdfs:domain  :RoadAccident ;
+        rdfs:range   xsd:string .
+
+:Treatment  a             owl:Class ;
+        rdfs:isDefinedBy  "The Type of Treatment provided to the Paitent like First-Aid , Major surgery etc" .
+
+:providedBy  a       owl:ObjectProperty ;
+        rdfs:domain  :InsuranceId ;
+        rdfs:range   :InsuranceProvider .
+
+:Place  a                 owl:Class ;
+        rdfs:isDefinedBy  "A place where Accident Occured" .
+
+:Mahindra_XUV700  a                  owl:NamedIndividual , :SUV ;
         :hasMake                     "Make-hybrid-eng-2292" ;
         :hasModel                    "Model-Engine-2992292" ;
         :hasRegistrationNumber       "VIN-92992932923" ;
         :hasVehicleAge               "3 Yrs." ;
         :hasVehicleManufacturerName  "Mahindra" .
-
-:Victim  a               owl:Class ;
-        rdfs:subClassOf  :Person .
-
-:Treatment  a             owl:Class ;
-        rdfs:isDefinedBy  "The Type of Treatment provided to the Paitent like First-Aid , Major surgery etc" .
-
-:Place  a                 owl:Class ;
-        rdfs:isDefinedBy  "A place where Accident Occured" .
 
 :hasNonSafetyCondition
         a            owl:DatatypeProperty ;
@@ -778,9 +783,8 @@ rdf:PlainLiteral  a  rdfs:Datatype .
                                   ]
                      ] .
 
-:providedBy  a       owl:ObjectProperty ;
-        rdfs:domain  :InsuranceId ;
-        rdfs:range   :InsuranceProvider .
+:Victim  a               owl:Class ;
+        rdfs:subClassOf  :Person .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition>
         a                owl:Class ;
@@ -788,7 +792,9 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label       "LightingCondition" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition> .
 
-:AnandKumar  a  :ClaimOfficer , owl:NamedIndividual .
+:ClaimOfficer  a          owl:Class ;
+        rdfs:isDefinedBy  "A person who approves the claim field by Insurer in case of Accident" ;
+        rdfs:subClassOf   :Person .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Obstacles>
         a                owl:Class ;
@@ -796,18 +802,12 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label       "Obstacles" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect> .
 
-:ClaimOfficer  a          owl:Class ;
-        rdfs:isDefinedBy  "A person who approves the claim field by Insurer in case of Accident" ;
-        rdfs:subClassOf   :Person .
+:AnandKumar  a  owl:NamedIndividual , :ClaimOfficer .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition>
         a             owl:Class ;
         rdfs:comment  "Captures lighting, road, weather conditions at the time of the accident." ;
         rdfs:label    "EnvironmentalCondition" .
-
-:atTime  a           owl:DatatypeProperty ;
-        rdfs:domain  :RoadAccident ;
-        rdfs:range   xsd:string .
 
 :RoadAccident  a         owl:Class ;
         rdfs:subClassOf  :Event ;
@@ -823,7 +823,7 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:range   xsd:string .
 
 <http://www.gosemantic.com/ontologies/roadaccident.owl#'Delhi_heart_&_lung_institute_Super_Speciality_Hospital'>
-        a       :PrivateHospital , owl:NamedIndividual .
+        a       owl:NamedIndividual , :PrivateHospital .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesReportedNotEvident>
         a             owl:DatatypeProperty ;
@@ -864,14 +864,14 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         owl:versionInfo  "1.0.0"@en .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDate>
-        a             owl:FunctionalProperty , owl:DatatypeProperty ;
+        a             owl:DatatypeProperty , owl:FunctionalProperty ;
         rdfs:comment  "Indicate the time the accident occurred." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "crashDate" ;
         rdfs:range    xsd:dateTime .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesTotal>
-        a             owl:FunctionalProperty , owl:DatatypeProperty ;
+        a             owl:DatatypeProperty , owl:FunctionalProperty ;
         rdfs:comment  "The total number of injuries reported." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "injuriesTotal" ;
@@ -908,6 +908,10 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
 
+[ a            owl:AllDisjointClasses ;
+  owl:members  ( :MilitaryTruck :SUV :Sedan :Tanker :Tractor )
+] .
+
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Icy>
         a                owl:Class ;
         rdfs:comment     "Crash incident occurred in icy road condition." ;
@@ -920,16 +924,16 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:label       "Dry" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> .
 
+xsd:boolean  a  rdfs:Datatype .
+
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Wet>
         a                owl:Class ;
         rdfs:comment     "Crash incident occurred in wet road condition." ;
         rdfs:label       "Wet" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> .
 
-xsd:boolean  a  rdfs:Datatype .
-
 :CyrusMistry  a                     owl:NamedIndividual ;
-        :hasNonSafetyCondition      "PassengerSeatBeltOFFwhenPassengerSeated" , "OverSpeeding" ;
+        :hasNonSafetyCondition      "OverSpeeding" , "PassengerSeatBeltOFFwhenPassengerSeated" ;
         :sufferedTypeOfCasualities  :Killed .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Intersection_N>
@@ -995,15 +999,15 @@ xsd:boolean  a  rdfs:Datatype .
         rdfs:domain  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:range   xsd:integer .
 
-:OfficialDocument  a  owl:Class .
-
-:Non-Government  a       owl:Class ;
-        rdfs:subClassOf  :Organisation .
-
 :hasVehicleManufacturer
         a            owl:ObjectProperty ;
         rdfs:domain  :MotorisedVehicle ;
         rdfs:range   :VehicleManufacturer .
+
+:Non-Government  a       owl:Class ;
+        rdfs:subClassOf  :Organisation .
+
+:OfficialDocument  a  owl:Class .
 
 <http://www.gosemantic.com/ontologies/roadaccident.owl#hasDriver'sLicence>
         a            owl:ObjectProperty ;
@@ -1038,10 +1042,6 @@ xsd:boolean  a  rdfs:Datatype .
 
 owl:versionInfo  a  owl:AnnotationProperty .
 
-[ a            owl:AllDisjointClasses ;
-  owl:members  ( :MilitaryTruck :SUV :Sedan :Tanker :Tractor )
-] .
-
 :Vehicle  a     owl:Class .
 
 :4WheelVehicle  a        owl:Class ;
@@ -1055,19 +1055,19 @@ owl:versionInfo  a  owl:AnnotationProperty .
         rdfs:subClassOf  :4WheelVehicle .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasVehicleRelatedCause>
-        a                   owl:IrreflexiveProperty , owl:AsymmetricProperty , owl:ObjectProperty ;
+        a                   owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates the vehicle-related conditions at the time of an accident." ;
         rdfs:domain         <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:range          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#VehicleRelatedCause> ;
         rdfs:subPropertyOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause> .
+
+rdfs:isDefinedBy  a  owl:AnnotationProperty .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#HighwayRoad>
         a                owl:Class ;
         rdfs:comment     "The type of roadway accident involved in the highway road." ;
         rdfs:label       "HighwayRoad" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType> .
-
-rdfs:isDefinedBy  a  owl:AnnotationProperty .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NonCollision>
         a                owl:Class ;
@@ -1090,15 +1090,15 @@ rdfs:isDefinedBy  a  owl:AnnotationProperty .
         rdfs:comment  "Captures accidents which at the time of the accidents involving bicycles, buses, cars, motorcycles, trucks." ;
         rdfs:label    "Vehicle" .
 
-:Victim-1  a                    :Victim , owl:NamedIndividual ;
+xsd:integer  a  rdfs:Datatype .
+
+:Victim-1  a                    owl:NamedIndividual , :Victim ;
         :hasAge                 "35 Yrs." ;
         <http://www.gosemantic.com/ontologies/roadaccident.owl#hasDriver'sLicence>
                 :DL-983833838 ;
         :hasInsuranceID         :INCID-2029202 ;
-        :hasNonSafetyCondition  "driverSeatBeltOFF" , "Drunked" ;
+        :hasNonSafetyCondition  "Drunked" , "driverSeatBeltOFF" ;
         :hasSex                 "Female" .
-
-xsd:integer  a  rdfs:Datatype .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Intersection_Y>
         a           <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation> ;
@@ -1127,7 +1127,7 @@ xsd:integer  a  rdfs:Datatype .
         rdfs:subClassOf   :Vehicle .
 
 :Nabi_Karim_Police_Station
-        a       :PoliceStation , owl:NamedIndividual .
+        a       owl:NamedIndividual , :PoliceStation .
 
 :Road   a       owl:Class ;
         :About  "A road is a linear way for the conveyance of traffic that mostly has an improved surface for use by vehicles (motorized and non-motorized) and pedestrians." .
@@ -1169,7 +1169,7 @@ xsd:integer  a  rdfs:Datatype .
                                   ]
                      ] .
 
-:RA-EXAMPLE-1  a                  :RoadAccident , owl:NamedIndividual ;
+:RA-EXAMPLE-1  a                  owl:NamedIndividual , :RoadAccident ;
         :hasAccidentDescription   "A middle aged woman in drunked state hit the divider near chandni chawk at around 10:30 PM sunday Night on 11th Sept 2022" ;
         :hasRoadAccidentLocation  "chandini chawk" ;
         :involves                 :Victim-1 ;
@@ -1193,11 +1193,11 @@ xsd:integer  a  rdfs:Datatype .
 :Event  a                 owl:Class ;
         rdfs:isDefinedBy  "An Event is an abstract happening of things at a particular time" .
 
-:No     a       :ReportedToHospital , :ReportedTheDamage , :ReportedTheAccident , :InformedToPolice , owl:NamedIndividual .
-
 :UnknownVictim  a         owl:Class ;
         rdfs:isDefinedBy  "Accident occured but no victim reported." ;
         rdfs:subClassOf   :Victim .
+
+:No     a       owl:NamedIndividual , :InformedToPolice , :ReportedTheAccident , :ReportedTheDamage , :ReportedToHospital .
 
 rdfs:label  a   owl:AnnotationProperty .
 
