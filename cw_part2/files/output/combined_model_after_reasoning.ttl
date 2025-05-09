@@ -1,0 +1,1884 @@
+<http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentDescription>
+                "Former Tata Sons chairman Cyrus Mistry (54) and his co-passenger killed in a tragic car accident on Sunday were not wearing seat belts as per the preliminary probe, said a police officer. The vehicle was overspeeding and the driver lost control of the car while trying to overtake from the left side. \n\nAs per the primary investigation, the group of 4 â€“ Cyrus Mistry, his friend and co-passenger Jahangir Pandole, Jehangirâ€™s brother Darius and his wife Anahita, were travelling in their Mercedes-Benz GLC when their car, driven by Anahita, hit the railing of a bridge over the Surya river at Charoti in Palgar district around 3:15 pm." ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#involves>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#CyrusMistry> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#occuredAtAddress>
+                "Mumbai-Ahmedabad highway, is 43 km from Palghar in Maharashtra and about 150 km from Mumbai." ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#occuredOnDaysOfTheWeek>
+                "Sunday" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#onDate>
+                "4th Sep" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#weatherCondition>
+                "Sunny" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Passenger>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the passenger activities at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Passenger" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#VehicleRelatedCause>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Vehicle related cause captures the machine or equipment failure of vehicle such break failure, tire issues." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "VehicleRelatedCause" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentCause> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#HeavyGoodsVehicleTruck>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#'Mercedes_GLC'>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#4WheelVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#DamageReporterWorkshop>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "A person at Repair workshop who reported the actual damage to the Vehicle" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Driver>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasDamageAmount>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The financial impact of the damage caused by the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasDamageAmount" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topDataProperty> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#SeriousInjury>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "A severe but non-fatal injury that incapacitates the person and requires medical attention." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "SeriousInjury" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasSafetyCondition>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                [ a       <http://www.w3.org/2000/01/rdf-schema#Datatype> ;
+                  <http://www.w3.org/2002/07/owl#oneOf>
+                          [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                    "AllGateClosedproperly" ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                    [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                              "NotOverSpeeding" ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                              [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                        "PassengerSeatBeltOn" ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                        [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                  "driverSeatBeltOn" ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                  [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                            "notTalkingOnPhone" ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                            ()
+                                                                  ]
+                                                        ]
+                                              ]
+                                    ]
+                          ]
+                ] .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasWeatherCondition>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the weather conditions at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasWeatherCondition" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topObjectProperty> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#AIIMS-Delhi>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#GovernmentHospital> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadDefect>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "hasRoadDefect indicates that there is defect in road." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasRoadDefect" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Casualities>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#About>
+                "a fatal injury is one which causes death less than 30 days after the accident;\na fatal accident is an accident in which at least one person is fatally injured;\na serious injury is one which does not cause death less than 30 days after the accident, and which is in one (or more) of the following categories:" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesPerson>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates that a person (such as a driver, passenger, or pedestrian) is involved in the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "involvesPerson" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Government>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Organisation> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The type of traffic control device involved (e.g., traffic light, sign)." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficControlDevice" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#MilitaryTruck>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#4WheelVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadCondition>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates state of road condition at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasRoadCondition" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topObjectProperty> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentSeverityLevel>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.w3.org/2001/XMLSchema#dateTime>
+        a       <http://www.w3.org/2000/01/rdf-schema#Datatype> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#occurAt>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the location involvement in the at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "occurAt" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficSignal>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "A device that controls vehicle and pedestrian traffic using lights (e.g., red, yellow, green signals)." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficSignal" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentLongitude>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAccidentType>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "indicates classification at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasAccidentType" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#FirstAid>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Treatment> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasAge>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasCauseOfAccident>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Jhonson>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#DamageReporterWorkshop> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Driver>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the driver activities at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Driver" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Country>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Place> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DayLight>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in Day Light." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "DayLight" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasVehicleAge>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#ObjectCollision>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash caused by object collision such as metal rod in road or stone object in road or a physical object caused crash." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "ObjectCollision" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Collision> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#'Euro_NCAP'>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#VehicleManufacturer> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#INCID-2029202>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceId> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#providedBy>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#TATA-AIG> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#InformedToPolice>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasTreatmentProvider>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Treatment> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                [ a       <http://www.w3.org/2002/07/owl#Class> ;
+                  <http://www.w3.org/2002/07/owl#unionOf>
+                          ( <http://www.gosemantic.com/ontologies/roadaccident.owl#GovernmentHospital> <http://www.gosemantic.com/ontologies/roadaccident.owl#PrivateHospital> )
+                ] .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficSign>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates regulatory and warning signs used to control traffic and inform drivers" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficSign" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#NoInjury>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Casualities> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#occuredAtPlace>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#VehicleManufacturer>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Non-Government> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#PrivateHospital>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Non-Government> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#involves>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#occuredOnDaysOfTheWeek>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                [ a       <http://www.w3.org/2000/01/rdf-schema#Datatype> ;
+                  <http://www.w3.org/2002/07/owl#oneOf>
+                          [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                    "Friday" ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                    [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                              "Monday" ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                              [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                        "Saturday" ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                        [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                  "Sunday" ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                  [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                            "Thursday" ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                            [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                              <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                      "Tuesday" ;
+                                                                              <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                      [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                                "Weekdays" ;
+                                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                                [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                                                  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                                          "Weekend" ;
+                                                                                                  <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                                          [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                                                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                                                    "wednesday" ;
+                                                                                                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                                                    ()
+                                                                                                          ]
+                                                                                                ]
+                                                                                      ]
+                                                                            ]
+                                                                  ]
+                                                        ]
+                                              ]
+                                    ]
+                          ]
+                ] .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Tractor>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#4WheelVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasRoadDivider>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#reportedToPolice>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#About>
+        a       <http://www.w3.org/2002/07/owl#AnnotationProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2000/01/rdf-schema#label> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasRoadCategory>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasFirstCrashType>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The initial type of the crash (e.g., head-on, rear-end)." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasFirstCrashType" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasEnvironmentalCause>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "indicates the environmental conditions at the time of an accident" ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCause> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasModel>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#sufferedTypeOfCasualities>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                [ a       <http://www.w3.org/2002/07/owl#Class> ;
+                  <http://www.w3.org/2002/07/owl#unionOf>
+                          ( <http://www.gosemantic.com/ontologies/roadaccident.owl#Accused> <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> )
+                ] ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Casualities> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasEventDate>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#dateTime> .
+
+<http://www.w3.org/2001/XMLSchema#string>
+        a       <http://www.w3.org/2000/01/rdf-schema#Datatype> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceId>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#OfficialDocument> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#About>
+                "Insurance is a means of protection from financial loss. It is a form of risk management, primarily used to hedge against the risk of a contingent or uncertain loss. An entity which provides insurance is known as an insurer, an insurance company, an insurance carrier or an underwriter. A person or entity who buys insurance is known as a policyholder, while a person or entity covered under the policy is called an insured. Policyholder and insured are often used as but are not necessarily synonyms, as coverage can sometimes extend to additional insureds who did not buy the insurance. The insurance transaction involves the policyholder assuming a guaranteed, known, and relatively small loss in the form of payment (premium, deductible) to the insurer in exchange for the insurer's promise to compensate the insured in the event of a covered loss. The loss may or may not be financial, but it must be reducible to financial terms. Furthermore, it usually involves something in which the insured has an insurable interest established by ownership, possession, or pre-existing relationship. The insured receives a contract, called the insurance policy, which details the conditions and circumstances under which the insurer will compensate the insured, or their designated beneficiary or assignee. The amount of money charged by the insurer to the policyholder for the coverage set forth in the insurance policy is called the premium. If the insured experiences a loss which is potentially covered by the insurance policy, the insured submits a claim to the insurer for processing by a claims adjuster. A mandatory out-of-pocket expense required by an insurance policy before an insurer will pay a claim is called a deductible (or if required by a health insurance policy, a copayment). The insurer may hedge its own risk by taking out reinsurance, whereby another insurance company agrees to carry some of the risks, especially if the primary insurer deems the risk too large for it to carry. (en)" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesVehicle>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates that a vehicle (such as a car, bus, truck, motorcycle, or bicycle) is involved in the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "involvesVehicle" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topObjectProperty> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasVehicleManufacturerName>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#ABC-90920293>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Aadhar> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#SurfaceDamage>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "surface damage  which cause accident in road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "SurfaceDamage" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Driver'sLicense>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#OfficialDocument> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Rain>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Accident happened in the rain weather." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Rain" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasMake>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DriverRelatedCause>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Driver related cause captures the human error, irregular driving behaviors or distractions." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "DriverRelatedCause" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentCause> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentCause>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Traffic accidents caused by driver related cause, environmental cause, vehicle related cause." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficAccidentCause" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Investigate>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceStation> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasVehicleType>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#TAR-Road>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#2wheelVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceProvider>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Non-Government> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates an individual traffic accident that occurs on a roadway, involving one or more vehicles, pedestrians, or environmental factors." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficAccident" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                [ a       <http://www.w3.org/2002/07/owl#Restriction> ;
+                  <http://www.w3.org/2002/07/owl#allValuesFrom>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> ;
+                  <http://www.w3.org/2002/07/owl#onProperty>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLightingCondition>
+                ] ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                [ a       <http://www.w3.org/2002/07/owl#Restriction> ;
+                  <http://www.w3.org/2002/07/owl#allValuesFrom>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> ;
+                  <http://www.w3.org/2002/07/owl#onProperty>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasMostSevereInjury>
+                ] ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                [ a       <http://www.w3.org/2002/07/owl#Restriction> ;
+                  <http://www.w3.org/2002/07/owl#allValuesFrom>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> ;
+                  <http://www.w3.org/2002/07/owl#onProperty>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasRoadCondition>
+                ] ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                [ a       <http://www.w3.org/2002/07/owl#Restriction> ;
+                  <http://www.w3.org/2002/07/owl#allValuesFrom>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> ;
+                  <http://www.w3.org/2002/07/owl#onProperty>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasWeatherCondition>
+                ] ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                [ a       <http://www.w3.org/2002/07/owl#Restriction> ;
+                  <http://www.w3.org/2002/07/owl#onProperty>
+                          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDate> ;
+                  <http://www.w3.org/2002/07/owl#someValuesFrom>
+                          <http://www.w3.org/2001/XMLSchema#dateTime>
+                ] .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Car>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates cars involved at the time of the accidents. Such as over speeding, collision with another vehicles." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Car" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasInusrance>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#boolean> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#4Wheeler>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#NonMotorisedVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Organisation>
+        a       <http://www.w3.org/2002/07/owl#Class> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#NonMotorisedVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedToHospital>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#SUV>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#4WheelVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Bicycle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates bicycle involvement at the time of the accidents. such as bicycle overtake other vehicle, wrong road crossing." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Bicycle" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Anand_Parbat_Police_Station>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceStation> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Collision>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the accidents which had direct contact with c or any stationary objects. collision accidents such as side impact, sidewipe same direction, read end, pedestrian, turning." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Collision" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficControlDevice>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the type of traffic control device involved (e.g., traffic light, sign)." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasTrafficControlDevice" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasMostSevereInjury>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the most severe injury sustained in the accident" ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasMostSevereInjury" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topObjectProperty> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashHour>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#integer> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#FatalInjury>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "An injury that results in death either at the scene or shortly after the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "FatalInjury" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentLatitude>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#onDate>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Intersection Relation" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident_InjuryOrTowDueToCrash>
+        a       <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "INJURY AND / OR TOW DUE TO CRASH" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Tanker>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#occuredAtAddress>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasDriverRelatedCause>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the driver-related conditions at the time of an accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DriverRelatedCause> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#UnknownDefect>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Unknown defect  which cause accident in road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "UnknownDefect" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Passanger>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch>
+        a       <http://www.w3.org/2002/07/owl#Ontology> ;
+        <http://purl.org/dc/elements/1.1/creator>
+                "Xun Zhang_Abhinav Sharma" ;
+        <http://www.w3.org/2002/07/owl#versionIRI>
+                <urn:absolute:1.0.0> .
+
+<http://purl.org/dc/elements/1.1/creator>
+        a       <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLightingCondition>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates classification by lighting condition at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasLightingCondition" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceStation>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Government> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasNumberOfPeople>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the total number of people involved in the traffic accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasNumberOfPeople" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRoad>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The type of roadway accident involved in the intersection road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "IntersectionRoad" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Truck>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates  truck involved at the time of the accidents. Such as speeding, collision with another vehicle or anomaly while driving." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Truck" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Yes>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#InformedToPolice> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedTheAccident> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedTheDamage> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedToHospital> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedTheDamage>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesNonIncapacitating>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the number of non-incapacitating injuries" ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "injuriesNonIncapacitating" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentTypeCategory>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "has traffic accident type category" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#TATA>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#VehicleManufacturer> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Aadhar>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#OfficialDocument> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident_NoInjuryDriveAway>
+        a       <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "NO INJURY / DRIVE AWAY" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Snow>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Accident incident happened in the snow weather." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Snow" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceOfficer-1>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#AccidentExaminer> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#District>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#State> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "TrafficAccidentType is a classification of accident types such as CollisionAccident, HumanOrAnimalCollision, NonCollisionAccident, ObjectCollision." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficAccidentType" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Captures the persons details such as Driver, Passenger, Pedestrian at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Person" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#providesTreatment>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                [ a       <http://www.w3.org/2002/07/owl#Class> ;
+                  <http://www.w3.org/2002/07/owl#unionOf>
+                          ( <http://www.gosemantic.com/ontologies/roadaccident.owl#GovernmentHospital> <http://www.gosemantic.com/ontologies/roadaccident.owl#PrivateHospital> )
+                ] ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Treatment> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedTheAccident>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Pedestrian>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Fog>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Accident incident happened in the fog weather." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Fog" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> .
+
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral>
+        a       <http://www.w3.org/2000/01/rdf-schema#Datatype> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentDescription>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesIncapacitating>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the number of incapacitating injuries." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "injuriesInCapacitating" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Killed>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Casualities> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "RoadDefect such as obstacles, structural issues, surface damage, unknown defect on the road" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "RoadDefect" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#isIntersectionRelated>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "is intersection related" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#MajorInjury>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Casualities> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#3Wheeler>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#NonMotorisedVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DawnLight>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in Dawn Light." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "DawnLight" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#ThreeWheelVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Jama_Masjid_Police_Station>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceStation> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#occuredOnRoad>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NoInjury>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates that no injury was sustained in the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "NoInjury" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#MinorInjury>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Casualities> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#occuredOnHoliday>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#boolean> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Chandani_Mahal_Police_Station>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceStation> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#Investigate>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RA-EXAMPLE-1> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#State>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Country> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#DL-983833838>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Driver'sLicense> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasRoadAccidentLocation>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the severity level of injuries sustained in a traffic accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "TrafficAccidentSeverity" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAlignment>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The alignment of the road where the accident occurred (e.g., straight, curved)." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasAlignment" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadAlignment> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topObjectProperty> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "indicates primary cause at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasTrafficAccidentCause" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentCause> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topObjectProperty> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasRegistrationNumber>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasNumberOfVehicles>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the total number of vehicles involved in the traffic accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "hasNumberOfVehicles" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.w3.org/2002/07/owl#topDataProperty> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCause>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Environmental cause captures the accidents caused by external factors such as bad weather, no visibility or bad road surface conditions." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "EnvironmentalCause" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentCause> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasSex>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#TATA-AIG>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceProvider> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the light conditions such as daylight, nightlight, darkness,dusk light, , which is important for assessment at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "LightingCondition" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#providedBy>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceId> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceProvider> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Place>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "A place where Accident Occured" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Mahindra_XUV700>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#SUV> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasMake>
+                "Make-hybrid-eng-2292" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasModel>
+                "Model-Engine-2992292" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasRegistrationNumber>
+                "VIN-92992932923" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasVehicleAge>
+                "3 Yrs." ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasVehicleManufacturerName>
+                "Mahindra" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasNonSafetyCondition>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                [ a       <http://www.w3.org/2000/01/rdf-schema#Datatype> ;
+                  <http://www.w3.org/2002/07/owl#oneOf>
+                          [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                    "AllGateNotClosedproperly" ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                    [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                              "Distracted" ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                              [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                        "Drunked" ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                        [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                  "OverSpeeding" ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                  [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                            "PassengerSeatBeltOFFwhenPassengerSeated" ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                            [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                              <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                      "TalkingOnPhone" ;
+                                                                              <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                      [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                                "driverSeatBeltOFF" ;
+                                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                                [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                                                  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                                          "notPhysicallyFit" ;
+                                                                                                  <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                                          ()
+                                                                                                ]
+                                                                                      ]
+                                                                            ]
+                                                                  ]
+                                                        ]
+                                              ]
+                                    ]
+                          ]
+                ] .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Victim>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Treatment>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "The Type of Treatment provided to the Paitent like First-Aid , Major surgery etc" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Captures lighting, road, weather conditions at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "EnvironmentalCondition" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Obstacles>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Road have obstacles which cause accident in road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Obstacles" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#AnandKumar>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ClaimOfficer> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#ClaimOfficer>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "A person who approves the claim field by Insurer in case of Accident" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#atTime>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#About>
+                "A traffic accident is defined as an accident involving at least one vehicle on a road open to public traffic in which at least one person is injured or killed.\n\nNote\nAccidents involving bodily injury are defined by the order of 27 March 2007 relating to the conditions for compiling statistics on accidents involving bodily injury." .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasInsuranceID>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceId> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasInsuranceProviderName>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#InsuranceProvider> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#'Delhi_heart_&_lung_institute_Super_Speciality_Hospital'>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#PrivateHospital> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Curved>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The alignment of the road where the accident occurred in straight road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Curved" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadAlignment> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DuskLight>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in Dusk Light." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "DuskLight" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesReportedNotEvident>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "indicates the number of reported injuries that are not visibly evident at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "injuriesReportedNotEvident" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Captures road structural and geometric conditions at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Road" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentType>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DrunkDriving>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl>
+        a       <http://www.w3.org/2002/07/owl#Ontology> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Developed by Gosemantic private Limited"@en ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#About>
+                "Road Accident Analysis"@en ;
+        <http://www.w3.org/2002/07/owl#versionIRI>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl/1.0.0> ;
+        <http://www.w3.org/2002/07/owl#versionInfo>
+                "1.0.0"@en .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDate>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicate the time the accident occurred." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "crashDate" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#dateTime> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesTotal>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> , <http://www.w3.org/2002/07/owl#FunctionalProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The total number of injuries reported." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "injuriesTotal" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#2Wheeler>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#NonMotorisedVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Pedestrian>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates pedestrian activity at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Pedestrian" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Accused>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "The Person responsible for accident" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#HumanOrAnimalCollision>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incidents caused by the human or animal collisions." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "HumanOrAnimalCollision" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Collision> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#MultiAxleHeavyGoodsvehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentTypeCategory>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Traffic Accident Type Category" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hascollisionSpot>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Icy>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in icy road condition." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Icy" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Dry>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in dry road condition." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Dry" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> .
+
+<http://www.w3.org/2001/XMLSchema#boolean>
+        a       <http://www.w3.org/2000/01/rdf-schema#Datatype> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Wet>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in wet road condition." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Wet" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates meteorological conditions which impacted at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "WeatherCondition" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#CyrusMistry>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasNonSafetyCondition>
+                "OverSpeeding" , "PassengerSeatBeltOFFwhenPassengerSeated" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#sufferedTypeOfCasualities>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Killed> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Intersection_N>
+        a       <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "No" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadAlignment>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The alignment of the road where the accident occurred (e.g., straight, curved)." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "RoadAlignment" .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Tampoo>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#ThreeWheelVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#StructuralIssues>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "structural defect issues which cause accident in road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "StructuralIssues" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadDefect> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#2-AxleHeavyGoodsVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesNoIndication>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The number of cases with no indication of injury." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "injuriesNoIndication" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasRoadType>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasNearestPoliceStation>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Bus>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates bus involvement at the time of the accidents. such as overtake bus, or over speeding bus." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Bus" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#DarkLight>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Crash incident occurred in Dark Light." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "DarkLight" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#LightingCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Person>
+        a       <http://www.w3.org/2002/07/owl#Class> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashDayOfWeek>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#integer> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasVehicleManufacturer>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#VehicleManufacturer> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Non-Government>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Organisation> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#OfficialDocument>
+        a       <http://www.w3.org/2002/07/owl#Class> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasDriver'sLicence>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Driver> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Driver'sLicense> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesFatal>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the number of fatal injuries resulting from the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "injuriesFatal" ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#int> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#AccidentExaminer>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "A police officer or Goverment body who invetigated the accident spot and prepares the report for FIR or any future claims" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#UrbanRoad>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The type of roadway accident involved in the urban road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "UrbanRoad" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#GovernmentHospital>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Government> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the type of roadway involved in the accident" ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "RoadType" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road> .
+
+<http://www.w3.org/2002/07/owl#versionInfo>
+        a       <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> .
+
+[ a       <http://www.w3.org/2002/07/owl#AllDisjointClasses> ;
+  <http://www.w3.org/2002/07/owl#members>
+          ( <http://www.gosemantic.com/ontologies/roadaccident.owl#MilitaryTruck> <http://www.gosemantic.com/ontologies/roadaccident.owl#SUV> <http://www.gosemantic.com/ontologies/roadaccident.owl#Sedan> <http://www.gosemantic.com/ontologies/roadaccident.owl#Tanker> <http://www.gosemantic.com/ontologies/roadaccident.owl#Tractor> )
+] .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#4WheelVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasNo.OfVictim>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#integer> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasVehicleRelatedCause>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> , <http://www.w3.org/2002/07/owl#AsymmetricProperty> , <http://www.w3.org/2002/07/owl#IrreflexiveProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the vehicle-related conditions at the time of an accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#VehicleRelatedCause> ;
+        <http://www.w3.org/2000/01/rdf-schema#subPropertyOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTrafficAccidentCause> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Sedan>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#4WheelVehicle> .
+
+<http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+        a       <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#HighwayRoad>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The type of roadway accident involved in the highway road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "HighwayRoad" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NonCollision>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the accidents which had no direct contact with vehicles or any stationary objects. such as runoff road, skidding, loss of control by driver." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "NonCollision" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasManufacturer>
+        a       <http://www.w3.org/2002/07/owl#ObjectProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                [ a       <http://www.w3.org/2002/07/owl#Restriction> ;
+                  <http://www.w3.org/2002/07/owl#onProperty>
+                          <http://www.gosemantic.com/ontologies/roadaccident.owl#hasManufacturer> ;
+                  <http://www.w3.org/2002/07/owl#someValuesFrom>
+                          <http://www.gosemantic.com/ontologies/roadaccident.owl#VehicleManufacturer>
+                ] .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasEventDateAndTime>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Event> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Captures accidents which at the time of the accidents involving bicycles, buses, cars, motorcycles, trucks." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Vehicle" .
+
+<http://www.w3.org/2001/XMLSchema#integer>
+        a       <http://www.w3.org/2000/01/rdf-schema#Datatype> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Victim-1>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasAge>
+                "35 Yrs." ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasDriver'sLicence>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#DL-983833838> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasInsuranceID>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#INCID-2029202> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasNonSafetyCondition>
+                "Drunked" , "driverSeatBeltOFF" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasSex>
+                "Female" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Wind>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Accident incident happened in the wind weather." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Wind" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Intersection_Y>
+        a       <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#IntersectionRelation> ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Yes" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#NoTrafficControl>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates that there were no traffic control devices present at the crash location." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "NoTrafficControl" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Motorcycle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates motorcycle involved at the time of the accidents. Such as over speeding, violation of rules." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Motorcycle" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "A vehicle having VIN or Registration Number" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Nabi_Karim_Police_Station>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#PoliceStation> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#hasRoadName>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Road>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#About>
+                "A road is a linear way for the conveyance of traffic that mostly has an improved surface for use by vehicles (motorized and non-motorized) and pedestrians." .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#LightGoodsVehicle>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#MotorisedVehicle> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadCondition>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "Indicates the physical and damaged state of road surfaces (e.g., dry, wet, icy), also undertake the characteristics of maintenance status and conditons of road at the time of the accident." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "RoadCondition" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#EnvironmentalCondition> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#weatherCondition>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                [ a       <http://www.w3.org/2000/01/rdf-schema#Datatype> ;
+                  <http://www.w3.org/2002/07/owl#oneOf>
+                          [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                    "Cloudy" ;
+                            <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                    [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                              "HeavyRain" ;
+                                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                              [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                        "Rainy" ;
+                                                <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                        [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                  "Sunny" ;
+                                                          <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                  [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                            "Thundering" ;
+                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                            [ a       <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> ;
+                                                                              <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                                                                                      "snowing" ;
+                                                                              <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>
+                                                                                      ()
+                                                                            ]
+                                                                  ]
+                                                        ]
+                                              ]
+                                    ]
+                          ]
+                ] .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#RA-EXAMPLE-1>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentDescription>
+                "A middle aged woman in drunked state hit the divider near chandni chawk at around 10:30 PM sunday Night on 11th Sept 2022" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#hasRoadAccidentLocation>
+                "chandini chawk" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#involves>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim-1> ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#occuredAtAddress>
+                "Chandni Chawk gali no 101 near market plaza" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#occuredOnDaysOfTheWeek>
+                "Monday" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#reportedToPolice>
+                "Yes" ;
+        <http://www.gosemantic.com/ontologies/roadaccident.owl#weatherCondition>
+                "Rainy" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Clear>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The accident happened in clear weather." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Clear" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#WeatherCondition> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#MinorInjury>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "An injury that is not life-threatening and does not incapacitate the person, such as minor cuts or bruises." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "MinorInjury" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#Event>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "An Event is an abstract happening of things at a particular time" .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RuralRoad>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The type of roadway accident involved in the rural road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "RuralRoad" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadType> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#crashMonth>
+        a       <http://www.w3.org/2002/07/owl#DatatypeProperty> ;
+        <http://www.w3.org/2000/01/rdf-schema#domain>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
+        <http://www.w3.org/2000/01/rdf-schema#range>
+                <http://www.w3.org/2001/XMLSchema#integer> .
+
+<http://www.w3.org/2000/01/rdf-schema#label>
+        a       <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#UnknownVictim>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#isDefinedBy>
+                "Accident occured but no victim reported." ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.gosemantic.com/ontologies/roadaccident.owl#Victim> .
+
+<http://www.gosemantic.com/ontologies/roadaccident.owl#No>
+        a       <http://www.w3.org/2002/07/owl#NamedIndividual> , <http://www.gosemantic.com/ontologies/roadaccident.owl#InformedToPolice> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedTheAccident> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedTheDamage> , <http://www.gosemantic.com/ontologies/roadaccident.owl#ReportedToHospital> .
+
+<http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Straight>
+        a       <http://www.w3.org/2002/07/owl#Class> ;
+        <http://www.w3.org/2000/01/rdf-schema#comment>
+                "The alignment of the road where the accident occurred in curved road." ;
+        <http://www.w3.org/2000/01/rdf-schema#label>
+                "Straight" ;
+        <http://www.w3.org/2000/01/rdf-schema#subClassOf>
+                <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#RoadAlignment> .

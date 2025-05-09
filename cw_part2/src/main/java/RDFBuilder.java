@@ -350,8 +350,9 @@ public class RDFBuilder {
         try {
 
             ensureOutputDirectoriesExist();
-            String inputCSV = "cw_part2/files/CityWatch_Dataset.csv";
-            String ontologyFile = "cw_part2/files/CityWatch_Ontology.ttl";
+            String inputCSV = "files/CityWatch_Dataset.csv";
+            String ontologyFile = "files/CityWatch_Ontology.ttl";
+            String ontologyLectureFile = "files/Onto_Lecture.ttl";
             String outputFolder = "cw_part2/files/output";
             clearOutputDirectory(outputFolder);
 
