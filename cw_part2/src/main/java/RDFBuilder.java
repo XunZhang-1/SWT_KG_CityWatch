@@ -1,5 +1,6 @@
 import com.opencsv.CSVReader;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.*;
@@ -16,6 +17,10 @@ import java.lang.reflect.Type;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import org.apache.jena.query.ResultSetFormatter;
+import java.io.FileOutputStream;
+
 
 public class RDFBuilder {
     String inputFile;
@@ -36,18 +41,42 @@ public class RDFBuilder {
     }
 
     private String clean(String value) {
-        return value.trim().replaceAll("[\\s()\"/]", "_").toLowerCase();
+        return value.trim()                       // remove leading/trailing whitespace
+                .toLowerCase()                // convert to lowercase
+                .replaceAll("[\\s,()\"/\\-.]", "_") // replace space, comma, parentheses, quotes, slash, dot, hyphen with "_"
+                .replaceAll("_+", "_")        // collapse multiple underscores
+                .replaceAll("^_|_$", "");     // remove leading/trailing underscores
     }
 
-    //Subtask RDF.1: URI Generation
-    private String getOrCreateURI(String name, int rowIndex, String accident) {
-        name = clean(name);
-        String uriStr = namespace + "accident_" + rowIndex + "_" + name;
-        if (!stringToURI.containsKey(name + rowIndex)) {
-            stringToURI.put(name + rowIndex, uriStr);
+    private String convertToXSDDateTime(String rawDate) {
+        if (rawDate == null || rawDate.isEmpty()) return null;
+
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.ENGLISH);
+            Date date = inputFormat.parse(rawDate);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            return outputFormat.format(date);
+
+        } catch (Exception e) {
+            System.err.println("❌ Date parse failed for: " + rawDate);
+            return null;
         }
-        return stringToURI.get(name + rowIndex);
     }
+
+
+    //Subtask RDF.1: URI Generation
+    // pattern: trafficAccident_{rowIndex}_{crashDate}:crashdate only takes year, month and day
+    private String getOrCreateURI(String[] row, int rowIndex) {
+        // Extract and format date only (e.g. from "01/17/2025 05:37:00 PM" to "20250117")
+        String crashDateTime = row[columnIndex.get("crash_date")].trim(); // full date-time
+        String datePart = crashDateTime.split(" ")[0]; // get "01/17/2025"
+        String[] parts = datePart.split("/");          // ["01", "17", "2025"]
+        String formattedDate = parts[2] + parts[0] + parts[1]; // "20250117"
+        // Build URI using row index and formatted date only
+        return namespace + "trafficAccident_" + rowIndex + "_" + formattedDate;
+    }
+
+
 
     private void addLiteral(Model model, String uri, String[] row, int rowIndex, String colName, String propName, XSDDatatype datatype) {
         Integer col = columnIndex.get(colName);
@@ -91,6 +120,8 @@ public class RDFBuilder {
         if ((kgSource == KGSource.GOOGLE && colName.equals("weather_condition")) ||
                 (kgSource == KGSource.WIKIDATA && colName.equals("lighting_condition"))) {
             objectURI = kgCache.getOrDefault(rawValue, null);
+
+
         }
 
 
@@ -108,11 +139,231 @@ public class RDFBuilder {
         model.add(subjectRes, property, objectRes);
 
         // If the URI is local (not from external KG), add rdf:type triple
-        if (!objectURI.startsWith("http://g.co/kg/") &&
-                !objectURI.startsWith("http://www.wikidata.org/entity/")) {
+        if (objectURI.startsWith("http://g.co/kg/") || objectURI.startsWith("http://www.wikidata.org/entity/")) {
+            //
             model.add(objectRes, RDF.type, model.createResource(namespace + className));
+            model.add(objectRes, RDFS.label, model.createLiteral(rawValue, "en"));
+        } else {
+            model.add(objectRes, RDF.type, model.createResource(namespace + className));
+            addSubclassTypeIfMatch(model, colName, cleanedValue, objectRes);
         }
     }
+
+
+    private void addSubclassTypeIfMatch(Model model, String colName, String cleanedValue, Resource objectRes) {
+        Map<String, Map<String, String>> subclassMaps = new HashMap<>();
+
+        // weather_condition
+        Map<String, String> weatherMap = new HashMap<>();
+        weatherMap.put("clear", "Clear");
+        weatherMap.put("cloudy_overcast", "Clear");
+        weatherMap.put("fog_smoke_haze", "Fog");
+        weatherMap.put("rain", "Rain");
+        weatherMap.put("freezing_rain_drizzle", "Rain");
+        weatherMap.put("sleet_hail", "Rain");
+        weatherMap.put("snow", "Snow");
+        weatherMap.put("blowing_snow", "Snow");
+        weatherMap.put("blowing_sand_soil_dirt", "Wind");
+        weatherMap.put("severe_cross_wind_gate", "Wind");
+        weatherMap.put("other", "OtherWeatherCondition");
+        weatherMap.put("unknown", "UnknownWeatherCondition");
+        subclassMaps.put("weather_condition", weatherMap);
+
+        // lighting_condition
+        Map<String, String> lightingMap = new HashMap<>();
+        lightingMap.put("darkness", "DarkLight");
+        lightingMap.put("darkness_lighted_road", "DarkLight");
+        lightingMap.put("dawn", "DawnLight");
+        lightingMap.put("daylight", "DayLight");
+        lightingMap.put("dusk", "DuskLight");
+        lightingMap.put("unknown", "UnknownLightingCondition");
+        subclassMaps.put("lighting_condition", lightingMap);
+
+        //traffic_control_device
+        Map<String, String> controlDeviceMap = new HashMap<>();
+        // TrafficSignal
+        controlDeviceMap.put("traffic_signal", "TrafficSignal");
+        controlDeviceMap.put("flashing_control_signal", "TrafficSignal");
+        // TrafficSign
+        controlDeviceMap.put("stop_sign_flasher", "TrafficSign");
+        controlDeviceMap.put("yield", "TrafficSign");
+        controlDeviceMap.put("school_zone", "TrafficSign");
+        controlDeviceMap.put("pedestrian_crossing_sign", "TrafficSign");
+        controlDeviceMap.put("bicycle_crossing_sign", "TrafficSign");
+        controlDeviceMap.put("lane_use_marking", "TrafficSign");
+        controlDeviceMap.put("no_passing", "TrafficSign");
+        controlDeviceMap.put("other_reg_sign", "TrafficSign");
+        controlDeviceMap.put("other_warning_sign", "TrafficSign");
+        controlDeviceMap.put("rr_crossing_sign", "TrafficSign");
+        //NoTrafficControl
+        controlDeviceMap.put("no_controls", "NoTrafficControl");
+        controlDeviceMap.put("unknown", "NoTrafficControl");
+        //TrafficControlDevice
+        controlDeviceMap.put("other", "OtherTrafficControlDevice");
+        //
+        controlDeviceMap.put("delineators", "PhysicalBarrierDevice");
+        controlDeviceMap.put("police_flagman", "PhysicalBarrierDevice");
+        controlDeviceMap.put("railroad_crossing_gate", "RailCrossingDevice");
+        controlDeviceMap.put("other_railroad_crossing", "RailCrossingDevice");
+        subclassMaps.put("traffic_control_device", controlDeviceMap);
+
+        Map<String, String> TrafficAccidentTypeMap = new HashMap<>();
+        // Human or animal related
+        TrafficAccidentTypeMap.put("pedestrian", "HumanOrAnimalCollision");
+        TrafficAccidentTypeMap.put("pedalcyclist", "HumanOrAnimalCollision");TrafficAccidentTypeMap.put("animal", "HumanOrAnimalCollision");
+        // Object related
+        TrafficAccidentTypeMap.put("fixed_object", "ObjectCollision");
+        TrafficAccidentTypeMap.put("other_object", "ObjectCollision");
+        TrafficAccidentTypeMap.put("parked_motor_vehicle", "ObjectCollision");
+        TrafficAccidentTypeMap.put("train", "ObjectCollision");
+        // Vehicle-to-vehicle or directional collisions
+        TrafficAccidentTypeMap.put("rear_end", "Collision");
+        TrafficAccidentTypeMap.put("rear_to_front", "Collision");
+        TrafficAccidentTypeMap.put("rear_to_side", "Collision");
+        TrafficAccidentTypeMap.put("rear_to_rear", "Collision");
+        TrafficAccidentTypeMap.put("head_on", "Collision");
+        TrafficAccidentTypeMap.put("angle", "Collision");
+        TrafficAccidentTypeMap.put("sideswipe_opposite_direction", "Collision");
+        TrafficAccidentTypeMap.put("sideswipe_same_direction", "Collision");
+        TrafficAccidentTypeMap.put("turning", "Collision");
+        // Non-collision incidents
+        TrafficAccidentTypeMap.put("overturned", "NonCollision");
+        TrafficAccidentTypeMap.put("other_noncollision", "NonCollision");
+        TrafficAccidentTypeMap.put("other", "OtherTrafficAccidentType");
+        subclassMaps.put("first_crash_type", TrafficAccidentTypeMap);
+
+        //trafficway_type : traffic accident occur at which type road
+        Map<String, String> roadTypeMap = new HashMap<>();
+        // Intersection-related types
+        roadTypeMap.put("four_way", "IntersectionRoad");
+        roadTypeMap.put("t_intersection", "IntersectionRoad");
+        roadTypeMap.put("y_intersection", "IntersectionRoad");
+        roadTypeMap.put("l_intersection", "IntersectionRoad");
+        roadTypeMap.put("five_point_or_more", "IntersectionRoad");
+        roadTypeMap.put("roundabout", "IntersectionRoad");
+        roadTypeMap.put("unknown_intersection_type", "IntersectionRoad");
+        // Urban roads
+        roadTypeMap.put("parking_lot", "UrbanRoad");
+        roadTypeMap.put("driveway", "UrbanRoad");
+        roadTypeMap.put("traffic_route", "UrbanRoad");
+        roadTypeMap.put("center_turn_lane", "UrbanRoad");
+        // Highway roads
+        roadTypeMap.put("one_way", "HighwayRoad");
+        roadTypeMap.put("ramp", "HighwayRoad");
+        roadTypeMap.put("divided_w_median_not_raised", "HighwayRoad");
+        roadTypeMap.put("divided_w_median_barrier", "HighwayRoad");
+
+        roadTypeMap.put("alley", "AlleyRoad");
+        roadTypeMap.put("not_divided", "AlleyRoad");
+        roadTypeMap.put("other", "OtherRoadType");
+        roadTypeMap.put("not_reported", "UnknownRoadType");
+        roadTypeMap.put("unknown", "UnknownRoadType");
+        subclassMaps.put("trafficway_type", roadTypeMap);
+
+        //alignmentMap
+        Map<String, String> alignmentMap = new HashMap<>();
+        // Curved
+        alignmentMap.put("curve_on_grade", "Curved");
+        alignmentMap.put("curve_on_hillcrest", "Curved");
+        alignmentMap.put("curve_level", "Curved");
+        // Straight
+        alignmentMap.put("straight_and_level", "Straight");
+        alignmentMap.put("straight_on_grade", "Straight");
+        alignmentMap.put("straight_on_hillcrest", "Straight");
+        subclassMaps.put("alignment", alignmentMap);
+
+        //Road_Condition
+        Map<String, String> roadwaySurfaceCondMap = new HashMap<>();
+        roadwaySurfaceCondMap.put("dry", "Dry");
+        roadwaySurfaceCondMap.put("ice", "Icy");
+        roadwaySurfaceCondMap.put("wet", "Wet");
+        roadwaySurfaceCondMap.put("snow_or_slush", "SnowOrSlush");
+        roadwaySurfaceCondMap.put("sand_mud_dirt", "LooseSurface");
+        roadwaySurfaceCondMap.put("other", "OtherRoadCondition");
+        roadwaySurfaceCondMap.put("unknown", "UnknownRoadCondition");
+        subclassMaps.put("roadway_surface_cond", roadwaySurfaceCondMap);
+
+        Map<String, String> roadDefectMap = new HashMap<>();
+        roadDefectMap.put("debris_on_roadway", "Obstacles");
+        roadDefectMap.put("shoulder_defect", "StructuralIssues");
+        roadDefectMap.put("rut_holes", "SurfaceDamage");
+        roadDefectMap.put("worn_surface", "SurfaceDamage");
+        roadDefectMap.put("other", "UnknownDefect");
+        roadDefectMap.put("unknown", "UnknownDefect");
+        roadDefectMap.put("no_defects", "NoDefect");
+        subclassMaps.put("road_defect", roadDefectMap);
+
+        Map<String, String> trafficAccidentOutcomeMap = new HashMap<>();
+        trafficAccidentOutcomeMap.put("injury_and_or_tow_due_to_crash", "InjuryOrTowAccident");
+        trafficAccidentOutcomeMap.put("no_injury_drive_away", "NoInjuryDriveAwayAccident");
+        subclassMaps.put("crash_type", trafficAccidentOutcomeMap);
+
+        Map<String, String> accidentCauseMap = new HashMap<>();
+
+
+        accidentCauseMap.put("animal", "EnvironmentalCause");
+        accidentCauseMap.put("bicycle_advancing_legally_on_red_light", "DriverRelatedCause");
+        accidentCauseMap.put("cell_phone_use_other_than_texting", "DriverRelatedCause");
+        accidentCauseMap.put("disregarding_other_traffic_signs", "DriverRelatedCause");
+        accidentCauseMap.put("disregarding_road_markings", "DriverRelatedCause");
+        accidentCauseMap.put("disregarding_stop_sign", "DriverRelatedCause");
+        accidentCauseMap.put("disregarding_traffic_signals", "DriverRelatedCause");
+        accidentCauseMap.put("disregarding_yield_sign", "DriverRelatedCause");
+        accidentCauseMap.put("distraction_from_inside_vehicle", "DriverRelatedCause");
+        accidentCauseMap.put("distraction_from_outside_vehicle", "DriverRelatedCause");
+        accidentCauseMap.put("equipment_vehicle_condition", "VehicleRelatedCause");
+        accidentCauseMap.put("not_applicable", "UnknownTrafficAccidentCause");
+        accidentCauseMap.put("physical_condition_of_driver", "DriverRelatedCause");
+        accidentCauseMap.put("road_construction_maintenance", "EnvironmentalCause");
+        accidentCauseMap.put("unable_to_determine", "UnknownTrafficAccidentCause");
+        accidentCauseMap.put("distraction_other_electronic_device_navigation_device_dvd_player_etc", "DriverRelatedCause");
+        accidentCauseMap.put("driving_on_wrong_side_wrong_way", "DriverRelatedCause");
+        accidentCauseMap.put("driving_skills_knowledge_experience", "DriverRelatedCause");
+        accidentCauseMap.put("evasive_action_due_to_animal_object_nonmotorist", "EnvironmentalCause");
+        accidentCauseMap.put("exceeding_authorized_speed_limit", "DriverRelatedCause");
+        accidentCauseMap.put("exceeding_safe_speed_for_conditions", "DriverRelatedCause");
+        accidentCauseMap.put("failing_to_reduce_speed_to_avoid_crash", "DriverRelatedCause");
+        accidentCauseMap.put("failing_to_yield_right_of_way", "DriverRelatedCause");
+        accidentCauseMap.put("following_too_closely", "DriverRelatedCause");
+        accidentCauseMap.put("had_been_drinking_use_when_arrest_is_not_made", "DriverRelatedCause");
+        accidentCauseMap.put("improper_backing", "DriverRelatedCause");
+        accidentCauseMap.put("improper_lane_usage", "DriverRelatedCause");
+        accidentCauseMap.put("improper_overtaking_passing", "DriverRelatedCause");
+        accidentCauseMap.put("improper_turning_no_signal", "DriverRelatedCause");
+        accidentCauseMap.put("motorcycle_advancing_legally_on_red_light", "DriverRelatedCause");
+        accidentCauseMap.put("obstructed_crosswalks", "EnvironmentalCause");
+        accidentCauseMap.put("operating_vehicle_in_erratic_reckless_careless_negligent_or_aggressive_manner", "DriverRelatedCause");
+        accidentCauseMap.put("passing_stopped_school_bus", "DriverRelatedCause");
+        accidentCauseMap.put("related_to_bus_stop", "EnvironmentalCause");
+        accidentCauseMap.put("road_engineering_surface_marking_defects", "EnvironmentalCause");
+        accidentCauseMap.put("texting", "DriverRelatedCause");
+        accidentCauseMap.put("turning_right_on_red", "DriverRelatedCause");
+        accidentCauseMap.put("under_the_influence_of_alcohol_drugs_use_when_arrest_is_effected", "DriverRelatedCause");
+        accidentCauseMap.put("vision_obscured_signs_tree_limbs_buildings_etc", "EnvironmentalCause");
+        accidentCauseMap.put("weather", "EnvironmentalCause");
+        subclassMaps.put("prim_contributory_cause", accidentCauseMap);
+
+        Map<String, String> severityMap = new HashMap<>();
+        severityMap.put("fatal", "FatalInjury");
+        severityMap.put("incapacitating_injury", "SeriousInjury");
+        severityMap.put("nonincapacitating_injury", "MinorInjury");
+        severityMap.put("reported_not_evident", "MinorInjury");
+        severityMap.put("no_indication_of_injury", "NoInjury");
+        subclassMaps.put("most_severe_injury", severityMap);
+
+        if (subclassMaps.containsKey(colName)) {
+            Map<String, String> map = subclassMaps.get(colName);
+            if (map.containsKey(cleanedValue)) {
+                String subclass = map.get(cleanedValue);
+                Resource subclassType = model.createResource(namespace + subclass);
+                model.add(objectRes, RDF.type, subclassType);
+//                System.out.println("✨ Trying subclass match for: " + colName + " → " + cleanedValue);
+            } else {
+                System.out.println("!! " + colName + " some value: " + cleanedValue);
+            }
+        }
+    }
+
 
     /*
      * Updated RDFBuilder.java with Google KG keyword-based entity matching
@@ -170,7 +421,9 @@ public class RDFBuilder {
 
         Model model = ModelFactory.createDefaultModel();
         model.setNsPrefix("cw", namespace);
-        model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema");
+        model.setNsPrefix("xsd", "http://www.w3.org/2001/XMLSchema#");
+        model.setNsPrefix("wd", "http://www.wikidata.org/entity/");
+
 
         for (int i = 0; i < rows.size(); i++) {
             String[] row = rows.get(i);
@@ -179,10 +432,29 @@ public class RDFBuilder {
             String subject = row[columnIndex.get("crash_date")];
             if (subject.isEmpty()) continue;
 
-            String uri = getOrCreateURI(subject, rowIndex, "accident");
+            String uri = getOrCreateURI(row, rowIndex);
             model.add(model.createResource(uri), RDF.type, model.createResource(namespace + "TrafficAccident"));
 
-            addLiteral(model, uri, row, rowIndex, "crash_date", "crashDate", XSDDatatype.XSDstring);
+//           addLiteral(model, uri, row, rowIndex, "crash_date", "crashDate", XSDDatatype.XSDstring);
+            Integer crashDateCol = columnIndex.get("crash_date");
+            if (crashDateCol != null && crashDateCol < row.length) {
+                String rawDate = row[crashDateCol].trim();
+                if (!rawDate.isEmpty()) {
+                    String formattedDate = convertToXSDDateTime(rawDate);
+                    if (formattedDate != null) {
+                        Property crashDateProp = model.createProperty(namespace + "crashDate");
+                        Literal dateLiteral = model.createTypedLiteral(formattedDate, XSDDatatype.XSDdateTime);
+                        model.add(model.createResource(uri), crashDateProp, dateLiteral);
+                    } else {
+                        System.err.println("Skipped crashDate triple due to null format: " + rawDate + " (row " + rowIndex + ")");
+                    }
+                } else {
+                    System.err.println("Empty crash_date at row " + rowIndex);
+                }
+            }
+
+
+
             addLiteral(model, uri, row, rowIndex, "crash_hour", "crashHour", XSDDatatype.XSDinteger);//not in ontology originally, added manually
             addLiteral(model, uri, row, rowIndex, "crash_day_of_week", "crashDayOfWeek", XSDDatatype.XSDinteger);//not in ontology originally, added manually
             addLiteral(model, uri, row, rowIndex, "crash_month", "crashMonth", XSDDatatype.XSDinteger);//not in ontology originally, added manually
@@ -198,7 +470,7 @@ public class RDFBuilder {
 
             // object properties
             addObjectProperty(model, uri, row, rowIndex, "first_crash_type", "hasFirstCrashType", "TrafficAccidentType");
-            addObjectProperty(model, uri, row, rowIndex, "crash_type", "hasTrafficAccidentTypeCategory", "TrafficAccidentTypeCategory");//not in ontology originally, added manually
+            addObjectProperty(model, uri, row, rowIndex, "crash_type", "hasTrafficAccidentOutcome", "TrafficAccidentOutcome");//not in ontology originally, added manually
             addObjectProperty(model, uri, row, rowIndex, "weather_condition", "hasWeatherCondition", "WeatherCondition");
             addObjectProperty(model, uri, row, rowIndex, "lighting_condition", "hasLightingCondition", "LightingCondition");
             addObjectProperty(model, uri, row, rowIndex, "prim_contributory_cause", "hasTrafficAccidentCause", "TrafficAccidentCause");
@@ -407,8 +679,6 @@ public class RDFBuilder {
         System.out.println("Google KG RDF generation complete: " + outputFile);
     }
 
-
-
     // quick test -- e.g. maxrows=20  full test: maxrows = 0
     public static void WikidataKGReuse(String inputCSV, String ontologyFile, int... optionalRowLimit) throws IOException {
         int rowLimit = (optionalRowLimit.length > 0) ? optionalRowLimit[0] : 0;
@@ -439,7 +709,7 @@ public class RDFBuilder {
         builder.setKGSource(RDFBuilder.KGSource.WIKIDATA);
         builder.loadKGCacheFromJSON(cacheFile);
 
-        // === Load CSV once and collect unique values ===
+        // Load CSV once and collect unique values
         List<String[]> allRows = new ArrayList<>();
         Set<String> uniqueWeather = new HashSet<>();
         Set<String> uniqueLighting = new HashSet<>();
@@ -464,10 +734,10 @@ public class RDFBuilder {
         }
         reader.close();
 
-        // === Perform KG URI mapping once ===
+        //Perform KG URI mapping once
         builder.buildKGURIMap(uniqueWeather, uniqueLighting);
 
-        // === Process RDF triples in batches ===
+        // Process RDF triples in batches
         int batchIndex = 0;
         for (int i = 0; i < allRows.size(); i += batchSize) {
             int end = Math.min(i + batchSize, allRows.size());
@@ -481,9 +751,6 @@ public class RDFBuilder {
 
         System.out.println("Wikidata KG RDF generation complete: " + outputFile);
     }
-
-
-
 
     public static void DefaultRDFGeneration(String inputCSV, String ontologyFile, int... optionalRowLimit) throws IOException {
         int rowLimit = (optionalRowLimit.length > 0) ? optionalRowLimit[0] : 0;
@@ -626,33 +893,30 @@ public class RDFBuilder {
     public static void main(String[] args) {
         try {
 
-//            ensureOutputDirectoriesExist(outputFolder);
             String inputCSV = "cw_part2/files/CityWatch_Dataset.csv";
             String ontologyFile = "cw_part2/files/CityWatch_Ontology.ttl";
-            String outputFolder = "cw_part2/files/output";
-            clearOutputDirectory(outputFolder);
 
-//    //             RDF 1& RDF2
-//            long startDefault = System.currentTimeMillis();
-//            DefaultRDFGeneration(inputCSV, ontologyFile);
-//            long endDefault = System.currentTimeMillis();
-//            System.out.println("DefaultRDFGeneration finished in " + (endDefault - startDefault) + " ms\n");
+//                 RDF 1& RDF2
+            long startDefault = System.currentTimeMillis();
+            DefaultRDFGeneration(inputCSV, ontologyFile);
+            long endDefault = System.currentTimeMillis();
+            System.out.println("DefaultRDFGeneration finished in " + (endDefault - startDefault) + " ms\n");
 
 ////             RDF 3.1
-//            long startGoogle = System.currentTimeMillis();
-////            GoogleKGReuse(inputCSV, ontologyFile, 20);
-//           GoogleKGReuse(inputCSV, ontologyFile);
-//            long endGoogle = System.currentTimeMillis();
-//            System.out.println("GoogleKGReuse finished in " + (endGoogle - startGoogle) + " ms\n");
+            long startGoogle = System.currentTimeMillis();
+//            GoogleKGReuse(inputCSV, ontologyFile, 20);
+           GoogleKGReuse(inputCSV, ontologyFile);
+            long endGoogle = System.currentTimeMillis();
+            System.out.println("GoogleKGReuse finished in " + (endGoogle - startGoogle) + " ms\n");
+
+//             RDF3.2
+            long startWikidata = System.currentTimeMillis();
+            WikidataKGReuse(inputCSV, ontologyFile);
+//           WikidataKGReuse(inputCSV, ontologyFile,20);
+            long endWikidata = System.currentTimeMillis();
+            System.out.println("WikidataKGReuse finished in " + (endWikidata - startWikidata) + " ms\n");
 //
-////             RDF3.2
-//            long startWikidata = System.currentTimeMillis();
-//            WikidataKGReuse(inputCSV, ontologyFile);
-////           WikidataKGReuse(inputCSV, ontologyFile,20);
-//            long endWikidata = System.currentTimeMillis();
-//            System.out.println("WikidataKGReuse finished in " + (endWikidata - startWikidata) + " ms\n");
-//
-//            // RDF.4
+            // RDF.4
             String inputTTL = "cw_part2/files/output/output_default/CityWatch_Default.ttl";
             String outputTTL = "cw_part2/files/output/CityWatch_Reasoned.ttl";
             performReasoning(inputTTL, ontologyFile, outputTTL);
