@@ -710,6 +710,44 @@ dc:creator rdf:type owl:AnnotationProperty .
                                                                  rdfs:comment "Captures road structural and geometric conditions at the time of the accident." ;
                                                                  rdfs:label "Road" .
 
+### coursework_part2 adding ###
+:crashHour a owl:DatatypeProperty ;
+    rdfs:domain :TrafficAccident ;
+    rdfs:range xsd:integer .
+
+:crashDayOfWeek a owl:DatatypeProperty ;
+    rdfs:domain :TrafficAccident ;
+    rdfs:range xsd:integer .
+
+:crashMonth a owl:DatatypeProperty ;
+    rdfs:domain :TrafficAccident ;
+    rdfs:range xsd:integer .
+
+:IntersectionRelation a owl:Class ;
+    rdfs:label "Intersection Relation" .
+:Intersection_Y a :IntersectionRelation ;
+    rdfs:label "Yes" .
+
+:Intersection_N a :IntersectionRelation ;
+    rdfs:label "No" .
+:isIntersectionRelated a owl:ObjectProperty ;
+    rdfs:domain :TrafficAccident ;
+    rdfs:range :IntersectionRelation ;
+    rdfs:label "is intersection related" .
+
+
+:TrafficAccidentTypeCategory a owl:Class ;
+    rdfs:label "Traffic Accident Type Category" .
+
+:TrafficAccident_NoInjuryDriveAway a :TrafficAccidentTypeCategory ;
+    rdfs:label "NO INJURY / DRIVE AWAY" .
+:TrafficAccident_InjuryOrTowDueToCrash a :TrafficAccidentTypeCategory ;
+    rdfs:label "INJURY AND / OR TOW DUE TO CRASH" .
+
+:hasTrafficAccidentTypeCategory a owl:ObjectProperty ;
+    rdfs:domain :TrafficAccident ;
+    rdfs:range :TrafficAccidentTypeCategory ;
+    rdfs:label "has traffic accident type category" .
 
 #################################################################
 #    Individuals
