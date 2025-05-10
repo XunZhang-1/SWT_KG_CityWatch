@@ -1,0 +1,5 @@
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Incident http://www.gosemantic.com/ontologies/roadaccident.owl#Accident equivalentClass
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle equivalentClass
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person http://www.gosemantic.com/ontologies/roadaccident.owl#Person equivalentClass
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasLocation http://www.gosemantic.com/ontologies/roadaccident.owl#location equivalentProperty
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasTime http://www.gosemantic.com/ontologies/roadaccident.owl#time equivalentProperty

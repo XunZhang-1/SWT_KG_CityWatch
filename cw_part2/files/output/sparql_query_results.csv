@@ -1,0 +1,13 @@
+subject,predicate,object
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,http://www.w3.org/2002/07/owl#NamedIndividual,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,http://www.gosemantic.com/ontologies/roadaccident.owl#RoadAccident,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.gosemantic.com/ontologies/roadaccident.owl#involves,http://www.gosemantic.com/ontologies/roadaccident.owl#CyrusMistry,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.gosemantic.com/ontologies/roadaccident.owl#hasAccidentDescription,Former Tata Sons chairman Cyrus Mistry (54) and his co-passenger killed in a tragic car accident on Sunday were not wearing seat belts as per the preliminary probe, said a police officer. The vehicle was overspeeding and the driver lost control of the car while trying to overtake from the left side. 
+
+As per the primary investigation, the group of 4 â€“ Cyrus Mistry, his friend and co-passenger Jahangir Pandole, Jehangirâ€™s brother Darius and his wife Anahita, were travelling in their Mercedes-Benz GLC when their car, driven by Anahita, hit the railing of a bridge over the Surya river at Charoti in Palgar district around 3:15 pm.,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.gosemantic.com/ontologies/roadaccident.owl#occuredAtAddress,Mumbai-Ahmedabad highway, is 43 km from Palghar in Maharashtra and about 150 km from Mumbai.,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.gosemantic.com/ontologies/roadaccident.owl#occuredOnDaysOfTheWeek,Sunday,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.gosemantic.com/ontologies/roadaccident.owl#onDate,4th Sep,
+http://www.gosemantic.com/ontologies/roadaccident.owl#RA-DEL-888,http://www.gosemantic.com/ontologies/roadaccident.owl#weatherCondition,Sunny,
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Passenger,http://www.w3.org/1999/02/22-rdf-syntax-ns#type,http://www.w3.org/2002/07/owl#Class,
+http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Passenger,http://www.w3.org/2000/01/rdf-schema#subClassOf,http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person,
