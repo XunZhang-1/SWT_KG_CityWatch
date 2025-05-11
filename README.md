@@ -1,7 +1,5 @@
 # SWT_KG_CityWatch
 
-# Quick Start Guide: CityWatch RDF System
-
 This project contains two main Java programs:
 
 - **RDFBuilder**: Converts CSV data into RDF triples using a predefined ontology.
