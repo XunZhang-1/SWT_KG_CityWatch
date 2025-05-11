@@ -1,0 +1,18 @@
+PREFIX cw: <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#>
+
+
+SELECT DISTINCT ?accident ?weatherOrLight WHERE {
+  {
+    ?accident a cw:TrafficAccident ;
+              cw:hasWeatherCondition ?weatherOrLight .
+  }
+  UNION
+  {
+    ?accident a cw:TrafficAccident ;
+              cw:hasLightingCondition ?weatherOrLight .
+  }
+  FILTER NOT EXISTS {
+    ?accident cw:hasNumberOfVehicles ?v .
+    FILTER (?v <= 1)
+  }
+}
