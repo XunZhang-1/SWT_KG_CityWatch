@@ -1,19 +1,19 @@
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Driver>
-        <http://www.w3.org/2002/07/owl#sameAs>
+        <http://www.w3.org/2002/07/owl#equivalentClass>
                 <http://www.gosemantic.com/ontologies/roadaccident.owl#Driver> .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person>
-        <http://www.w3.org/2002/07/owl#sameAs>
+        <http://www.w3.org/2002/07/owl#equivalentClass>
                 <http://www.gosemantic.com/ontologies/roadaccident.owl#Person> .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle>
-        <http://www.w3.org/2002/07/owl#sameAs>
+        <http://www.w3.org/2002/07/owl#equivalentClass>
                 <http://www.gosemantic.com/ontologies/roadaccident.owl#Vehicle> .
 
 <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road>
-        <http://www.w3.org/2002/07/owl#sameAs>
+        <http://www.w3.org/2002/07/owl#equivalentClass>
                 <http://www.gosemantic.com/ontologies/roadaccident.owl#Road> .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Pedestrian>
-        <http://www.w3.org/2002/07/owl#sameAs>
+        <http://www.w3.org/2002/07/owl#equivalentClass>
                 <http://www.gosemantic.com/ontologies/roadaccident.owl#Pedestrian> .

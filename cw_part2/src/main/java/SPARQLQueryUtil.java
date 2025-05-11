@@ -1,90 +1,83 @@
-import org.apache.jena.rdf.model.*;
-import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.query.*;
-import org.apache.jena.riot.RDFWriter;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.sparql.vocabulary.FOAF;
+import org.apache.jena.vocabulary.RDF;
 
-import java.io.*;
-import java.util.List;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class SPARQLQueryUtil {
-    private Model cityWatchModel;
-    private Model lecturerModel;
-    private Model alignmentModel;
-    private String baseUri;
-
-    public SPARQLQueryUtil(String cityWatchPath, String lecturerPath, String alignmentPath, String baseUri) {
-        this.baseUri = baseUri;
-    }
-
-    // Load the RDF models
-    public void loadModels(String cityWatchPath, String lecturerPath, String alignmentPath) {
-        cityWatchModel = RDFDataMgr.loadModel(cityWatchPath);
-        lecturerModel = RDFDataMgr.loadModel(lecturerPath);
-        alignmentModel = RDFDataMgr.loadModel(alignmentPath);
-    }
-
-    // Get the combined model
-    public Model getModel() {
-        Model combinedModel = ModelFactory.createDefaultModel();
-        combinedModel.add(cityWatchModel);
-        combinedModel.add(lecturerModel);
-        combinedModel.add(alignmentModel);
-        return combinedModel;
-    }
-
-    // Save the model in the specified format (TURTLE, RDF/XML, JSON-LD, etc.)
-    public void saveModel(String outputPath, String format) {
-        try (FileOutputStream outputStream = new FileOutputStream(outputPath)) {
-            Model model = getModel();
-            if ("TURTLE".equalsIgnoreCase(format)) {
-                model.write(outputStream, "TURTLE");  // Write in Turtle format
-            } else if ("RDFXML".equalsIgnoreCase(format)) {
-                model.write(outputStream, "RDF/XML");  // Write in RDF/XML format
-            } else if ("JSONLD".equalsIgnoreCase(format)) {
-                model.write(outputStream, "JSON-LD");  // Write in JSON-LD format
-            } else if ("NTRIPLES".equalsIgnoreCase(format)) {
-                model.write(outputStream, "N-TRIPLE");  // Write in N-Triples format
-            } else {
-                System.out.println("Unsupported RDF format: " + format);  // Ensure only valid formats
-            }
-        } catch (IOException e) {
+    private Model mergedModel;
+    
+    public SPARQLQueryUtil(String cityWatchOntologyPath, String lecturerOntologyPath, String alignmentPath) {
+        // Load all ontologies and the alignment
+        mergedModel = ModelFactory.createDefaultModel();
+        
+        try {
+            // Load CityWatch ontology
+            RDFDataMgr.read(mergedModel, cityWatchOntologyPath);
+            
+            // Load Lecturer ontology
+            RDFDataMgr.read(mergedModel, lecturerOntologyPath);
+            
+            // Load alignment
+            RDFDataMgr.read(mergedModel, alignmentPath);
+            
+            System.out.println("Loaded ontologies and alignment into merged model.");
+        } catch (Exception e) {
+            System.err.println("Error loading ontologies or alignment: " + e.getMessage());
             e.printStackTrace();
         }
     }
-
-    // Remove duplicate statements
-    public void removeDuplicates() {
-        Model model = getModel();
-        // Removing duplicates by reloading the model, could be optimized further
-        Model uniqueModel = ModelFactory.createDefaultModel();
-        model.listStatements().forEachRemaining(st -> uniqueModel.add(st));
-    }
-
-    // Execute a SPARQL query and save the results to CSV
-    public void executeQuery(String sparqlQuery, String outputPath) {
-        Query query = QueryFactory.create(sparqlQuery);
-        QueryExecution qe = QueryExecutionFactory.create(query, getModel());
-        ResultSet results = qe.execSelect();
-
-        // Writing query results to a CSV file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
-            // Write header (variable names)
-            List<String> varNames = results.getResultVars();
-            writer.write(String.join(",", varNames));
-            writer.newLine();
-
-            // Write the results
+    
+    public void executeQuery(String sparqlQueryString, String outputPath) {
+        try {
+            // Create a query and execution
+            Query query = QueryFactory.create(sparqlQueryString);
+            QueryExecution qexec = QueryExecutionFactory.create(query, mergedModel);
+            
+            // Execute query and output results
+            ResultSet results = qexec.execSelect();
+            
+            // Write results to file using a FileOutputStream instead of FileWriter
+            // as ResultSetFormatter.outputAsCSV expects an OutputStream
+            java.io.FileOutputStream outputStream = new java.io.FileOutputStream(outputPath);
+            ResultSetFormatter.outputAsCSV(outputStream, results);
+            outputStream.close();
+            
+            System.out.println("Query results saved to: " + outputPath);
+            
+            // Also print results to console
+            System.out.println("\nQuery Results:");
+            
+            // Need to re-execute the query as the previous result set was consumed
+            qexec = QueryExecutionFactory.create(query, mergedModel);
+            results = qexec.execSelect();
+            
             while (results.hasNext()) {
-                QuerySolution sol = results.nextSolution();
-                for (String varName : varNames) {
-                    writer.write(sol.get(varName).toString() + ",");
-                }
-                writer.newLine();
+                QuerySolution solution = results.next();
+                System.out.println(solution);
             }
-        } catch (IOException e) {
+            
+        } catch (Exception e) {
+            System.err.println("Error executing SPARQL query: " + e.getMessage());
             e.printStackTrace();
-        } finally {
-            qe.close();
         }
+    }
+    
+    public void executeLecturerVocabularyQuery(String outputPath) {
+        // Based on our understanding, the file is actually a road accident ontology
+        String roadAccidentQuery = "PREFIX rdf: <" + RDF.getURI() + ">\n" +
+                              "PREFIX accident: <http://www.gosemantic.com/ontologies/roadaccident.owl#>\n" +
+                              "SELECT ?person ?vehicle ?road\n" +
+                              "WHERE {\n" +
+                              "  ?person rdf:type accident:Person .\n" +
+                              "  OPTIONAL { ?person accident:drives ?vehicle }\n" +
+                              "  OPTIONAL { ?person accident:crossesRoad ?road }\n" +
+                              "}";
+        
+        executeQuery(roadAccidentQuery, outputPath);
     }
 }

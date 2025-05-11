@@ -114,6 +114,10 @@
         rdfs:comment  "The type of traffic control device involved (e.g., traffic light, sign)." ;
         rdfs:label    "TrafficControlDevice" .
 
+[ a            owl:AllDisjointClasses ;
+  owl:members  ( :MilitaryTruck :SUV :Sedan :Tanker :Tractor )
+] .
+
 :MilitaryTruck  a        owl:Class ;
         rdfs:subClassOf  :4WheelVehicle .
 
@@ -150,16 +154,16 @@ xsd:dateTime  a  rdfs:Datatype .
         rdfs:label       "TrafficSignal" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficControlDevice> .
 
-:hasAge  a           owl:DatatypeProperty ;
-        rdfs:domain  :Person ;
-        rdfs:range   xsd:string .
-
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#hasAccidentType>
         a             owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment  "indicates classification at the time of the accident." ;
         rdfs:domain   <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccident> ;
         rdfs:label    "hasAccidentType" ;
         rdfs:range    <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentType> .
+
+:hasAge  a           owl:DatatypeProperty ;
+        rdfs:domain  :Person ;
+        rdfs:range   xsd:string .
 
 :FirstAid  a    owl:NamedIndividual , :Treatment .
 
@@ -173,7 +177,8 @@ xsd:dateTime  a  rdfs:Datatype .
         a                owl:Class ;
         rdfs:comment     "Indicates the driver activities at the time of the accident." ;
         rdfs:label       "Driver" ;
-        rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> .
+        rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> ;
+        owl:sameAs       :Driver .
 
 :Country  a              owl:Class ;
         rdfs:subClassOf  :Place .
@@ -218,12 +223,12 @@ xsd:dateTime  a  rdfs:Datatype .
 
 :NoInjury  a    owl:NamedIndividual , :Casualities .
 
+:VehicleManufacturer  a  owl:Class ;
+        rdfs:subClassOf  :Non-Government .
+
 :occuredAtPlace  a   owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
-
-:VehicleManufacturer  a  owl:Class ;
-        rdfs:subClassOf  :Non-Government .
 
 :PrivateHospital  a      owl:Class ;
         rdfs:subClassOf  :Non-Government .
@@ -320,6 +325,10 @@ xsd:dateTime  a  rdfs:Datatype .
 
 xsd:string  a   rdfs:Datatype .
 
+:InsuranceId  a          owl:Class ;
+        rdfs:subClassOf  :OfficialDocument ;
+        :About           "Insurance is a means of protection from financial loss. It is a form of risk management, primarily used to hedge against the risk of a contingent or uncertain loss. An entity which provides insurance is known as an insurer, an insurance company, an insurance carrier or an underwriter. A person or entity who buys insurance is known as a policyholder, while a person or entity covered under the policy is called an insured. Policyholder and insured are often used as but are not necessarily synonyms, as coverage can sometimes extend to additional insureds who did not buy the insurance. The insurance transaction involves the policyholder assuming a guaranteed, known, and relatively small loss in the form of payment (premium, deductible) to the insurer in exchange for the insurer's promise to compensate the insured in the event of a covered loss. The loss may or may not be financial, but it must be reducible to financial terms. Furthermore, it usually involves something in which the insured has an insurable interest established by ownership, possession, or pre-existing relationship. The insured receives a contract, called the insurance policy, which details the conditions and circumstances under which the insurer will compensate the insured, or their designated beneficiary or assignee. The amount of money charged by the insurer to the policyholder for the coverage set forth in the insurance policy is called the premium. If the insured experiences a loss which is potentially covered by the insurance policy, the insured submits a claim to the insurer for processing by a claims adjuster. A mandatory out-of-pocket expense required by an insurance policy before an insurer will pay a claim is called a deductible (or if required by a health insurance policy, a copayment). The insurer may hedge its own risk by taking out reinsurance, whereby another insurance company agrees to carry some of the risks, especially if the primary insurer deems the risk too large for it to carry. (en)" .
+
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#involvesVehicle>
         a                   owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
         rdfs:comment        "Indicates that a vehicle (such as a car, bus, truck, motorcycle, or bicycle) is involved in the accident." ;
@@ -327,10 +336,6 @@ xsd:string  a   rdfs:Datatype .
         rdfs:label          "involvesVehicle" ;
         rdfs:range          <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle> ;
         rdfs:subPropertyOf  owl:topObjectProperty .
-
-:InsuranceId  a          owl:Class ;
-        rdfs:subClassOf  :OfficialDocument ;
-        :About           "Insurance is a means of protection from financial loss. It is a form of risk management, primarily used to hedge against the risk of a contingent or uncertain loss. An entity which provides insurance is known as an insurer, an insurance company, an insurance carrier or an underwriter. A person or entity who buys insurance is known as a policyholder, while a person or entity covered under the policy is called an insured. Policyholder and insured are often used as but are not necessarily synonyms, as coverage can sometimes extend to additional insureds who did not buy the insurance. The insurance transaction involves the policyholder assuming a guaranteed, known, and relatively small loss in the form of payment (premium, deductible) to the insurer in exchange for the insurer's promise to compensate the insured in the event of a covered loss. The loss may or may not be financial, but it must be reducible to financial terms. Furthermore, it usually involves something in which the insured has an insurable interest established by ownership, possession, or pre-existing relationship. The insured receives a contract, called the insurance policy, which details the conditions and circumstances under which the insurer will compensate the insured, or their designated beneficiary or assignee. The amount of money charged by the insurer to the policyholder for the coverage set forth in the insurance policy is called the premium. If the insured experiences a loss which is potentially covered by the insurance policy, the insured submits a claim to the insurer for processing by a claims adjuster. A mandatory out-of-pocket expense required by an insurance policy before an insurer will pay a claim is called a deductible (or if required by a health insurance policy, a copayment). The insurer may hedge its own risk by taking out reinsurance, whereby another insurance company agrees to carry some of the risks, especially if the primary insurer deems the risk too large for it to carry. (en)" .
 
 :ABC-90920293  a  owl:NamedIndividual , :Aadhar .
 
@@ -591,7 +596,8 @@ dc:creator  a   owl:AnnotationProperty .
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person>
         a             owl:Class ;
         rdfs:comment  "Captures the persons details such as Driver, Passenger, Pedestrian at the time of the accident." ;
-        rdfs:label    "Person" .
+        rdfs:label    "Person" ;
+        owl:sameAs    :Person .
 
 :providesTreatment  a  owl:ObjectProperty ;
         rdfs:domain  [ a            owl:Class ;
@@ -731,10 +737,6 @@ rdf:PlainLiteral  a  rdfs:Datatype .
 
 :TATA-AIG  a    owl:NamedIndividual , :InsuranceProvider .
 
-:atTime  a           owl:DatatypeProperty ;
-        rdfs:domain  :RoadAccident ;
-        rdfs:range   xsd:string .
-
 :Treatment  a             owl:Class ;
         rdfs:isDefinedBy  "The Type of Treatment provided to the Paitent like First-Aid , Major surgery etc" .
 
@@ -809,6 +811,10 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:comment  "Captures lighting, road, weather conditions at the time of the accident." ;
         rdfs:label    "EnvironmentalCondition" .
 
+:atTime  a           owl:DatatypeProperty ;
+        rdfs:domain  :RoadAccident ;
+        rdfs:range   xsd:string .
+
 :RoadAccident  a         owl:Class ;
         rdfs:subClassOf  :Event ;
         :About           "A traffic accident is defined as an accident involving at least one vehicle on a road open to public traffic in which at least one person is injured or killed.\n\nNote\nAccidents involving bodily injury are defined by the order of 27 March 2007 relating to the conditions for compiling statistics on accidents involving bodily injury." .
@@ -817,13 +823,13 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         rdfs:domain  :Victim ;
         rdfs:range   :InsuranceId .
 
+<http://www.gosemantic.com/ontologies/roadaccident.owl#'Delhi_heart_&_lung_institute_Super_Speciality_Hospital'>
+        a       owl:NamedIndividual , :PrivateHospital .
+
 :hasInsuranceProviderName
         a            owl:DatatypeProperty ;
         rdfs:domain  :InsuranceProvider ;
         rdfs:range   xsd:string .
-
-<http://www.gosemantic.com/ontologies/roadaccident.owl#'Delhi_heart_&_lung_institute_Super_Speciality_Hospital'>
-        a       owl:NamedIndividual , :PrivateHospital .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#injuriesReportedNotEvident>
         a             owl:DatatypeProperty ;
@@ -847,7 +853,8 @@ rdf:PlainLiteral  a  rdfs:Datatype .
 <https://dbpedia.org/ontology/https://dbpedia.org/ontology/Road>
         a             owl:Class ;
         rdfs:comment  "Captures road structural and geometric conditions at the time of the accident." ;
-        rdfs:label    "Road" .
+        rdfs:label    "Road" ;
+        owl:sameAs    :Road .
 
 :hasAccidentType  a  owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
@@ -884,7 +891,8 @@ rdf:PlainLiteral  a  rdfs:Datatype .
         a                owl:Class ;
         rdfs:comment     "Indicates pedestrian activity at the time of the accident." ;
         rdfs:label       "Pedestrian" ;
-        rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> .
+        rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Person> ;
+        owl:sameAs       :Pedestrian .
 
 :Accused  a               owl:Class ;
         rdfs:isDefinedBy  "The Person responsible for accident" ;
@@ -907,10 +915,6 @@ rdf:PlainLiteral  a  rdfs:Datatype .
 :hascollisionSpot  a  owl:DatatypeProperty ;
         rdfs:domain  :RoadAccident ;
         rdfs:range   xsd:string .
-
-[ a            owl:AllDisjointClasses ;
-  owl:members  ( :MilitaryTruck :SUV :Sedan :Tanker :Tractor )
-] .
 
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Icy>
         a                owl:Class ;
@@ -1088,7 +1092,8 @@ rdfs:isDefinedBy  a  owl:AnnotationProperty .
 <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#Vehicle>
         a             owl:Class ;
         rdfs:comment  "Captures accidents which at the time of the accidents involving bicycles, buses, cars, motorcycles, trucks." ;
-        rdfs:label    "Vehicle" .
+        rdfs:label    "Vehicle" ;
+        owl:sameAs    :Vehicle .
 
 xsd:integer  a  rdfs:Datatype .
 
@@ -1190,12 +1195,12 @@ xsd:integer  a  rdfs:Datatype .
         rdfs:label       "MinorInjury" ;
         rdfs:subClassOf  <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#TrafficAccidentSeverity> .
 
-:Event  a                 owl:Class ;
-        rdfs:isDefinedBy  "An Event is an abstract happening of things at a particular time" .
-
 :UnknownVictim  a         owl:Class ;
         rdfs:isDefinedBy  "Accident occured but no victim reported." ;
         rdfs:subClassOf   :Victim .
+
+:Event  a                 owl:Class ;
+        rdfs:isDefinedBy  "An Event is an abstract happening of things at a particular time" .
 
 :No     a       owl:NamedIndividual , :InformedToPolice , :ReportedTheAccident , :ReportedTheDamage , :ReportedToHospital .
 

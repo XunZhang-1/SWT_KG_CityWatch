@@ -1,48 +1,28 @@
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.reasoner.Reasoner;
-import org.apache.jena.reasoner.ReasonerRegistry;
-
-
 public class CityWatchOntologyAlignmentMain {
     public static void main(String[] args) {
-        // Paths to input and output files
+        // Define file paths
         String cityWatchOntologyPath = "files/CityWatch_Ontology.ttl";
-        String lecturerOntologyPath = "files/Onto_Lecture.ttl";
-        String alignmentPath = "files/reference_alignment.ttl";
-        String computedAlignmentPath = "files/output/computed_alignment.ttl";
-        String combinedModelPath = "files/output/combined_model_after_reasoning.ttl";
-        String sparqlResultsPath = "files/output/sparql_query_results.csv";
-
-        // Initialize the SPARQLQueryUtil with the paths
-        SPARQLQueryUtil sparqlQueryUtil = new SPARQLQueryUtil(cityWatchOntologyPath, lecturerOntologyPath, alignmentPath, "http://example.com/lecturer");
-
-        // Load the ontologies and alignment
-        sparqlQueryUtil.loadModels(cityWatchOntologyPath, lecturerOntologyPath, alignmentPath);
-
-        // Compute equivalences (alignment), for now, we'll just simulate the equivalence computation
-        System.out.println("Computing equivalences between the ontologies...");
-
-        // Perform reasoning on the combined model
-        System.out.println("Performing reasoning with all sources...");
-        Reasoner reasoner = ReasonerRegistry.getRDFSReasoner();
-        Model reasonedModel = ModelFactory.createInfModel(reasoner, sparqlQueryUtil.getModel());
-        sparqlQueryUtil.saveModel(combinedModelPath, "TURTLE");
+        String roadAccidentOntologyPath = "files/Onto_Lecture.ttl"; // The file name is misleading - it's actually a road accident ontology
+        String computedAlignmentPath = "files/computed_alignment.ttl";
+        String referenceAlignmentPath = "files/reference_alignment.ttl";
+        String sparqlResultsPath = "files/sparql_results.csv";
         
-        // Add call to alignment computation here
-        AlignmentComputation.generateAlignment(cityWatchOntologyPath, lecturerOntologyPath, alignmentPath);
-
-        sparqlQueryUtil.saveModel(computedAlignmentPath, "TURTLE");
-
-
-        // After reasoning, remove duplicates to avoid redundancy
-        sparqlQueryUtil.removeDuplicates();
-
-        // Execute SPARQL query to get some results
-        System.out.println("Executing SPARQL query...");
-        String sparqlQuery = "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object . } LIMIT 10";
-        sparqlQueryUtil.executeQuery(sparqlQuery, sparqlResultsPath);
-
-        System.out.println("Ontology alignment process completed successfully!");
+        // Step 1: Generate alignment between ontologies
+        System.out.println("Generating alignment between CityWatch Ontology and Road Accident Ontology...");
+        AlignmentComputation.generateAlignment(cityWatchOntologyPath, roadAccidentOntologyPath, computedAlignmentPath);
+        
+        // Step 2: Evaluate alignment against reference
+        System.out.println("\nEvaluating computed alignment against reference alignment...");
+        OntologyAligner aligner = new OntologyAligner();
+        aligner.computePrecisionRecall(computedAlignmentPath, referenceAlignmentPath);
+        
+        // Step 3: Use the alignment with SPARQL
+        System.out.println("\nExecuting SPARQL query over merged ontologies...");
+        SPARQLQueryUtil sparqlQueryUtil = new SPARQLQueryUtil(
+            cityWatchOntologyPath, roadAccidentOntologyPath, computedAlignmentPath);
+        
+        // Execute a SPARQL query using road accident ontology vocabulary
+        System.out.println("\nExecuting SPARQL query using road accident ontology vocabulary...");
+        sparqlQueryUtil.executeLecturerVocabularyQuery(sparqlResultsPath);
     }
 }
