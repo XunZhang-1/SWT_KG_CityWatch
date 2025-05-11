@@ -1,19 +1,41 @@
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.OWL;
-
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 public class OntologyAligner {
 
+    /**
+     * Computes precision, recall, and F1 score by comparing computed alignment with reference alignment
+     */
     public void computePrecisionRecall(String computedAlignmentPath, String referenceAlignmentPath) {
         // Load the computed alignment and reference alignment
         Model computedModel = ModelFactory.createDefaultModel();
         Model referenceModel = ModelFactory.createDefaultModel();
         
         try {
-            computedModel.read(computedAlignmentPath, "TURTLE");
-            referenceModel.read(referenceAlignmentPath, "TURTLE");
+            File computedFile = new File(computedAlignmentPath);
+            File referenceFile = new File(referenceAlignmentPath);
+            
+            if (!computedFile.exists()) {
+                System.err.println("ERROR: Computed alignment file not found: " + computedAlignmentPath);
+                return;
+            }
+            
+            if (!referenceFile.exists()) {
+                System.err.println("ERROR: Reference alignment file not found: " + referenceAlignmentPath);
+                return;
+            }
+            
+            System.out.println("Loading computed alignment from: " + computedFile.getAbsolutePath());
+            computedModel.read(computedFile.toURI().toString(), "TURTLE");
+            System.out.println("Computed alignment size: " + computedModel.size());
+            
+            System.out.println("Loading reference alignment from: " + referenceFile.getAbsolutePath());
+            referenceModel.read(referenceFile.toURI().toString(), "TURTLE");
+            System.out.println("Reference alignment size: " + referenceModel.size());
+            
         } catch (Exception e) {
             System.err.println("Error loading alignment models: " + e.getMessage());
             e.printStackTrace();
@@ -21,62 +43,20 @@ public class OntologyAligner {
         }
         
         // Create sets to store alignment statements for comparison
-        Set<Statement> computedAlignments = new HashSet<>();
-        Set<Statement> referenceAlignments = new HashSet<>();
+        Set<AlignmentPair> computedAlignments = new HashSet<>();
+        Set<AlignmentPair> referenceAlignments = new HashSet<>();
         
-        // Extract equivalence statements from computed alignment
-        StmtIterator computedIter = computedModel.listStatements(null, OWL.sameAs, (RDFNode)null);
-        while (computedIter.hasNext()) {
-            computedAlignments.add(computedIter.next());
-        }
-        
-        // Also collect equivalentClass statements
-        StmtIterator computedClassIter = computedModel.listStatements(null, OWL.equivalentClass, (RDFNode)null);
-        while (computedClassIter.hasNext()) {
-            computedAlignments.add(computedClassIter.next());
-        }
-        
-        // Also collect equivalentProperty statements
-        StmtIterator computedPropIter = computedModel.listStatements(null, OWL.equivalentProperty, (RDFNode)null);
-        while (computedPropIter.hasNext()) {
-            computedAlignments.add(computedPropIter.next());
-        }
-        
-        // Extract equivalence statements from reference alignment
-        StmtIterator referenceIter = referenceModel.listStatements(null, OWL.sameAs, (RDFNode)null);
-        while (referenceIter.hasNext()) {
-            referenceAlignments.add(referenceIter.next());
-        }
-        
-        // Also collect equivalentClass statements from reference
-        StmtIterator referenceClassIter = referenceModel.listStatements(null, OWL.equivalentClass, (RDFNode)null);
-        while (referenceClassIter.hasNext()) {
-            referenceAlignments.add(referenceClassIter.next());
-        }
-        
-        // Also collect equivalentProperty statements from reference
-        StmtIterator referencePropIter = referenceModel.listStatements(null, OWL.equivalentProperty, (RDFNode)null);
-        while (referencePropIter.hasNext()) {
-            referenceAlignments.add(referencePropIter.next());
-        }
+        // Extract all types of equivalence statements from computed alignment
+        collectAlignments(computedModel, computedAlignments);
+        collectAlignments(referenceModel, referenceAlignments);
         
         // Count the number of correct alignments (true positives)
-        // We need to compare the subject-object pairs rather than the exact statements
-        // as the same alignment might be represented differently in both models
-        Set<Statement> truePositives = new HashSet<>();
+        Set<AlignmentPair> truePositives = new HashSet<>();
         
-        for (Statement computedStmt : computedAlignments) {
-            Resource computedSubject = computedStmt.getSubject();
-            RDFNode computedObject = computedStmt.getObject();
-            
-            for (Statement referenceStmt : referenceAlignments) {
-                Resource referenceSubject = referenceStmt.getSubject();
-                RDFNode referenceObject = referenceStmt.getObject();
-                
-                // If the subject and object URIs match (ignoring the property used)
-                if (computedSubject.getURI().equals(referenceSubject.getURI()) &&
-                    computedObject.toString().equals(referenceObject.toString())) {
-                    truePositives.add(computedStmt);
+        for (AlignmentPair computedPair : computedAlignments) {
+            for (AlignmentPair referencePair : referenceAlignments) {
+                if (computedPair.equals(referencePair)) {
+                    truePositives.add(computedPair);
                     break;
                 }
             }
@@ -111,34 +91,143 @@ public class OntologyAligner {
         
         // Display the matching alignments for verification
         System.out.println("\n=== Matching Alignments ===");
-        for (Statement stmt : truePositives) {
-            System.out.println(stmt.getSubject().getURI() + " <-> " + stmt.getObject().toString());
+        for (AlignmentPair pair : truePositives) {
+            System.out.println(pair);
         }
         
         // Display missing alignments from reference (false negatives)
         System.out.println("\n=== Missing Alignments (False Negatives) ===");
-        Set<String> matchedPairs = new HashSet<>();
-        
-        // First, collect all the matched subject-object pairs
-        for (Statement stmt : truePositives) {
-            matchedPairs.add(stmt.getSubject().getURI() + " <-> " + stmt.getObject().toString());
-        }
-        
-        // Then find the alignments in reference that don't match any of these pairs
-        for (Statement referenceStmt : referenceAlignments) {
-            String pair = referenceStmt.getSubject().getURI() + " <-> " + referenceStmt.getObject().toString();
-            if (!matchedPairs.contains(pair)) {
+        for (AlignmentPair pair : referenceAlignments) {
+            if (!truePositives.contains(pair)) {
                 System.out.println(pair);
             }
         }
         
         // Display incorrect alignments in computed (false positives)
         System.out.println("\n=== Incorrect Alignments (False Positives) ===");
-        for (Statement computedStmt : computedAlignments) {
-            String pair = computedStmt.getSubject().getURI() + " <-> " + computedStmt.getObject().toString();
-            if (!matchedPairs.contains(pair)) {
+        for (AlignmentPair pair : computedAlignments) {
+            if (!truePositives.contains(pair)) {
                 System.out.println(pair);
             }
+        }
+    }
+    
+    /**
+     * Collects all alignment statements from a model and stores them as AlignmentPair objects
+     */
+    private void collectAlignments(Model model, Set<AlignmentPair> alignments) {
+        // Get all equivalentClass statements
+        StmtIterator classIter = model.listStatements(null, OWL.equivalentClass, (RDFNode)null);
+        while (classIter.hasNext()) {
+            Statement stmt = classIter.next();
+            if (stmt.getObject().isResource()) {
+                AlignmentPair pair = new AlignmentPair(stmt.getSubject(), stmt.getObject().asResource());
+                alignments.add(pair);
+            }
+        }
+        
+        // Get all equivalentProperty statements
+        StmtIterator propIter = model.listStatements(null, OWL.equivalentProperty, (RDFNode)null);
+        while (propIter.hasNext()) {
+            Statement stmt = propIter.next();
+            if (stmt.getObject().isResource()) {
+                AlignmentPair pair = new AlignmentPair(stmt.getSubject(), stmt.getObject().asResource());
+                alignments.add(pair);
+            }
+        }
+        
+        // Get all sameAs statements
+        StmtIterator sameAsIter = model.listStatements(null, OWL.sameAs, (RDFNode)null);
+        while (sameAsIter.hasNext()) {
+            Statement stmt = sameAsIter.next();
+            if (stmt.getObject().isResource()) {
+                AlignmentPair pair = new AlignmentPair(stmt.getSubject(), stmt.getObject().asResource());
+                alignments.add(pair);
+            }
+        }
+    }
+    
+    /**
+     * Helper class to represent an alignment pair and provide proper equals/hashCode
+     */
+    private static class AlignmentPair {
+        private final String source;
+        private final String target;
+        
+        public AlignmentPair(Resource source, Resource target) {
+            // Store canonicalized URIs (always have source lexicographically before target)
+            if (source.getURI().compareTo(target.getURI()) <= 0) {
+                this.source = source.getURI();
+                this.target = target.getURI();
+            } else {
+                this.source = target.getURI();
+                this.target = source.getURI();
+            }
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof AlignmentPair)) return false;
+            AlignmentPair other = (AlignmentPair) obj;
+            return source.equals(other.source) && target.equals(other.target);
+        }
+        
+        @Override
+        public int hashCode() {
+            return source.hashCode() * 31 + target.hashCode();
+        }
+        
+        @Override
+        public String toString() {
+            return source + " <-> " + target;
+        }
+    }
+    
+    /**
+     * Debug method to print the content of an alignment model
+     */
+    public void debugAlignmentModel(String alignmentPath) {
+        try {
+            Model model = ModelFactory.createDefaultModel();
+            model.read(alignmentPath, "TURTLE");
+            
+            System.out.println("=== Alignment Model Content ===");
+            System.out.println("Size: " + model.size());
+            
+            System.out.println("\nequivalentClass statements:");
+            StmtIterator classIter = model.listStatements(null, OWL.equivalentClass, (RDFNode)null);
+            int classCount = 0;
+            while (classIter.hasNext()) {
+                Statement stmt = classIter.next();
+                System.out.println(stmt.getSubject().getURI() + " <-> " + stmt.getObject());
+                classCount++;
+            }
+            System.out.println("Total equivalentClass: " + classCount);
+            
+            System.out.println("\nequivalentProperty statements:");
+            StmtIterator propIter = model.listStatements(null, OWL.equivalentProperty, (RDFNode)null);
+            int propCount = 0;
+            while (propIter.hasNext()) {
+                Statement stmt = propIter.next();
+                System.out.println(stmt.getSubject().getURI() + " <-> " + stmt.getObject());
+                propCount++;
+            }
+            System.out.println("Total equivalentProperty: " + propCount);
+            
+            System.out.println("\nsameAs statements:");
+            StmtIterator sameAsIter = model.listStatements(null, OWL.sameAs, (RDFNode)null);
+            int sameAsCount = 0;
+            while (sameAsIter.hasNext()) {
+                Statement stmt = sameAsIter.next();
+                System.out.println(stmt.getSubject().getURI() + " <-> " + stmt.getObject());
+                sameAsCount++;
+            }
+            System.out.println("Total sameAs: " + sameAsCount);
+            
+        } catch (Exception e) {
+            System.err.println("Error debugging alignment model: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
