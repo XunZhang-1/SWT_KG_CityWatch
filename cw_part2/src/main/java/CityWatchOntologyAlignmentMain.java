@@ -21,6 +21,9 @@ public class CityWatchOntologyAlignmentMain {
         SPARQLQueryUtil sparqlQueryUtil = new SPARQLQueryUtil(
             cityWatchOntologyPath, roadAccidentOntologyPath, computedAlignmentPath);
         
+        // Display model content for debugging (new)
+        sparqlQueryUtil.displayModelContent();
+        
         // Execute a SPARQL query using road accident ontology vocabulary
         System.out.println("\nExecuting SPARQL query using road accident ontology vocabulary...");
         sparqlQueryUtil.executeLecturerVocabularyQuery(sparqlResultsPath);
