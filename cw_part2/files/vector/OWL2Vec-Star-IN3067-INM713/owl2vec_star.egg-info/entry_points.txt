@@ -1,0 +1,2 @@
+[console_scripts]
+owl2vec_star = owl2vec_star.cli:main
