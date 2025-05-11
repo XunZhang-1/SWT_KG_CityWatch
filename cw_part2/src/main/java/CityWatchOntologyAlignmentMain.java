@@ -1,48 +1,66 @@
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
+import org.apache.jena.riot.RDFDataMgr;
 
+import static org.apache.jena.enhanced.BuiltinPersonalities.model;
 
 public class CityWatchOntologyAlignmentMain {
     public static void main(String[] args) {
-        // Paths to input and output files
-        String cityWatchOntologyPath = "files/CityWatch_Ontology.ttl";
-        String lecturerOntologyPath = "files/Onto_Lecture.ttl";
-        String alignmentPath = "files/reference_alignment.ttl";
-        String computedAlignmentPath = "files/output/computed_alignment.ttl";
-        String combinedModelPath = "files/output/combined_model_after_reasoning.ttl";
-        String sparqlResultsPath = "files/output/sparql_query_results.csv";
+        // New constructor: allows direct Model input (for reasoned model use)
 
-        // Initialize the SPARQLQueryUtil with the paths
-        SPARQLQueryUtil sparqlQueryUtil = new SPARQLQueryUtil(cityWatchOntologyPath, lecturerOntologyPath, alignmentPath, "http://example.com/lecturer");
+        // === Path Setup ===
+        String cityWatchOntologyPath = "cw_part2/files/CityWatch_Ontology.ttl";
+        String lecturerOntologyPath = "cw_part2/files/Onto_Lecture.ttl";
+        String referenceAlignmentPath = "cw_part2/files/reference_alignment.ttl";
+        String computedAlignmentPath = "cw_part2/files/output/computed_alignment.ttl";
+        String combinedModelPath = "cw_part2/files/output/combined_model_after_reasoning.ttl";
+        String sparqlResultsPath = "cw_part2/files/output/sparql_query_results.csv";
 
-        // Load the ontologies and alignment
-        sparqlQueryUtil.loadModels(cityWatchOntologyPath, lecturerOntologyPath, alignmentPath);
-
-        // Compute equivalences (alignment), for now, we'll just simulate the equivalence computation
+        // === Generate Alignment (OA.1) ===
         System.out.println("Computing equivalences between the ontologies...");
+        AlignmentComputation.generateAlignment(cityWatchOntologyPath, lecturerOntologyPath, computedAlignmentPath);
 
-        // Perform reasoning on the combined model
+        // === Evaluate Alignment (OA.2) ===
+        System.out.println("Evaluating precision and recall...");
+        OntologyAligner aligner = new OntologyAligner(cityWatchOntologyPath, lecturerOntologyPath, computedAlignmentPath);
+        aligner.computePrecisionRecall(referenceAlignmentPath);
+
+        // === Reasoning with All Sources (OA.3) ===
         System.out.println("Performing reasoning with all sources...");
+        Model cityWatchModel = RDFDataMgr.loadModel(cityWatchOntologyPath);
+        Model lecturerModel = RDFDataMgr.loadModel(lecturerOntologyPath);
+        Model alignmentModel = RDFDataMgr.loadModel(computedAlignmentPath);
+
+        Model mergedModel = ModelFactory.createDefaultModel();
+        mergedModel.add(cityWatchModel);
+        mergedModel.add(lecturerModel);
+        mergedModel.add(alignmentModel);
+
         Reasoner reasoner = ReasonerRegistry.getRDFSReasoner();
-        Model reasonedModel = ModelFactory.createInfModel(reasoner, sparqlQueryUtil.getModel());
-        sparqlQueryUtil.saveModel(combinedModelPath, "TURTLE");
-        
-        // Add call to alignment computation here
-        AlignmentComputation.generateAlignment(cityWatchOntologyPath, lecturerOntologyPath, alignmentPath);
+        Model reasonedModel = ModelFactory.createInfModel(reasoner, mergedModel);
 
-        sparqlQueryUtil.saveModel(computedAlignmentPath, "TURTLE");
+        // Save reasoned model
+        try {
+            reasonedModel.write(new java.io.FileOutputStream(combinedModelPath), "TURTLE");
+            System.out.println("✅ Saved reasoned model to: " + combinedModelPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        // === SPARQL Query (OA.4) using Lecturer Vocabulary ===
+        System.out.println("Executing SPARQL query using lecturer vocabulary...");
+        String sparqlQuery =
+                "PREFIX lec: <http://example.com/lecturer#>\n" +
+                        "SELECT ?accident ?lightCondition\n" +
+                        "WHERE {\n" +
+                        "  ?accident lec:hasLightCondition ?lightCondition .\n" +
+                        "}\n" +
+                        "LIMIT 10";
 
-        // After reasoning, remove duplicates to avoid redundancy
-        sparqlQueryUtil.removeDuplicates();
+        SPARQLQueryUtil sparqlUtil = new SPARQLQueryUtil(reasonedModel);
+        sparqlUtil.executeQuery(sparqlQuery, sparqlResultsPath);
+        System.out.println("✅ SPARQL query results saved to: " + sparqlResultsPath);
 
-        // Execute SPARQL query to get some results
-        System.out.println("Executing SPARQL query...");
-        String sparqlQuery = "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object . } LIMIT 10";
-        sparqlQueryUtil.executeQuery(sparqlQuery, sparqlResultsPath);
-
-        System.out.println("Ontology alignment process completed successfully!");
     }
 }

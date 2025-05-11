@@ -8,3 +8,4 @@ cw_part2/files/vector/OWL2Vec-Star-IN3067-INM713/case_studies/
 *.ttl
 *.owl
 cw_part2/files/vector/OWL2Vec-Star-IN3067-INM713/**/cache*/
+owl2vec310_env/

@@ -17,6 +17,8 @@ import org.apache.jena.riot.RDFDataMgr;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class OntologyAligner {
 
@@ -78,50 +80,80 @@ public class OntologyAligner {
             e.printStackTrace();
             System.err.println("Error generating reference alignment.");
         }
+
     }
-
-    // Compute equivalences and save the alignment to a file
-    public void computeEquivalences(String cityWatchOntologyPath, String lecturerOntologyPath, String computedAlignmentPath) {
-        Model cityWatchModel = ModelFactory.createDefaultModel();
-        Model lecturerModel = ModelFactory.createDefaultModel();
-        
-        // Load CityWatch and Lecturer ontologies
-        RDFDataMgr.read(cityWatchModel, cityWatchOntologyPath);
-        RDFDataMgr.read(lecturerModel, lecturerOntologyPath);
-        
-        // Logic for computing equivalences between the two models
-        // Example of computing equivalences and adding them to the alignment model
-        Model computedModel = ModelFactory.createDefaultModel();
-
-        // Example of creating equivalences
-        Resource cityWatchClass = computedModel.createResource("http://example.org/CityWatchClass");
-        Resource lecturerClass = computedModel.createResource("http://example.org/LecturerClass");
-        computedModel.add(cityWatchClass, OWL.equivalentClass, lecturerClass);
-
-        // Write the computed equivalences to the output file
-        try (FileWriter writer = new FileWriter(computedAlignmentPath)) {
-            computedModel.write(writer, "TURTLE");
-            System.out.println("Equivalences computed and saved to: " + computedAlignmentPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error saving computed alignment.");
-        }
-    }
-
-
-
-
-    // Compute precision and recall of the mappings
     public void computePrecisionRecall(String referenceAlignmentPath) {
-        // Load the reference alignment
+        // Load models
         Model referenceModel = ModelFactory.createDefaultModel();
-        referenceModel.read(referenceAlignmentPath);
+        referenceModel.read(referenceAlignmentPath, "TURTLE");
 
-        // Placeholder: Compute precision and recall by comparing generated alignments with the reference alignment
-        // You can use a more detailed comparison logic here to measure precision and recall based on common triples
+        Model computedModel = ModelFactory.createDefaultModel();
+        computedModel.read("cw_part2/files/output/computed_alignment.ttl", "TURTLE");
 
-        System.out.println("Precision and recall computation is done (placeholder).");
+        Set<Statement> referenceStatements = referenceModel.listStatements().toSet();
+        Set<Statement> computedStatements = computedModel.listStatements().toSet();
+
+        Set<Statement> correctMatches = new HashSet<>(computedStatements);
+        correctMatches.retainAll(referenceStatements); // intersection
+
+        int correct = correctMatches.size();
+        int computedTotal = computedStatements.size();
+        int referenceTotal = referenceStatements.size();
+
+        double precision = computedTotal > 0 ? (double) correct / computedTotal : 0;
+        double recall = referenceTotal > 0 ? (double) correct / referenceTotal : 0;
+        double f1 = (precision + recall) > 0 ? 2 * (precision * recall) / (precision + recall) : 0;
+
+        System.out.println("Total mappings in computed alignment: " + computedTotal);
+        System.out.println("Total mappings in reference alignment: " + referenceTotal);
+        System.out.println("Correct matches found: " + correct);
+        System.out.println("Precision: " + precision);
+        System.out.println("Recall:    " + recall);
+        System.out.println("F1 Score:  " + f1);
     }
+
+//    // Compute equivalences and save the alignment to a file
+//    public void computeEquivalences(String cityWatchOntologyPath, String lecturerOntologyPath, String computedAlignmentPath) {
+//        Model cityWatchModel = ModelFactory.createDefaultModel();
+//        Model lecturerModel = ModelFactory.createDefaultModel();
+//
+//        // Load CityWatch and Lecturer ontologies
+//        RDFDataMgr.read(cityWatchModel, cityWatchOntologyPath);
+//        RDFDataMgr.read(lecturerModel, lecturerOntologyPath);
+//
+//        // Logic for computing equivalences between the two models
+//        // Example of computing equivalences and adding them to the alignment model
+//        Model computedModel = ModelFactory.createDefaultModel();
+//
+//        // Example of creating equivalences
+//        Resource cityWatchClass = computedModel.createResource("http://example.org/CityWatchClass");
+//        Resource lecturerClass = computedModel.createResource("http://example.org/LecturerClass");
+//        computedModel.add(cityWatchClass, OWL.equivalentClass, lecturerClass);
+//
+//        // Write the computed equivalences to the output file
+//        try (FileWriter writer = new FileWriter(computedAlignmentPath)) {
+//            computedModel.write(writer, "TURTLE");
+//            System.out.println("Equivalences computed and saved to: " + computedAlignmentPath);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.err.println("Error saving computed alignment.");
+//        }
+//    }
+
+
+
+//
+//    // Compute precision and recall of the mappings
+//    public void computePrecisionRecall(String referenceAlignmentPath) {
+//        // Load the reference alignment
+//        Model referenceModel = ModelFactory.createDefaultModel();
+//        referenceModel.read(referenceAlignmentPath);
+//
+//        // Placeholder: Compute precision and recall by comparing generated alignments with the reference alignment
+//        // You can use a more detailed comparison logic here to measure precision and recall based on common triples
+//
+//        System.out.println("Precision and recall computation is done (placeholder).");
+//    }
 
  // Reasoning method where 'model' is used
     public void performReasoning(String outputPath) {
