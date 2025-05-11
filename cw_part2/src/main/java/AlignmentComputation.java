@@ -1,5 +1,4 @@
 import org.apache.jena.rdf.model.*;
-import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 
@@ -9,81 +8,121 @@ import java.io.IOException;
 
 public class AlignmentComputation {
 
-    public static void generateAlignment(String cityWatchOntologyPath, String lecturerOntologyPath, String alignmentOutputPath) {
-        // Load ontologies
+    // This method will generate the alignment automatically
+    public static void generateAlignment(String cityWatchOntologyPath, String roadAccidentOntologyPath, String alignmentOutputPath) {
+        // Load CityWatch and Road Accident Ontologies
         Model cityWatchModel = ModelFactory.createDefaultModel();
-        Model lecturerModel = ModelFactory.createDefaultModel();
+        Model roadAccidentModel = ModelFactory.createDefaultModel();
 
         cityWatchModel.read(cityWatchOntologyPath, "TURTLE");
-        lecturerModel.read(lecturerOntologyPath, "TURTLE");
+        roadAccidentModel.read(roadAccidentOntologyPath, "TURTLE");
 
-        // Create alignment model
+        // Create an empty alignment model
         Model alignmentModel = ModelFactory.createDefaultModel();
-        Property equivalentClass = OWL.equivalentClass;
-        Property equivalentProperty = OWL.equivalentProperty;
 
-        // Threshold for name length (to avoid short ambiguous terms)
-        final int NAME_MIN_LENGTH = 4;
-
-        // ----------------- Align Classes -----------------
+        // Get all classes from CityWatch ontology
         StmtIterator cityWatchClasses = cityWatchModel.listStatements(null, RDF.type, OWL.Class);
+        // Get all classes from Road Accident ontology
+        StmtIterator roadAccidentClasses = roadAccidentModel.listStatements(null, RDF.type, OWL.Class);
+
+        // Debugging: Print out CityWatch and Road Accident Classes
+        System.out.println("CityWatch Classes:");
         while (cityWatchClasses.hasNext()) {
-            Resource cwClass = cityWatchClasses.next().getSubject();
-            String cwName = cwClass.getLocalName();
+            Statement stmt = cityWatchClasses.next();
+            Resource resource = stmt.getSubject();
+            System.out.println("Class: " + resource.getURI());
+        }
 
-            if (cwName == null || cwName.length() < NAME_MIN_LENGTH) continue;
+        System.out.println("\nRoad Accident Classes:");
+        while (roadAccidentClasses.hasNext()) {
+            Statement stmt = roadAccidentClasses.next();
+            Resource resource = stmt.getSubject();
+            System.out.println("Class: " + resource.getURI());
+        }
 
-            StmtIterator lecturerClasses = lecturerModel.listStatements(null, RDF.type, OWL.Class);
-            while (lecturerClasses.hasNext()) {
-                Resource lecturerClass = lecturerClasses.next().getSubject();
-                String lecturerName = lecturerClass.getLocalName();
+        // Iterate over CityWatch classes and try to find matching classes in Road Accident ontology
+        cityWatchClasses = cityWatchModel.listStatements(null, RDF.type, OWL.Class);  // Reiterate as we need to reset iterator
+        while (cityWatchClasses.hasNext()) {
+            Statement cityWatchClassStmt = cityWatchClasses.next();
+            Resource cityWatchClass = cityWatchClassStmt.getSubject();
+            String cityWatchClassName = cityWatchClass.getLocalName();
 
-                if (lecturerName == null || lecturerName.length() < NAME_MIN_LENGTH) continue;
+            // Now compare with all Road Accident classes
+            roadAccidentClasses = roadAccidentModel.listStatements(null, RDF.type, OWL.Class); // Reiterate
+            while (roadAccidentClasses.hasNext()) {
+                Statement roadAccidentClassStmt = roadAccidentClasses.next();
+                Resource roadAccidentClass = roadAccidentClassStmt.getSubject();
+                String roadAccidentClassName = roadAccidentClass.getLocalName();
 
-                if (cwName.equalsIgnoreCase(lecturerName)) {
-                    alignmentModel.add(cwClass, equivalentClass, lecturerClass);
-                    System.out.println("✔️ Aligned class: " + cwName + " ≡ " + lecturerName);
+                // Debugging: Check class names before matching
+                System.out.println("Comparing: " + cityWatchClassName + " with " + roadAccidentClassName);
+
+                // If class names are the same, create an alignment
+                if (cityWatchClassName != null && roadAccidentClassName != null && 
+                    cityWatchClassName.equalsIgnoreCase(roadAccidentClassName)) {
+                    // Using owl:equivalentClass for classes
+                    alignmentModel.add(cityWatchClass, OWL.equivalentClass, roadAccidentClass);
+                    System.out.println("Aligned class: " + cityWatchClassName + " -> " + roadAccidentClassName);
                 }
             }
         }
 
-        // ----------------- Align Properties -----------------
-        StmtIterator cityWatchProps = cityWatchModel.listStatements(null, RDF.type, RDF.Property);
-        while (cityWatchProps.hasNext()) {
-            Resource cwProp = cityWatchProps.next().getSubject();
-            String cwName = cwProp.getLocalName();
+        // Reset the iterators to iterate over properties (like object properties, datatype properties, etc.)
+        StmtIterator cityWatchProperties = cityWatchModel.listStatements(null, RDF.type, RDF.Property);
+        StmtIterator roadAccidentProperties = roadAccidentModel.listStatements(null, RDF.type, RDF.Property);
 
-            if (cwName == null || cwName.length() < NAME_MIN_LENGTH) continue;
+        // Debugging: Print out CityWatch and Road Accident Properties
+        System.out.println("\nCityWatch Properties:");
+        while (cityWatchProperties.hasNext()) {
+            Statement stmt = cityWatchProperties.next();
+            Resource resource = stmt.getSubject();
+            System.out.println("Property: " + resource.getURI());
+        }
 
-            StmtIterator lecturerProps = lecturerModel.listStatements(null, RDF.type, RDF.Property);
-            while (lecturerProps.hasNext()) {
-                Resource lecturerProp = lecturerProps.next().getSubject();
-                String lecturerName = lecturerProp.getLocalName();
+        System.out.println("\nRoad Accident Properties:");
+        while (roadAccidentProperties.hasNext()) {
+            Statement stmt = roadAccidentProperties.next();
+            Resource resource = stmt.getSubject();
+            System.out.println("Property: " + resource.getURI());
+        }
 
-                if (lecturerName == null || lecturerName.length() < NAME_MIN_LENGTH) continue;
+        // Iterate over CityWatch properties and try to find matching properties in Road Accident ontology
+        cityWatchProperties = cityWatchModel.listStatements(null, RDF.type, RDF.Property);  // Reiterate
+        while (cityWatchProperties.hasNext()) {
+            Statement cityWatchPropertyStmt = cityWatchProperties.next();
+            Resource cityWatchProperty = cityWatchPropertyStmt.getSubject();
+            String cityWatchPropertyName = cityWatchProperty.getLocalName();
 
-                if (cwName.equalsIgnoreCase(lecturerName)) {
-                    alignmentModel.add(cwProp, equivalentProperty, lecturerProp);
-                    System.out.println("✔️ Aligned property: " + cwName + " ≡ " + lecturerName);
+            // Now compare with all Road Accident properties
+            roadAccidentProperties = roadAccidentModel.listStatements(null, RDF.type, RDF.Property); // Reiterate
+            while (roadAccidentProperties.hasNext()) {
+                Statement roadAccidentPropertyStmt = roadAccidentProperties.next();
+                Resource roadAccidentProperty = roadAccidentPropertyStmt.getSubject();
+                String roadAccidentPropertyName = roadAccidentProperty.getLocalName();
+
+                // Debugging: Check property names before matching
+                System.out.println("Comparing: " + cityWatchPropertyName + " with " + roadAccidentPropertyName);
+
+                // If property names are the same, create an alignment
+                if (cityWatchPropertyName != null && roadAccidentPropertyName != null && 
+                    cityWatchPropertyName.equalsIgnoreCase(roadAccidentPropertyName)) {
+                    // Using owl:equivalentProperty for properties
+                    alignmentModel.add(cityWatchProperty, OWL.equivalentProperty, roadAccidentProperty);
+                    System.out.println("Aligned property: " + cityWatchPropertyName + " -> " + roadAccidentPropertyName);
                 }
             }
         }
 
-        // ----------------- Save alignment model -----------------
+        // Save the alignment to a TTL file
         try {
             alignmentModel.write(new FileOutputStream(new File(alignmentOutputPath)), "TURTLE");
-            System.out.println("✅ Alignment saved to: " + alignmentOutputPath);
+            System.out.println("Alignment saved to: " + alignmentOutputPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Optional main method for testing independently
     public static void main(String[] args) {
-        generateAlignment(
-                "cw_part2/files/CityWatch_Ontology.ttl",
-                "cw_part2/files/Onto_Lecture.ttl",
-                "cw_part2/files/output/computed_alignment.ttl"
-        );
+        generateAlignment("files/CityWatch_Ontology.ttl", "files/Onto_Lecture.ttl", "files/reference_alignment.ttl");
     }
 }
