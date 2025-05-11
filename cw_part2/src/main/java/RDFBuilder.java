@@ -827,38 +827,6 @@ public class RDFBuilder {
         }
     }
 
-//    public void buildKGURIMap(List<String[]> rows) {
-//        Set<String> uniqueWeather = new HashSet<>();
-//        Set<String> uniqueLighting = new HashSet<>();
-//
-//        for (String[] row : rows) {
-//            if (columnIndex.containsKey("weather_condition")) {
-//                String val = row[columnIndex.get("weather_condition")].trim();
-//                if (!val.isEmpty()) uniqueWeather.add(val);
-//            }
-//            if (columnIndex.containsKey("lighting_condition")) {
-//                String val = row[columnIndex.get("lighting_condition")].trim();
-//                if (!val.isEmpty()) uniqueLighting.add(val);
-//            }
-//        }
-//
-//        System.out.println("Unique weather: " + uniqueWeather.size() + ", lighting: " + uniqueLighting.size());
-//
-//        for (String value : uniqueWeather) {
-//            if (!kgCache.containsKey(value)) {
-//                String uri = getKGURIFromGoogle(value, "weather_condition");
-//                if (uri != null) kgCache.put(value, uri);
-//            }
-//        }
-//
-//        for (String value : uniqueLighting) {
-//            if (!kgCache.containsKey(value)) {
-//                String uri = getKGURIFromWikidata(value);
-//                if (uri != null) kgCache.put(value, uri);
-//            }
-//        }
-//    }
-
     public void buildKGURIMap(Set<String> weatherValues, Set<String> lightingValues) {
         for (String value : weatherValues) {
             if (!kgCache.containsKey(value)) {

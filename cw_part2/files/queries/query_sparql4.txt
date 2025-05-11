@@ -1,0 +1,9 @@
+PREFIX cw: <http://www.city.ac.uk/inm713-in3067/2025/CityWatch#>
+
+SELECT ?severity (COUNT(?accident) AS ?count) WHERE {
+  ?accident a cw:TrafficAccident ;
+            cw:hasMostSevereInjury ?severity .
+}
+GROUP BY ?severity
+HAVING (?count > 2)
+ORDER BY ASC(?severity) DESC(?count)

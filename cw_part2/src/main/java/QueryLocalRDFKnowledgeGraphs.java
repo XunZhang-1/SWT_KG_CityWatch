@@ -74,7 +74,7 @@ public class QueryLocalRDFKnowledgeGraphs {
 		String ontology_file = null;
 
 		// Change this to run SPARQL 1 to 5
-		int queryId = 2;
+		int queryId = 5;
 		String query_file = String.format("cw_part2/files/queries/query_sparql%d.txt", queryId);
 
 		try {
